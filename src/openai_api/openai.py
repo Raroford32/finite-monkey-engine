@@ -96,7 +96,7 @@ def ask_openai_common(prompt):
             "Authorization": f"Bearer {api_key}"
         }
         data = {
-            "model": os.environ.get('OPENAI_MODEL'),  # Replace with your actual OpenAI model
+            "model": os.environ.get('UNIFIED_MODEL'),  # Unified model for all LLM requests
             "messages": [
                 {
                     "role": "user",
@@ -120,7 +120,7 @@ def ask_openai_for_json(prompt):
         "Authorization": f"Bearer {api_key}"
     }
     data = {
-        "model": os.environ.get('OPENAI_MODEL'),
+        "model": os.environ.get('UNIFIED_MODEL'),
         "response_format": { "type": "json_object" },
         "messages": [
             {
@@ -200,162 +200,17 @@ def extract_json_string(response):
             print(response)
             raise JSONExtractError("⚠️Return JSON format error: input format is not a JSON")
 
-def common_ask_for_json(prompt):
-    if os.environ.get('AZURE_OR_OPENAI') == 'AZURE':
-        return azure_openai_json(prompt)
-    else:
-        return ask_openai_for_json(prompt)
-def ask_vul(prompt):
-    model = os.environ.get('VUL_MODEL', 'o4-mini')
-    api_key = os.environ.get('OPENAI_API_KEY')
+def unified_ask_for_json(prompt):
+    """Unified function for JSON-formatted LLM requests"""
     api_base = os.environ.get('OPENAI_API_BASE')
+    api_key = os.environ.get('OPENAI_API_KEY')
+    model = os.environ.get('UNIFIED_MODEL')
     
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {api_key}'
     }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ]
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"vul API调用失败。错误: {str(e)}")
-        return ""
-def ask_claude(prompt):
-    model = os.environ.get('CLAUDE_MODEL', 'claude-opus-4-20250514')
-    api_key = os.environ.get('OPENAI_API_KEY','sk-0fzQWrcTc0DASaFT7Q0V0e7c24ZyHMKYgIDpXWrry8XHQAcj')
-    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
     
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ]
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"Claude API调用失败。错误: {str(e)}")
-        return ""
-def ask_claude_37(prompt):
-    model = 'claude-3-7-sonnet-20250219'
-    # print("prompt:",prompt)
-    api_key = os.environ.get('OPENAI_API_KEY')
-    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
-    # print("api_base:",api_base)
-    # print("api_key:",api_key)
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ]
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"claude3.7 API调用失败。错误: {str(e)}")
-        return ""
-def ask_deepseek(prompt):
-    model = 'deepseek-reasoner'
-    # print("prompt:",prompt)
-    api_key = os.environ.get('OPENAI_API_KEY')
-    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
-    # print("api_base:",api_base)
-    # print("api_key:",api_key)
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ]
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"wokaai deepseek API调用失败。错误: {str(e)}")
-        return ""
-def cut_reasoning_content(input):
-    if "</think>" not in input:
-        print("No </think> tag found in input")
-        return input
-    return input.split("</think>")[1]
-
-def ask_o3_mini_json(prompt):
-    model = 'o3-mini'
-    api_key = os.environ.get('OPENAI_API_KEY')
-    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
     data = {
         'model': model,
         'response_format': { "type": "json_object" },
@@ -370,46 +225,72 @@ def ask_o3_mini_json(prompt):
             }
         ]
     }
+    
+    while True:
+        try:
+            response = requests.post(f'https://{api_base}/v1/chat/completions', 
+                                   headers=headers, json=data)
+            response.raise_for_status()
+            response_json = response.json()
+            if 'choices' not in response_json:
+                return ''
+            response_content = response_json['choices'][0]['message']['content']
+            if "```json" in response_content:
+                try:
+                    cleaned_json = extract_json_string(response_content)
+                    break
+                except JSONExtractError as e:
+                    print(e)
+                    print("===Error in extracting json. Retry request===")
+                    continue
+            else:
+                try:
+                    decoded_content = json.loads(response_content)
+                    if isinstance(decoded_content, dict):
+                        cleaned_json = response_content
+                        break
+                    else:
+                        print("===Unexpected JSON format. Retry request===")
+                        print(response_content)
+                        continue
+                except json.JSONDecodeError as e:
+                    print("===Error in decoding JSON. Retry request===")
+                    continue
+                except Exception as e:
+                    print("===Unexpected error. Retry request===")
+                    print(e)
+                    continue
+        except Exception as e:
+            print("===Error in requesting LLM. Retry request===")
+    return cleaned_json
 
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"wokaai o3-mini API调用失败。错误: {str(e)}")
-        return ""
-def ask_grok3_deepsearch(prompt):
-    model = 'grok-3-deepsearch'
-    # print("prompt:",prompt)
+def common_ask_for_json(prompt):
+    return unified_ask_for_json(prompt)
+def cut_reasoning_content(input):
+    if "</think>" not in input:
+        print("No </think> tag found in input")
+        return input
+    return input.split("</think>")[1]
+
+def unified_ask(prompt):
+    """Unified function for all LLM requests"""
+    api_base = os.environ.get('OPENAI_API_BASE')
     api_key = os.environ.get('OPENAI_API_KEY')
-    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
-    # print("api_base:",api_base)
-    # print("api_key:",api_key)
+    model = os.environ.get('UNIFIED_MODEL')
+    
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {api_key}'
     }
-
+    
     data = {
         'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ]
+        'messages': [{'role': 'user', 'content': prompt}]
     }
-
+    
     try:
         response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
+                               headers=headers, json=data)
         response.raise_for_status()
         response_data = response.json()
         if 'choices' in response_data and len(response_data['choices']) > 0:
@@ -417,215 +298,61 @@ def ask_grok3_deepsearch(prompt):
         else:
             return ""
     except requests.exceptions.RequestException as e:
-        print(f"wokaai deepseek API调用失败。错误: {str(e)}")
+        print(f"LLM API call failed. Error: {str(e)}")
         return ""
-def ask_o4_mini(prompt):
-    model = 'o4-mini'
-    # print("prompt:",prompt)
-    api_key = os.environ.get('OPENAI_API_KEY')
-    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
-    # print("api_base:",api_base)
-    # print("api_key:",api_key)
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
 
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ]
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"wokaai deepseek API调用失败。错误: {str(e)}")
-        return ""
-def ask_o3_mini(prompt):
-    model = 'o3-mini'
-    # print("prompt:",prompt)
-    api_key = os.environ.get('OPENAI_API_KEY')
-    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
-    # print("api_base:",api_base)
-    # print("api_key:",api_key)
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ]
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"wokaai deepseek API调用失败。错误: {str(e)}")
-        return ""
 def common_ask(prompt):
-    model_type = os.environ.get('AZURE_OR_OPENAI', 'CLAUDE')
-    if model_type == 'AZURE':
-        return azure_openai(prompt)
-    elif model_type == 'CLAUDE':
-        return ask_claude(prompt)
-    elif model_type == 'DEEPSEEK':
-        return ask_deepseek(prompt)
-    else:
-        return ask_openai_common(prompt)
+    return unified_ask(prompt)
 
 def clean_text(text: str) -> str:
     return str(text).replace(" ", "").replace("\n", "").replace("\r", "")
 
 def common_get_embedding(text: str):
-    api_key = os.getenv('OPENAI_API_KEY')
+    api_key = os.getenv('EMBEDDING_API_KEY')
     if not api_key:
-        raise ValueError("OPENAI_API_KEY environment variable is not set")
+        raise ValueError("EMBEDDING_API_KEY environment variable is not set")
 
-    api_base = os.getenv('OPENAI_API_BASE', 'api.openai.com')
-    model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
+    api_base = os.getenv('EMBEDDING_API_BASE', 'https://generativelanguage.googleapis.com')
+    model = os.getenv("EMBEDDING_MODEL", "gemini-embedding-001")
     
     headers = {
-        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
-
+    
     cleaned_text = clean_text(text)
     
     data = {
-        "input": cleaned_text,
-        "model": model,
-        "encoding_format": "float"
+        "model": f"models/{model}",
+        "content": {
+            "parts": [{"text": cleaned_text}]
+        }
     }
-
+    
     try:
-        response = requests.post(f'https://{api_base}/v1/embeddings', json=data, headers=headers)
+        response = requests.post(f'{api_base}/v1beta/models/{model}:embedContent?key={api_key}', 
+                               json=data, headers=headers)
         response.raise_for_status()
         embedding_data = response.json()
-        return embedding_data['data'][0]['embedding']
+        return embedding_data['embedding']['values']
     except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        return list(np.zeros(3072))  # 返回长度为3072的全0数组
+        print(f"Embedding API call failed. Error: {e}")
+        return list(np.zeros(768))  # Return appropriate dimension for Gemini
 
 def common_ask_confirmation(prompt):
-    model_type = os.environ.get('CONFIRMATION_MODEL')
-    if model_type == 'CLAUDE':
-        return ask_claude(prompt)
-    elif model_type == 'DEEPSEEK':
-        return ask_deepseek(prompt)
-    else:
-        return ask_openai_common(prompt)
+    return unified_ask(prompt)
 
 def ask_claude_for_code_analysis(prompt):
-    """专门用于代码分析和总结的Claude函数"""
-    model = os.environ.get('CLAUDE_MODEL', 'claude-3-5-sonnet-20241022')  # 使用可用的Claude模型
-    api_key = os.environ.get('OPENAI_API_KEY', 'sk-4GquOBLR9GFUHXsUMcZXTXnEY53h2hUjAbc8bONO0k3xCr87')
-    api_base = os.environ.get('OPENAI_API_BASE', 'api.openai-proxy.org')
-    
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'user',
-                'content': f'你是一个专业的代码架构分析师。请分析以下代码：\n\n{prompt}'
-            }
-        ],
-        'max_tokens': 4096,  # 设置合理的token限制
-        'temperature': 0.3   # 降低随机性，提高分析的一致性
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"Claude代码分析API调用失败。错误: {str(e)}")
-        return ""
+    """专门用于代码分析和总结的函数"""
+    formatted_prompt = f'你是一个专业的代码架构分析师。请分析以下代码：\n\n{prompt}'
+    return unified_ask(formatted_prompt)
 
 def ask_claude_for_mermaid_generation(prompt):
-    """专门用于生成Mermaid图的Claude函数"""
-    model = os.environ.get('CLAUDE_MODEL', 'claude-3-5-sonnet-20241022')
-    api_key = os.environ.get('OPENAI_API_KEY', 'sk-4GquOBLR9GFUHXsUMcZXTXnEY53h2hUjAbc8bONO0k3xCr87')
-    api_base = os.environ.get('OPENAI_API_BASE', 'api.openai-proxy.org')
-    
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'system',
-                'content': '你是一个专业的代码可视化专家，擅长将代码架构转换为清晰的Mermaid图表。'
-            },
-            {
-                'role': 'user',
-                'content': prompt
-            }
-        ],
-        'max_tokens': 4096,
-        'temperature': 0.2   # 更低的随机性，确保Mermaid语法准确
-    }
-
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"Claude Mermaid生成API调用失败。错误: {str(e)}")
-        return ""
+    """专门用于生成Mermaid图的函数"""
+    formatted_prompt = f'你是一个专业的代码可视化专家，擅长将代码架构转换为清晰的Mermaid图表。\n\n{prompt}'
+    return unified_ask(formatted_prompt)
 
 def ask_claude_for_batch_analysis(files_content, analysis_type="overview"):
     """批量分析多个文件的关系"""
-    model = os.environ.get('CLAUDE_MODEL', 'claude-3-5-sonnet-20241022')
-    api_key = os.environ.get('OPENAI_API_KEY', 'sk-4GquOBLR9GFUHXsUMcZXTXnEY53h2hUjAbc8bONO0k3xCr87')
-    api_base = os.environ.get('OPENAI_API_BASE', 'api.openai-proxy.org')
-    
     # 根据分析类型调整系统提示
     system_prompts = {
         "overview": "分析文件间的高层架构关系，关注模块和组件的整体结构",
@@ -634,44 +361,15 @@ def ask_claude_for_batch_analysis(files_content, analysis_type="overview"):
         "data_flow": "分析数据在不同文件和组件间的流动和传递关系"
     }
     
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}'
-    }
-
-    data = {
-        'model': model,
-        'messages': [
-            {
-                'role': 'system',
-                'content': f'''你是一个专业的代码架构分析师。当前分析类型：{analysis_type}
+    formatted_prompt = f'''你是一个专业的代码架构分析师。当前分析类型：{analysis_type}
 {system_prompts.get(analysis_type, system_prompts["overview"])}
 
 请分析提供的代码文件并：
 1. 识别主要的模块和组件
 2. 理解文件间的关系和依赖
 3. 发现重要的设计模式和架构决策
-4. 生成清晰的关系描述'''
-            },
-            {
-                'role': 'user',
-                'content': files_content
-            }
-        ],
-        'max_tokens': 4096,
-        'temperature': 0.3
-    }
+4. 生成清晰的关系描述
 
-    try:
-        response = requests.post(f'https://{api_base}/v1/chat/completions', 
-                               headers=headers, 
-                               json=data)
-        response.raise_for_status()
-        response_data = response.json()
-        if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
-        else:
-            return ""
-    except requests.exceptions.RequestException as e:
-        print(f"Claude批量分析API调用失败。错误: {str(e)}")
-        return ""
+{files_content}'''
+    
+    return unified_ask(formatted_prompt)

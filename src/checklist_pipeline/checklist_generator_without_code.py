@@ -1,5 +1,5 @@
 from prompt_factory.checklist_pipeline_prompt import ChecklistPipelinePrompt
-from openai_api.openai import *
+from openai_api.openai import unified_ask, ask_openai_common
 import os
 import csv
 import audit_config
@@ -19,9 +19,9 @@ class ChecklistGeneratorWithoutCode:
                                   else ChecklistPipelinePrompt.complement_project_type_list(language, current_project_type))
             
             # 获取项目类型列表
-            claude_response = ask_claude(project_type_prompt)
-            ds_response = ask_deepseek(project_type_prompt)
-            o3_response = ask_o3_mini(project_type_prompt)
+            claude_response = unified_ask(project_type_prompt)
+            ds_response = unified_ask(project_type_prompt)
+            o3_response = unified_ask(project_type_prompt)
             gpt_response = ask_openai_common(project_type_prompt)
 
             # 合并所有模型的结果
@@ -29,7 +29,7 @@ class ChecklistGeneratorWithoutCode:
                 claude_response, ds_response, o3_response, gpt_response
             ])
 
-            current_project_type = ask_deepseek(merge_prompt)
+            current_project_type = unified_ask(merge_prompt)
             
             # Check if the CSV file exists and write results
             output_file = f"{language}_project_type_results.csv"
@@ -57,16 +57,16 @@ class ChecklistGeneratorWithoutCode:
                               else ChecklistPipelinePrompt.generate_add_on_project_type_checklist_prompt(language, project_type_list, current_checklist))
             
             # 并行获取各个模型的checklist
-            claude_response = ask_claude(checklist_prompt)
-            ds_response = ask_deepseek(checklist_prompt)
-            o3_response = ask_o3_mini(checklist_prompt)
+            claude_response = unified_ask(checklist_prompt)
+            ds_response = unified_ask(checklist_prompt)
+            o3_response = unified_ask(checklist_prompt)
             gpt_response = ask_openai_common(checklist_prompt)
 
             # 合并所有模型的结果
             consensus_prompt = ChecklistPipelinePrompt.merge_project_type_checklist(language, [
                 claude_response, ds_response, o3_response, gpt_response
             ])
-            current_checklist = ask_deepseek(consensus_prompt)
+            current_checklist = unified_ask(consensus_prompt)
             
             # Check if the CSV file exists and write results
             output_file = f"{language}_checklist_results.csv"

@@ -92,8 +92,7 @@ DATABASE_URL=postgresql://postgres:1234@127.0.0.1:5432/postgres
 # AI模型配置（必需）
 OPENAI_API_BASE="api.openai-proxy.org"  # LLM代理平台
 OPENAI_API_KEY="your_api_key_here"      # API密钥
-CLAUDE_MODEL=claude-sonnet-4-20250514   # 推荐Claude模型
-VUL_MODEL=claude-sonnet-4-20250514      # 漏洞检测模型
+UNIFIED_MODEL=claude-sonnet-4-20250514  # 统一模型用于所有LLM请求
 
 # 扫描模式配置
 SCAN_MODE=COMMON_PROJECT_FINE_GRAINED   # 推荐模式
@@ -132,8 +131,7 @@ CROSS_CONTRACT_SCAN=True
 
 #### 💰 成本优化配置
 ```bash
-VUL_MODEL=gpt-4-mini
-CONFIRMATION_MODEL=gpt-4-mini
+UNIFIED_MODEL=gpt-4-mini
 MAX_THREADS_OF_SCAN=3
 BUSINESS_FLOW_COUNT=1
 ```

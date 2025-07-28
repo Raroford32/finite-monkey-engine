@@ -113,8 +113,7 @@ DATABASE_URL=postgresql://postgres:1234@127.0.0.1:5432/postgres
 # AI Model Configuration (Required)
 OPENAI_API_BASE="api.openai-proxy.org"  # LLM proxy platform
 OPENAI_API_KEY="your_api_key_here"      # API key
-CLAUDE_MODEL=claude-sonnet-4-20250514   # Recommended Claude model
-VUL_MODEL=claude-sonnet-4-20250514      # Vulnerability detection model
+UNIFIED_MODEL=claude-sonnet-4-20250514  # Unified model for all LLM requests
 
 # Scan Mode Configuration
 SCAN_MODE=COMMON_PROJECT_FINE_GRAINED   # Recommended mode
@@ -153,8 +152,7 @@ CROSS_CONTRACT_SCAN=True
 
 #### 💰 Cost Optimized
 ```bash
-VUL_MODEL=gpt-4-mini
-CONFIRMATION_MODEL=gpt-4-mini
+UNIFIED_MODEL=gpt-4-mini
 MAX_THREADS_OF_SCAN=3
 BUSINESS_FLOW_COUNT=1
 ```
@@ -232,4 +230,4 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ---
 
-**🎉 Finite Monkey Engine - Making Smart Contract Security Analysis Intelligent and Accessible!** 
+**🎉 Finite Monkey Engine - Making Smart Contract Security Analysis Intelligent and Accessible!**  

@@ -6,7 +6,7 @@ from tqdm import tqdm
 from .utils.dialogue_manager import DialogueHistory
 from .utils.scan_utils import ScanUtils
 from prompt_factory.vul_prompt_common import VulPromptCommon
-from openai_api.openai import ask_vul, ask_claude
+from openai_api.openai import unified_ask
 
 
 class VulnerabilityScanner:
@@ -94,7 +94,7 @@ class VulnerabilityScanner:
         prompt = ScanUtils.get_scan_prompt(code_to_be_tested, task)
         
         # 发送请求并获取响应
-        response_vul = ask_vul(prompt)
+        response_vul = unified_ask(prompt)
         print(f"[DEBUG] AI response: {response_vul[:50] if response_vul else 'None'}")
         
         # 处理响应
@@ -154,7 +154,7 @@ class VulnerabilityScanner:
         print(f"\n📝 基础提示词长度: {len(prompt)} 字符")
         
         # 发送请求并获取响应
-        response_vul = ask_claude(prompt)
+        response_vul = unified_ask(prompt)
         print(f"\n✨ 本轮响应长度: {len(response_vul) if response_vul else 0} 字符")
         
         # 保存对话历史
@@ -165,4 +165,4 @@ class VulnerabilityScanner:
         # 处理响应
         response_vul = ScanUtils.process_scan_response(response_vul)
         task_manager.update_result(task.id, response_vul, "", "")
-        print("\n" + "="*50 + "\n") 
+        print("\n" + "="*50 + "\n")  

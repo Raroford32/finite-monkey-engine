@@ -76,7 +76,7 @@ finite-monkey-engine/
 └── docs/                   # Documentation
 ```
 
-## 🚀 Quick Start
+## 🚀 Quick Start - Enhanced Exploit Discovery
 
 ### Prerequisites
 - **Python 3.10+**
@@ -99,15 +99,62 @@ cp env.example .env
 
 # 4. Initialize database
 psql -U postgres -d postgres -f project_task.sql
-
-# 5. Configure project dataset
-# Edit src/dataset/agent-v1-c4/datasets.json to add your project configuration
-
-# 6. Run analysis
-python src/main.py
 ```
 
+### 🎯 NEW: Simplified Exploit Discovery Usage
+
+```bash
+# Simply provide the path to your project - that's it!
+python src/main.py --path /path/to/your/project
+
+# Advanced usage with custom settings
+python src/main.py --path /path/to/your/project \
+  --output my_exploit_report.xlsx \
+  --scan-mode COMMON_PROJECT_FINE_GRAINED
+
+# Generate reports from existing analysis
+python src/main.py --generate-report --project-id my_project
+```
+
+### ✨ Key Improvements in v2.0
+
+- **🎯 Real-World Exploit Discovery**: Focus on permissionless and novel complex vulnerabilities
+- **📝 English-Only Interface**: All output and reports in professional English
+- **🚀 Simplified Usage**: Just provide project path - no manual configuration needed
+- **⚡ Enhanced CLI**: Comprehensive command-line interface with built-in help
+
+For detailed usage instructions, see [EXPLOIT_DISCOVERY_GUIDE.md](./EXPLOIT_DISCOVERY_GUIDE.md)
+
 ## 📊 Usage Guide
+
+### 🎯 Enhanced Command Line Interface
+
+Finite Monkey Engine v2.0 now provides a powerful command-line interface for exploit discovery:
+
+```bash
+# Get help and see all options
+python src/main.py --help
+
+# Basic exploit discovery analysis
+python src/main.py --path /path/to/your/project
+
+# Advanced analysis with custom output
+python src/main.py --path /path/to/your/project --output detailed_analysis.xlsx
+
+# Different scanning modes
+python src/main.py --path /path/to/your/project --scan-mode PURE_SCAN
+```
+
+### Command Line Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--path` | Path to project directory for analysis | None |
+| `--project-id` | Custom project ID (auto-generated if not provided) | Auto-generated |
+| `--mode` | Operation mode: `exploit_discovery`, `direct_excel`, `test` | `exploit_discovery` |
+| `--output` | Output file path for analysis report | `./exploit_analysis_report.xlsx` |
+| `--generate-report` | Generate report from existing data | False |
+| `--scan-mode` | Scanning mode: `PURE_SCAN`, `COMMON_PROJECT`, `CHECKLIST`, `COMMON_PROJECT_FINE_GRAINED` | `COMMON_PROJECT_FINE_GRAINED` |
 
 ### Database Initialization
 
@@ -124,7 +171,9 @@ psql -U postgres -d postgres
 psql -U postgres -d postgres -f project_task.sql
 ```
 
-### Project Configuration
+### Legacy Configuration (Optional)
+
+For advanced users who want to use the legacy dataset-based configuration:
 
 Configure your project in `src/dataset/agent-v1-c4/datasets.json`:
 
@@ -132,29 +181,21 @@ Configure your project in `src/dataset/agent-v1-c4/datasets.json`:
 {
   "your_project_id": {
     "path": "your_project_folder_name",
-    "files": [], //no need to set, disable in future
-    "functions": [], //no need to set, disable in future
-    "exclude_in_planning": "false", //no need to set to true, disable in future
-    "exclude_directory": [] //no need to set, disable in future
+    "files": [],
+    "functions": [],
+    "exclude_in_planning": "false",
+    "exclude_directory": []
   }
 }
 ```
 
-### Running Analysis
+### Legacy Running Method
 
-1. **Set Project ID**: Configure your project ID in `src/main.py`
-```python
-project_id = 'your_project_id'
-```
-
-2. **Execute Analysis**:
-```bash
-python src/main.py
-```
-
+1. **Set Project ID**: Configure your project ID in `src/main.py` (if not using CLI)
+2. **Execute Analysis**: `python src/main.py`
 3. **View Results**: 
    - Detailed analysis records in database
-   - `output.xlsx` report file
+   - Excel report file
    - Mermaid business flow diagrams (if enabled)
 
 ## 🔧 Configuration
@@ -323,18 +364,28 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ---
 
-## 🆕 v2.0 Release Notes
+## 🆕 v2.0 Release Notes - Enhanced Exploit Discovery
 
 ### Major Upgrades
-- **Core Language Specialization**: Focus on Solidity/Rust/C++/Move for optimal analysis experience
+- **Real-World Exploit Discovery**: Focus on permissionless and novel complex vulnerabilities
+- **English-Only Interface**: Professional English-only output for international use
+- **Simplified CLI**: Just provide project path - no manual configuration needed
+- **Enhanced AI Analysis**: Advanced vulnerability pattern recognition for complex exploits
+- **Core Language Specialization**: Optimized for Solidity/Rust/C++/Move analysis
 - **RAG Architecture Revolution**: LanceDB merged 2-table architecture with 300% performance improvement
-- **Intelligent Embedding**: Multi-dimensional code understanding with significantly enhanced analysis precision
-- **Architecture Optimization**: 50% memory reduction, supporting larger-scale projects
+
+### Key Improvements
+- **No Manual Configuration**: Automatic project detection from path input
+- **Advanced Exploit Detection**: Focus on complex DeFi, cross-chain, and governance attacks
+- **Comprehensive CLI**: Full command-line interface with help documentation
+- **Professional Output**: English-only logging and reporting
+- **Multiple Operation Modes**: Flexible analysis modes for different use cases
 
 ### Migration Guide
-- v2.0 is fully backward compatible, no configuration changes required
-- Unsupported language files will be automatically skipped without affecting system operation
-- Recommended to update configuration files for optimal performance experience
+- **New Usage**: `python src/main.py --path /your/project/path`
+- **Legacy Support**: Old configuration methods still work
+- **No Breaking Changes**: Fully backward compatible
+- **Enhanced Features**: All existing functionality plus new exploit discovery capabilities
 
 ---
 

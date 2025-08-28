@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-数据集管理器
-从library/dataset_utils.py迁移而来，专门处理项目数据集
+Enhanced dataset manager for exploit discovery
+Migrated from library/dataset_utils.py, specialized for handling project datasets
 """
 
 import os
@@ -11,15 +11,15 @@ import json
 
 def load_dataset(dataset_path, external_project_id=None, external_project_path=None):
     """
-    加载数据集配置
+    Load dataset configuration for exploit discovery
     
     Args:
-        dataset_path: 数据集基础路径
-        external_project_id: 外部项目ID
-        external_project_path: 外部项目路径
+        dataset_path: Dataset base path
+        external_project_id: External project ID
+        external_project_path: External project path
     
     Returns:
-        dict: 项目配置字典
+        dict: Project configuration dictionary
     """
     # Load projects from datasets.json
     if not external_project_id and not external_project_path:
@@ -46,8 +46,13 @@ def load_dataset(dataset_path, external_project_id=None, external_project_path=N
 
 
 class Project(object):
-    """项目配置类"""
+    """Enhanced project configuration class for exploit discovery"""
     
     def __init__(self, id, project) -> None:
         self.id = id
-        self.path = os.path.join(project['base_path'], project['path']) 
+        # Handle both absolute and relative paths
+        if project.get('base_path', ''):
+            self.path = os.path.join(project['base_path'], project['path'])
+        else:
+            # For absolute paths or when base_path is empty
+            self.path = project['path'] 

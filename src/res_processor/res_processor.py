@@ -14,39 +14,40 @@ from openpyxl.utils.dataframe import dataframe_to_rows
 class ResProcessor:
     def __init__(self, df, max_group_size=10, iteration_rounds=2, enable_chinese_translation=False):
         """
-        初始化ResProcessor
+        Initialize ResProcessor for advanced exploit discovery analysis
         
         Args:
-            df: 包含漏洞数据的DataFrame
-            max_group_size: 每组最大漏洞数量，默认为10
-            iteration_rounds: 迭代轮数，默认为2
-            enable_chinese_translation: 是否启用中文翻译，默认为False
+            df: DataFrame containing vulnerability data
+            max_group_size: Maximum vulnerabilities per group, default 10
+            iteration_rounds: Number of iteration rounds, default 2
+            enable_chinese_translation: Enable Chinese translation, default False (force English)
         """
         self.df = df
         self.lock = Lock()
         self.max_group_size = max_group_size
         self.iteration_rounds = iteration_rounds
-        self.enable_chinese_translation = enable_chinese_translation
+        # Force English-only output for exploit discovery
+        self.enable_chinese_translation = False  # Always disable Chinese translation
         
-        print(f"ResProcessor初始化:")
-        print(f"  - 最大组大小: {self.max_group_size}")
-        print(f"  - 迭代轮数: {self.iteration_rounds}")
-        print(f"  - 中文翻译: {'启用' if self.enable_chinese_translation else '禁用'}")
+        print(f"ResProcessor initialized for exploit discovery:")
+        print(f"  - Max group size: {self.max_group_size}")
+        print(f"  - Iteration rounds: {self.iteration_rounds}")
+        print(f"  - Output language: English only (Chinese translation disabled)")
 
     def process(self):
-        """主处理函数，实现多轮迭代的漏洞归集"""
-        print("开始漏洞归集处理...")
-        print(f"总漏洞数量: {len(self.df)}")
+        """Main processing function for multi-round vulnerability aggregation"""
+        print("Starting vulnerability aggregation processing for exploit discovery...")
+        print(f"Total vulnerability count: {len(self.df)}")
         
-        # 添加辅助列
+        # Add auxiliary columns
         self.df['flow_code_len'] = self.df['业务流程代码'].str.len()
         
-        # 第一步：按业务流程代码分组
+        # First step: Group by business flow code
         initial_groups = list(self.df.groupby('业务流程代码'))
-        print(f"初始分组数量: {len(initial_groups)}")
+        print(f"Initial group count: {len(initial_groups)}")
         
-        # 打印初始分组详情
-        print("\n=== 初始分组详情 ===")
+        # Print initial grouping details
+        print("\n=== Initial Grouping Details ===")
         for i, (flow_code, group) in enumerate(initial_groups):
             flow_code_preview = flow_code[:100] + "..." if len(flow_code) > 100 else flow_code
             print(f"分组 {i+1}: 业务流程代码长度={len(flow_code)}, 漏洞数量={len(group)}")

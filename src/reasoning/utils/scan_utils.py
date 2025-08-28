@@ -46,14 +46,83 @@ class ScanUtils:
     
     @staticmethod
     def execute_parallel_scan(tasks: List, process_func, max_threads: int = 5):
-        """执行并行扫描"""
+        """执行并行扫描 - 改进版本，支持更好的错误处理和进度监控"""
+        if not tasks:
+            return
+        
+        # 支持环境变量配置最大线程数
+        max_threads = min(max_threads, int(os.getenv("MAX_THREADS_OF_SCAN", max_threads)))
+        
+        print(f"🚀 开始并行扫描: {len(tasks)} 个任务，{max_threads} 个并发线程")
+        
         with ThreadPoolExecutor(max_workers=max_threads) as executor:
             futures = [executor.submit(process_func, task) for task in tasks]
             
             with tqdm(total=len(tasks), desc="Processing tasks") as pbar:
+                completed = 0
+                failed = 0
+                
                 for future in as_completed(futures):
-                    future.result()
+                    try:
+                        future.result()
+                        completed += 1
+                    except Exception as e:
+                        failed += 1
+                        print(f"⚠️ 任务处理失败: {str(e)}")
+                    
                     pbar.update(1)
+                    pbar.set_postfix({
+                        'completed': completed, 
+                        'failed': failed,
+                        'success_rate': f"{(completed/(completed+failed)*100):.1f}%" if (completed+failed) > 0 else "0%"
+                    })
+        
+        print(f"✅ 并行扫描完成: {completed} 成功, {failed} 失败")
+    
+    @staticmethod
+    def execute_parallel_business_flow_analysis(functions_to_check: List, 
+                                               flow_analysis_func, 
+                                               max_workers: int = None) -> List:
+        """
+        并行执行业务流分析，适用于大量函数的独立分析
+        
+        Args:
+            functions_to_check: 要分析的函数列表
+            flow_analysis_func: 单个函数的业务流分析函数
+            max_workers: 最大工作线程数
+            
+        Returns:
+            分析结果列表
+        """
+        if not functions_to_check:
+            return []
+        
+        if max_workers is None:
+            max_workers = min(len(functions_to_check), int(os.getenv("MAX_THREADS_OF_SCAN", 5)))
+        
+        print(f"🔄 开始并行业务流分析: {len(functions_to_check)} 个函数，{max_workers} 个线程")
+        
+        results = []
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_func = {
+                executor.submit(flow_analysis_func, func): func 
+                for func in functions_to_check
+            }
+            
+            with tqdm(total=len(functions_to_check), desc="Analyzing business flows") as pbar:
+                for future in as_completed(future_to_func):
+                    func = future_to_func[future]
+                    try:
+                        result = future.result()
+                        if result:  # 只添加有效结果
+                            results.append(result)
+                    except Exception as e:
+                        print(f"⚠️ 函数 {getattr(func, 'name', 'unknown')} 业务流分析失败: {str(e)}")
+                    
+                    pbar.update(1)
+        
+        print(f"✅ 并行业务流分析完成: {len(results)} 个有效结果")
+        return results
     
     @staticmethod
     def group_tasks_by_name(tasks: List) -> Dict[str, List]:

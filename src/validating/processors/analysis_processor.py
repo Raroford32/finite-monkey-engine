@@ -674,7 +674,9 @@ class AnalysisProcessor:
    
     
     def _get_all_additional_info(self, specific_query, task, logs, round_num):
-        """同时获取所有类型的RAG信息"""
+        """同时获取所有类型的RAG信息 - 使用并行处理优化性能"""
+        from ..utils.parallel_utils import ParallelProcessor
+        
         all_info = {
             'function_info': [],
             'file_info': [],
@@ -682,94 +684,107 @@ class AnalysisProcessor:
             'chunk_info': []
         }
         
-        # 🔍 添加调试信息
-        
         try:
-            # 1. Function RAG搜索 (topk=5) - 包括三种搜索类型
+            # 🚀 并行执行RAG搜索和上下游分析
+            parallel_tasks = []
+            
+            # 1. 并行执行RAG搜索 (Function + Chunk)
             if self.rag_processor:
+                parallel_tasks.append({
+                    'name': 'rag_searches',
+                    'func': ParallelProcessor.execute_rag_searches_parallel,
+                    'args': (self.rag_processor, specific_query),
+                    'kwargs': {
+                        'task': task,
+                        'round_num': round_num,
+                        'function_topk': 5,
+                        'chunk_topk': 3,
+                        'max_chunk_tokens': 150000
+                    }
+                })
+            
+            # 2. 并行执行上下游分析
+            if hasattr(self, 'context_data') and self.context_data.get('project_audit'):
+                parallel_tasks.append({
+                    'name': 'upstream_downstream',
+                    'func': self._get_upstream_downstream_with_levels,
+                    'args': (task, 3, 4, logs, round_num)
+                })
+            
+            # 执行并行任务
+            if parallel_tasks:
+                results = ParallelProcessor.execute_parallel_tasks(
+                    parallel_tasks, 
+                    max_workers=int(os.getenv("MAX_PARALLEL_RAG_WORKERS", 3))
+                )
                 
-                try:
-                    # 按名称搜索
-                    name_results = self.rag_processor.search_functions_by_name(specific_query, 2)
-                    
-                    # 按内容搜索
-                    content_results = self.rag_processor.search_functions_by_content(specific_query, 2)
-                    
-                    # 按自然语言描述搜索
-                    natural_results = self.rag_processor.search_functions_by_natural_language(specific_query, 2)
-                    
-                    # 合并和去重，取前5个
-                    function_results = self._merge_and_deduplicate_functions(
-                        name_results, content_results, natural_results, 5
-                    )
-                    
+                # 处理RAG搜索结果
+                rag_results = results.get('rag_searches')
+                if rag_results:
+                    # 处理函数搜索结果
+                    function_results = rag_results.get('function_results', [])
                     for result in function_results:
                         func_name = result.get('name', 'Unknown')
-                        func_content = result.get('content', '')  # 🔧 移除长度限制，保留完整内容
+                        func_content = result.get('content', '')
                         all_info['function_info'].append({
                             'name': func_name,
                             'content': func_content,
                             'type': 'function'
                         })
                     
-
-                    
-                except Exception as e:
-                    pass
-            else:
-                print(f"  ❌ 第 {round_num} 轮: rag_processor为None，跳过Function搜索")
-            
-            # 2. File RAG搜索 (topk=2) - 已注释
-            # if self.rag_processor:
-            #     file_results = self.rag_processor.search_files_by_content(specific_query, 2)
-            #     
-            #     for result in file_results:
-            #         file_path = result.get('file_path', 'Unknown')
-            #         file_content = result.get('content', '')[:300]
-            #         all_info['file_info'].append({
-            #             'path': file_path,
-            #             'content': file_content,
-            #             'type': 'file'
-            #         })
-            #     
-            #     logs.append(f"第 {round_num} 轮: File搜索找到 {len(file_results)} 个结果")
-            
-            # 3. Upstream/Downstream搜索 (level=3/4)
-
-            try:
-                upstream_downstream_results = self._get_upstream_downstream_with_levels(task, 3, 4, logs, round_num)
-                all_info['upstream_downstream_info'] = upstream_downstream_results
-            except Exception as e:
-                pass
-            
-            # 4. Chunk RAG搜索 (topk=3) - 过滤超长内容
-            if self.rag_processor:
-                try:
-                    chunk_results = self.rag_processor.search_chunks_by_content(specific_query, 3)
-                    max_tokens = 150000  # 设置150k token阈值
-                    
+                    # 处理chunk搜索结果
+                    chunk_results = rag_results.get('chunk_results', [])
                     for result in chunk_results:
                         chunk_text = result.get('chunk_text', '')
                         original_file = result.get('original_file', 'Unknown')
-                        
-                        # 计算token数量，如果超过阈值则跳过
-                        token_count = self._count_tokens(chunk_text)
-                        if token_count > max_tokens:
-                            print(f"  ⚠️ 第 {round_num} 轮: Chunk搜索结果过长 ({token_count} tokens > {max_tokens})，跳过文件 {original_file}")
-                            continue
-                        
                         all_info['chunk_info'].append({
                             'text': chunk_text,
                             'file': original_file,
-                            'type': 'chunk',
-                            'token_count': token_count  # 可选：记录token数量
+                            'type': 'chunk'
                         })
-                    
-
-                except Exception as e:
-                    pass
+                
+                # 处理上下游分析结果
+                upstream_downstream_results = results.get('upstream_downstream')
+                if upstream_downstream_results:
+                    all_info['upstream_downstream_info'] = upstream_downstream_results
+            
             else:
-                print(f"  ❌ 第 {round_num} 轮: rag_processor为None，跳过Chunk搜索")
+                # 回退到串行处理（如果没有可并行的任务）
+                print(f"  ⚠️ 第 {round_num} 轮: 无可并行任务，回退到串行处理")
+                
+                # 原有的串行逻辑作为备用
+                if self.rag_processor:
+                    try:
+                        # 使用并行函数搜索
+                        search_results = ParallelProcessor.execute_function_searches_parallel(
+                            self.rag_processor, specific_query, 2
+                        )
+                        
+                        function_results = self._merge_and_deduplicate_functions(
+                            search_results['name_results'],
+                            search_results['content_results'], 
+                            search_results['natural_results'],
+                            5
+                        )
+                        
+                        for result in function_results:
+                            func_name = result.get('name', 'Unknown')
+                            func_content = result.get('content', '')
+                            all_info['function_info'].append({
+                                'name': func_name,
+                                'content': func_content,
+                                'type': 'function'
+                            })
+                            
+                    except Exception as e:
+                        print(f"  ❌ 第 {round_num} 轮: 并行函数搜索失败: {str(e)}")
+                
+                # 上下游分析
+                try:
+                    upstream_downstream_results = self._get_upstream_downstream_with_levels(task, 3, 4, logs, round_num)
+                    all_info['upstream_downstream_info'] = upstream_downstream_results
+                except Exception as e:
+                    print(f"  ❌ 第 {round_num} 轮: 上下游分析失败: {str(e)}")
             
             # 5. 去重逻辑：从upstream/downstream中去除与function相同的
             all_info = self._remove_function_duplicates_from_upstream_downstream(all_info)
@@ -777,6 +792,7 @@ class AnalysisProcessor:
             return all_info
             
         except Exception as e:
+            print(f"  ❌ 第 {round_num} 轮: 并行RAG处理失败，回退到基础模式: {str(e)}")
             return all_info
     
     def _merge_and_deduplicate_functions(self, name_results, content_results, natural_results, max_count):
@@ -814,7 +830,9 @@ class AnalysisProcessor:
         return merged_results[:max_count]
     
     def _get_upstream_downstream_with_levels(self, task, upstream_level, downstream_level, logs, round_num):
-        """获取上下游信息（复用planning中的实现）"""
+        """获取上下游信息（复用planning中的实现）- 使用并行处理优化性能"""
+        from ..utils.parallel_utils import ParallelProcessor
+        
         upstream_downstream = []
         
         # 获取project_audit实例
@@ -824,41 +842,43 @@ class AnalysisProcessor:
         
         # 检查project_audit的call_trees属性
         has_call_trees = hasattr(project_audit, 'call_trees') and project_audit.call_trees
-        # print(f"    🔍 第 {round_num} 轮: project_audit.call_trees存在={has_call_trees}")
-        if has_call_trees:
-            pass
+        if not has_call_trees:
+            return upstream_downstream
         
         try:
-            # 复用planning中的方法获取downstream内容
+            # 复用planning中的方法获取内容
             from planning.planning_processor import PlanningProcessor
-            planning_processor = PlanningProcessor(project_audit, None)  # project_audit第一个，task_manager第二个
+            planning_processor = PlanningProcessor(project_audit, None)
             
-            # 获取downstream内容（使用planning中的方法）
-            downstream_content = planning_processor.get_downstream_content_with_call_tree(
-                task.name, downstream_level
+            # 🚀 并行执行上游和下游内容获取
+            parallel_results = ParallelProcessor.execute_upstream_downstream_parallel(
+                planning_processor,
+                task.name,
+                upstream_level,
+                downstream_level,
+                self._get_upstream_content_with_call_tree
             )
             
+            # 处理下游结果
+            downstream_content = parallel_results.get('downstream_content')
             if downstream_content:
                 upstream_downstream.append({
-                    'content': downstream_content,  # 🔧 移除800字符截断，保留完整内容
+                    'content': downstream_content,
                     'type': 'downstream',
                     'level': downstream_level,
-                    'count': downstream_content.count('\n\n') + 1  # 简单估算函数数量
+                    'count': downstream_content.count('\n\n') + 1
                 })
             else:
                 print(f"    ❌ 第 {round_num} 轮: downstream内容为空")
             
-            # 获取upstream内容（复用planning的逻辑，但修改为upstream）
-            upstream_content = self._get_upstream_content_with_call_tree(
-                task.name, upstream_level, planning_processor
-            )
-            
+            # 处理上游结果
+            upstream_content = parallel_results.get('upstream_content')
             if upstream_content:
                 upstream_downstream.append({
-                    'content': upstream_content,  # 🔧 移除800字符截断，保留完整内容
+                    'content': upstream_content,
                     'type': 'upstream',
                     'level': upstream_level,
-                    'count': upstream_content.count('\n\n') + 1  # 简单估算函数数量
+                    'count': upstream_content.count('\n\n') + 1
                 })
             else:
                 print(f"    ❌ 第 {round_num} 轮: upstream内容为空")
@@ -866,6 +886,38 @@ class AnalysisProcessor:
         except Exception as e:
             import traceback
             error_details = traceback.format_exc()
+            print(f"    ❌ 第 {round_num} 轮: 并行上下游分析失败: {str(e)}")
+            # 回退到串行处理
+            try:
+                from planning.planning_processor import PlanningProcessor
+                planning_processor = PlanningProcessor(project_audit, None)
+                
+                # 串行获取下游内容
+                downstream_content = planning_processor.get_downstream_content_with_call_tree(
+                    task.name, downstream_level
+                )
+                if downstream_content:
+                    upstream_downstream.append({
+                        'content': downstream_content,
+                        'type': 'downstream',
+                        'level': downstream_level,
+                        'count': downstream_content.count('\n\n') + 1
+                    })
+                
+                # 串行获取上游内容
+                upstream_content = self._get_upstream_content_with_call_tree(
+                    task.name, upstream_level, planning_processor
+                )
+                if upstream_content:
+                    upstream_downstream.append({
+                        'content': upstream_content,
+                        'type': 'upstream',
+                        'level': upstream_level,
+                        'count': upstream_content.count('\n\n') + 1
+                    })
+                    
+            except Exception as fallback_e:
+                print(f"    ❌ 第 {round_num} 轮: 串行上下游分析也失败: {str(fallback_e)}")
         
         return upstream_downstream
     

@@ -46,14 +46,68 @@ class ScanUtils:
     
     @staticmethod
     def execute_parallel_scan(tasks: List, process_func, max_threads: int = 5):
-        """执行并行扫描"""
+        """执行并行扫描 - 改进版本，支持更好的错误处理和进度监控"""
+        if not tasks:
+            return
+        
+        # 支持环境变量配置最大线程数
+        max_threads = min(max_threads, int(os.getenv("MAX_THREADS_OF_SCAN", max_threads)))
+        
+        print(f"🚀 开始并行扫描: {len(tasks)} 个任务，{max_threads} 个并发线程")
+        
         with ThreadPoolExecutor(max_workers=max_threads) as executor:
             futures = [executor.submit(process_func, task) for task in tasks]
             
             with tqdm(total=len(tasks), desc="Processing tasks") as pbar:
+                completed = 0
+                failed = 0
+                
                 for future in as_completed(futures):
-                    future.result()
+                    try:
+                        future.result()
+                        completed += 1
+                    except Exception as e:
+                        failed += 1
+                        print(f"⚠️ 任务处理失败: {str(e)}")
+                    
                     pbar.update(1)
+                    pbar.set_postfix({
+                        'completed': completed, 
+                        'failed': failed,
+                        'success_rate': f"{(completed/(completed+failed)*100):.1f}%" if (completed+failed) > 0 else "0%"
+                    })
+        
+        print(f"✅ 并行扫描完成: {completed} 成功, {failed} 失败")
+    
+    @staticmethod
+    def execute_parallel_validation(tasks: List, validation_func, max_threads: int = None):
+        """执行并行验证 - 专门用于验证阶段的并行处理"""
+        if not tasks:
+            return []
+        
+        if max_threads is None:
+            max_threads = int(os.getenv("MAX_THREADS_OF_CONFIRMATION", 5))
+        
+        print(f"🔍 开始并行验证: {len(tasks)} 个任务，{max_threads} 个并发线程")
+        
+        results = []
+        with ThreadPoolExecutor(max_workers=max_threads) as executor:
+            future_to_task = {executor.submit(validation_func, task): task for task in tasks}
+            
+            with tqdm(total=len(tasks), desc="Validating vulnerabilities") as pbar:
+                for future in as_completed(future_to_task):
+                    task = future_to_task[future]
+                    try:
+                        result = future.result()
+                        results.append((task, result))
+                    except Exception as e:
+                        print(f"⚠️ 任务 {task.id} 验证失败: {str(e)}")
+                        results.append((task, None))
+                    
+                    pbar.update(1)
+        
+        print(f"✅ 并行验证完成: {len(results)} 个结果")
+        return results
     
     @staticmethod
     def group_tasks_by_name(tasks: List) -> Dict[str, List]:

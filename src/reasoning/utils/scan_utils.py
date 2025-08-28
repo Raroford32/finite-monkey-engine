@@ -80,33 +80,48 @@ class ScanUtils:
         print(f"✅ 并行扫描完成: {completed} 成功, {failed} 失败")
     
     @staticmethod
-    def execute_parallel_validation(tasks: List, validation_func, max_threads: int = None):
-        """执行并行验证 - 专门用于验证阶段的并行处理"""
-        if not tasks:
+    def execute_parallel_business_flow_analysis(functions_to_check: List, 
+                                               flow_analysis_func, 
+                                               max_workers: int = None) -> List:
+        """
+        并行执行业务流分析，适用于大量函数的独立分析
+        
+        Args:
+            functions_to_check: 要分析的函数列表
+            flow_analysis_func: 单个函数的业务流分析函数
+            max_workers: 最大工作线程数
+            
+        Returns:
+            分析结果列表
+        """
+        if not functions_to_check:
             return []
         
-        if max_threads is None:
-            max_threads = int(os.getenv("MAX_THREADS_OF_CONFIRMATION", 5))
+        if max_workers is None:
+            max_workers = min(len(functions_to_check), int(os.getenv("MAX_THREADS_OF_SCAN", 5)))
         
-        print(f"🔍 开始并行验证: {len(tasks)} 个任务，{max_threads} 个并发线程")
+        print(f"🔄 开始并行业务流分析: {len(functions_to_check)} 个函数，{max_workers} 个线程")
         
         results = []
-        with ThreadPoolExecutor(max_workers=max_threads) as executor:
-            future_to_task = {executor.submit(validation_func, task): task for task in tasks}
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_func = {
+                executor.submit(flow_analysis_func, func): func 
+                for func in functions_to_check
+            }
             
-            with tqdm(total=len(tasks), desc="Validating vulnerabilities") as pbar:
-                for future in as_completed(future_to_task):
-                    task = future_to_task[future]
+            with tqdm(total=len(functions_to_check), desc="Analyzing business flows") as pbar:
+                for future in as_completed(future_to_func):
+                    func = future_to_func[future]
                     try:
                         result = future.result()
-                        results.append((task, result))
+                        if result:  # 只添加有效结果
+                            results.append(result)
                     except Exception as e:
-                        print(f"⚠️ 任务 {task.id} 验证失败: {str(e)}")
-                        results.append((task, None))
+                        print(f"⚠️ 函数 {getattr(func, 'name', 'unknown')} 业务流分析失败: {str(e)}")
                     
                     pbar.update(1)
         
-        print(f"✅ 并行验证完成: {len(results)} 个结果")
+        print(f"✅ 并行业务流分析完成: {len(results)} 个有效结果")
         return results
     
     @staticmethod

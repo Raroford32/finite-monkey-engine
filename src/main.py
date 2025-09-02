@@ -14,6 +14,7 @@ import pandas as pd
 from openpyxl import Workbook,load_workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
 from res_processor.res_processor import ResProcessor
+from agentic import Orchestrator, InvariantMiner
 
 import dotenv
 dotenv.load_dotenv()
@@ -345,13 +346,56 @@ if __name__ == '__main__':
         
         # Execute project scanning with exploit discovery focus
         lancedb, lance_table_name, project_audit = scan_project(project, engine)
+
+        # Agentic orchestrator pipeline: mine invariants -> plan & validate on fork
+        try:
+            miner = InvariantMiner()
+            invariants = miner.mine(project_audit)
+            orchestrator = Orchestrator(project.id)
+            targets = sorted(list({f.get('contract_name', '') for f in project_audit.functions_to_check if f.get('contract_name')}))
+            findings = orchestrator.run_defensive_assessment(
+                contract_targets=targets,
+                context={"invariants": invariants}
+            )
+            log_data_info(main_logger, "Orchestrator findings", len(findings))
+
+            # Merge FAR into each relevant task's scan_record
+            from dao import ProjectTaskMgr
+            taskmgr = ProjectTaskMgr(project.id, engine)
+            for task in taskmgr.get_task_list():
+                try:
+                    import json
+                    scan_data = json.loads(task.scan_record) if task.scan_record else {}
+                except Exception:
+                    scan_data = {}
+
+                # Aggregate FAR from orchestrator findings if contract matches
+                related = []
+                for f in findings:
+                    cts = f.get('contract_targets', []) or []
+                    if task.contract_code and task.contract_code in cts:
+                        related.append(f)
+                if related:
+                    # Take max FAR across related findings
+                    fars = []
+                    for f in related:
+                        v = f.get('validation', {})
+                        try:
+                            from agentic.far_scoring import FundsAtRiskScorer
+                            far = FundsAtRiskScorer().score(v)
+                            fars.append(far)
+                        except Exception:
+                            pass
+                    if fars:
+                        scan_data['orchestrator'] = scan_data.get('orchestrator', {})
+                        scan_data['orchestrator']['funds_at_risk'] = max(fars)
+                        taskmgr.update_scan_record(task.id, json.dumps(scan_data, ensure_ascii=False))
+        except Exception as e:
+            log_warning(main_logger, f"Orchestrator pipeline skipped: {e}")
         
-        # Execute vulnerability validation based on scanning mode
-        if scan_mode in ["COMMON_PROJECT", "PURE_SCAN", "CHECKLIST", "COMMON_PROJECT_FINE_GRAINED"]:
-            main_logger.info(f"Scanning mode '{scan_mode}' requires vulnerability validation")
-            check_function_vul(engine, lancedb, lance_table_name, project_audit)
-        else:
-            main_logger.info(f"Scanning mode '{scan_mode}' skips vulnerability validation step")
+        # Always run unified agentic validation path
+        main_logger.info("Running unified agentic validation pipeline")
+        check_function_vul(engine, lancedb, lance_table_name, project_audit)
 
         # Calculate total execution time
         end_time = time.time()

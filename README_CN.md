@@ -111,8 +111,14 @@ finite-monkey-engine/
 DATABASE_URL=postgresql://postgres:1234@127.0.0.1:5432/postgres
 
 # AI模型配置（必需）
-OPENAI_API_BASE="api.openai-proxy.org"  # LLM代理平台
-OPENAI_API_KEY="sk-xxxxxx"  # API密钥
+OPENROUTER_API_BASE="openrouter.ai"  # LLM提供方（OpenRouter）
+OPENROUTER_API_KEY="sk-or-v1-xxxxxx"  # API密钥
+OPENROUTER_REFERER="https://your-app.example"  # 可选
+OPENROUTER_TITLE="FiniteMonkey"  # 可选
+
+# OpenAI 向量嵌入（必需）
+OPENAI_API_BASE="api.openai.com"
+OPENAI_API_KEY="sk-xxxxxx"
 
 # 扫描模式配置
 SCAN_MODE=COMMON_PROJECT_FINE_GRAINED   # 推荐模式：通用项目CHECKLIST逐个提问
@@ -298,8 +304,8 @@ python src/main.py
 **Q: API调用失败**
 ```bash
 # 检查API密钥和网络连接
-export OPENAI_API_KEY=your_key
-curl -H "Authorization: Bearer $OPENAI_API_KEY" https://api.openai.com/v1/models
+export OPENROUTER_API_KEY=your_key
+curl -H "Authorization: Bearer $OPENROUTER_API_KEY" https://openrouter.ai/api/v1/models
 ```
 
 **Q: 内存不足**

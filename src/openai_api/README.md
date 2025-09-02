@@ -79,7 +79,8 @@ The OpenAI API component integrates with:
 
 ```python
 # Required environment variables
-OPENAI_API_KEY = "your-openai-api-key"
+OPENROUTER_API_KEY = "your-openrouter-api-key"
+OPENROUTER_API_BASE = "openrouter.ai"
 
 # Optional configuration
 OPENAI_MODEL = "gpt-4"  # Default model

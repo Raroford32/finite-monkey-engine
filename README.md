@@ -234,8 +234,10 @@ Configure your project in `src/dataset/agent-v1-c4/datasets.json`:
 DATABASE_URL=postgresql://postgres:1234@127.0.0.1:5432/postgres
 
 # AI Model Configuration (Required)
-OPENAI_API_BASE="api.openai-proxy.org"  # LLM proxy platform
-OPENAI_API_KEY="sk-xxxxxx"  # API key
+OPENROUTER_API_BASE="openrouter.ai"  # LLM provider (OpenRouter)
+OPENROUTER_API_KEY="sk-or-v1-xxxxxx"  # API key
+OPENROUTER_REFERER="https://your-app.example"  # optional
+OPENROUTER_TITLE="FiniteMonkey"  # optional
 
 # Scan Mode Configuration
 SCAN_MODE=COMMON_PROJECT_FINE_GRAINED   # Recommended mode: Common project checklist fine-grained

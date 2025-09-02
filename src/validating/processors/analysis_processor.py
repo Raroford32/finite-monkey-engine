@@ -47,9 +47,11 @@ class AnalysisProcessor:
                 return
             
             # 使用正确的参数初始化RAG处理器 
+            import os as _os
+            lancedb_path = _os.getenv("LANCEDB_PATH", "./src/codebaseQA/lancedb")
             self.rag_processor = RAGProcessor(
                 project_audit,  # 🔧 使用完整的project_audit对象，而不是functions_to_check
-                "./src/codebaseQA/lancedb", 
+                lancedb_path, 
                 self.project_id
             )
             self.agent_memory = AgentMemory(self.rag_processor)

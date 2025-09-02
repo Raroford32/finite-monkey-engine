@@ -352,8 +352,9 @@ if __name__ == '__main__':
             miner = InvariantMiner()
             invariants = miner.mine(project_audit)
             orchestrator = Orchestrator(project.id)
+            targets = sorted(list({f.get('contract_name', '') for f in project_audit.functions_to_check if f.get('contract_name')}))
             findings = orchestrator.run_defensive_assessment(
-                contract_targets=sorted(list({f.get('contract_name', '') for f in project_audit.functions_to_check if f.get('contract_name')})),
+                contract_targets=targets,
                 context={"invariants": invariants}
             )
             log_data_info(main_logger, "Orchestrator findings", len(findings))
@@ -369,7 +370,11 @@ if __name__ == '__main__':
                     scan_data = {}
 
                 # Aggregate FAR from orchestrator findings if contract matches
-                related = [f for f in findings if task.contract_code and task.contract_code in str(f.get('contract_targets', []))]
+                related = []
+                for f in findings:
+                    cts = f.get('contract_targets', []) or []
+                    if task.contract_code and task.contract_code in cts:
+                        related.append(f)
                 if related:
                     # Take max FAR across related findings
                     fars = []

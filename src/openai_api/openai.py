@@ -21,6 +21,13 @@ def get_model(model_key: str) -> str:
     
     return _model_config.get(model_key, 'gpt-4o-mini')
 
+def _apply_high_reasoning(payload: dict) -> dict:
+    try:
+        payload["reasoning"] = {"effort": "high"}
+    except Exception:
+        pass
+    return payload
+
 class JSONExtractError(Exception):
     def __init__(self, ErrorInfo):
         super().__init__(self)
@@ -46,6 +53,7 @@ def ask_openai_common(prompt):
                 }
             ]
         }
+        data = _apply_high_reasoning(data)
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', headers=headers, json=data)
         try:
             response_josn = response.json()
@@ -77,6 +85,7 @@ def ask_openai_for_json(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
     # response = requests.post(f'https://{api_base}/v1/chat/completions', headers=headers, json=data)
     # # if response.status_code != 200:
     # #     print(response.text)
@@ -167,6 +176,7 @@ def detect_vulnerabilities(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
 
     try:
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
@@ -202,6 +212,7 @@ def analyze_code_assumptions(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
 
     try:
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
@@ -240,6 +251,7 @@ def ask_deepseek(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
 
     try:
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
@@ -323,6 +335,7 @@ def perform_initial_vulnerability_validation(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
 
     try:
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
@@ -364,6 +377,7 @@ def extract_vulnerability_findings_json(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
 
     try:
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
@@ -405,6 +419,7 @@ def determine_additional_context_needed(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
 
     try:
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
@@ -448,6 +463,7 @@ def perform_comprehensive_vulnerability_analysis(prompt):
             }
         ]
     }
+    data = _apply_high_reasoning(data)
 
     try:
         response = requests.post(f'https://{api_base}/api/v1/chat/completions', 

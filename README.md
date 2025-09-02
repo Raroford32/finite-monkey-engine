@@ -239,6 +239,10 @@ OPENROUTER_API_KEY="sk-or-v1-xxxxxx"  # API key
 OPENROUTER_REFERER="https://your-app.example"  # optional
 OPENROUTER_TITLE="FiniteMonkey"  # optional
 
+# OpenAI Embeddings (Required)
+OPENAI_API_BASE="api.openai.com"
+OPENAI_API_KEY="sk-xxxxxx"
+
 # Scan Mode Configuration
 SCAN_MODE=COMMON_PROJECT_FINE_GRAINED   # Recommended mode: Common project checklist fine-grained
 # Available modes: PURE_SCAN (Pure scanning)

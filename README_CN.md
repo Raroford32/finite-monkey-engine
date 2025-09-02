@@ -116,6 +116,10 @@ OPENROUTER_API_KEY="sk-or-v1-xxxxxx"  # API密钥
 OPENROUTER_REFERER="https://your-app.example"  # 可选
 OPENROUTER_TITLE="FiniteMonkey"  # 可选
 
+# OpenAI 向量嵌入（必需）
+OPENAI_API_BASE="api.openai.com"
+OPENAI_API_KEY="sk-xxxxxx"
+
 # 扫描模式配置
 SCAN_MODE=COMMON_PROJECT_FINE_GRAINED   # 推荐模式：通用项目CHECKLIST逐个提问
 # 可选模式：PURE_SCAN（纯扫描）

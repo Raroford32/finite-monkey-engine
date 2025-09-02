@@ -266,11 +266,11 @@ def clean_text(text: str) -> str:
     return str(text).replace(" ", "").replace("\n", "").replace("\r", "")
 
 def common_get_embedding(text: str):
-    api_key = os.getenv('OPENROUTER_API_KEY')
+    api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
-        raise ValueError("OPENROUTER_API_KEY environment variable is not set")
+        raise ValueError("OPENAI_API_KEY environment variable is not set")
 
-    api_base = os.getenv('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_base = os.getenv('OPENAI_API_BASE', 'api.openai.com')
     model = get_model("embedding_model")
     
     headers = {
@@ -287,7 +287,7 @@ def common_get_embedding(text: str):
     }
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/embeddings', json=data, headers=headers)
+        response = requests.post(f'https://{api_base}/v1/embeddings', json=data, headers=headers)
         response.raise_for_status()
         embedding_data = response.json()
         return embedding_data['data'][0]['embedding']

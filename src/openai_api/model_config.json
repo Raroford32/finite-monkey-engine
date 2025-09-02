@@ -8,5 +8,5 @@
   "comprehensive_vulnerability_analysis": "openai/gpt-5",
   "final_vulnerability_extraction": "openai/gpt-5",
   "structured_json_extraction": "openai/gpt-5",
-  "embedding_model": "openai/text-embedding-3-large"
+  "embedding_model": "text-embedding-3-large"
 }

@@ -474,6 +474,13 @@ class AnalysisProcessor:
             'validation_short_result': final_short_result,        # 验证阶段的简短结果
             'original_reasoning_result': task.result              # 保存原始reasoning结果供参考
         }
+        # 计算粗粒度资金风险分值（无fork情况下）
+        try:
+            from agentic.far_scoring import FundsAtRiskScorer
+            far = FundsAtRiskScorer().score_from_confirmation(round_results, final_short_result)
+            scan_data['funds_at_risk'] = far
+        except Exception:
+            scan_data['funds_at_risk'] = 0
         task.scan_record = json.dumps(scan_data, ensure_ascii=False)
         
         # 更新数据库

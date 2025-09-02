@@ -918,6 +918,14 @@ class ResProcessor:
             short_result = entity.short_result
             result = entity.result
             if short_result and ("yes" in str(short_result).lower()) and len(entity.business_flow_code)>0:
+                # Extract funds_at_risk from scan_record if available
+                far_value = None
+                try:
+                    scan_data = json.loads(entity.scan_record) if entity.scan_record else {}
+                    far_value = scan_data.get('funds_at_risk', None)
+                except Exception:
+                    far_value = None
+
                 data.append({
                     '漏洞结果': result,
                     'ID': entity.id,
@@ -933,7 +941,8 @@ class ResProcessor:
                     '绝对路径': entity.absolute_file_path,
                     '业务流程代码': entity.business_flow_code,
                     '扫描记录': entity.scan_record,  # 使用新的scan_record字段
-                    '推荐': entity.recommendation
+                    '推荐': entity.recommendation,
+                    'funds_at_risk': far_value if far_value is not None else 0
                 })
         
         # 打印数据统计信息

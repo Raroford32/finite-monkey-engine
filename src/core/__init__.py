@@ -11,6 +11,8 @@ from .planning import PlanningEngine
 from .execution import ExecutionEngine
 from .validation import ValidationEngine
 from .analyzer import ProtocolAnalyzer, CodebaseAnalyzer
+from .protocol_semantics import ProtocolSemanticsEngine
+from .economic_modeling import EconomicModelingEngine
 
 __all__ = [
     'ExploitDiscoveryEngine',
@@ -19,7 +21,9 @@ __all__ = [
     'ExecutionEngine',
     'ValidationEngine',
     'ProtocolAnalyzer',
-    'CodebaseAnalyzer'
+    'CodebaseAnalyzer',
+    'ProtocolSemanticsEngine',
+    'EconomicModelingEngine'
 ]
 
 __version__ = '2.0.0'

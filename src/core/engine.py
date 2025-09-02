@@ -17,6 +17,8 @@ from .validation import ValidationEngine
 from .analyzer import ProtocolAnalyzer, CodebaseAnalyzer
 from .patterns import ExploitPatternMatcher
 from .memory import MemorySystem
+from .protocol_semantics import ProtocolSemanticsEngine
+from .economic_modeling import EconomicModelingEngine, MarketState
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +68,10 @@ class ExploitDiscoveryEngine:
         # Initialize pattern matching and memory systems
         self.pattern_matcher = ExploitPatternMatcher()
         self.memory = MemorySystem()
+        
+        # Initialize advanced analysis engines
+        self.semantics_engine = ProtocolSemanticsEngine()
+        self.economic_engine = EconomicModelingEngine()
         
         # Track discovered exploits
         self.discovered_exploits: List[ExploitCandidate] = []
@@ -135,6 +141,24 @@ class ExploitDiscoveryEngine:
         
         # Phase 1: Analysis and Understanding
         analysis_results = await self._analyze_target(target, target_type, context)
+        
+        # Phase 1.5: Deep Protocol Semantics Analysis
+        if target_type in ['protocol', 'contract']:
+            protocol_model = await self.semantics_engine.model_protocol(analysis_results)
+            analysis_results['protocol_model'] = protocol_model
+            
+            # Discover compositional attacks
+            compositional_attacks = await self.semantics_engine.discover_compositional_attacks(protocol_model)
+            analysis_results['compositional_attacks'] = compositional_attacks
+        
+        # Phase 1.6: Economic Analysis
+        market_state = self._get_market_state()
+        if 'protocol_model' in analysis_results:
+            economic_opportunities = await self.economic_engine.analyze_economic_incentives(
+                analysis_results['protocol_model'],
+                market_state
+            )
+            analysis_results['economic_opportunities'] = economic_opportunities
         
         # Phase 2: Reasoning about vulnerabilities
         vulnerability_hypotheses = await self._reason_about_vulnerabilities(analysis_results)
@@ -227,6 +251,27 @@ class ExploitDiscoveryEngine:
         
         # Generate vulnerability hypotheses
         hypotheses = await self.reasoning_engine.generate_hypotheses(analysis_results)
+        
+        # Add hypotheses from compositional attacks
+        if 'compositional_attacks' in analysis_results:
+            for attack in analysis_results['compositional_attacks']:
+                hypotheses.append({
+                    'id': f"comp_{attack.get('sequence', ['unknown'])[0]}",
+                    'vulnerability_class': {'value': 'compositional'},
+                    'confidence': 0.8,
+                    'evidence': attack
+                })
+        
+        # Add hypotheses from economic opportunities
+        if 'economic_opportunities' in analysis_results:
+            for opp in analysis_results['economic_opportunities'][:5]:  # Top 5
+                if opp.profit_estimate > 10000:  # Significant profit
+                    hypotheses.append({
+                        'id': f"econ_{opp.id}",
+                        'vulnerability_class': {'value': str(opp.type.value)},
+                        'confidence': 0.9,
+                        'evidence': {'opportunity': opp}
+                    })
         
         # Rank hypotheses by likelihood and impact
         ranked_hypotheses = await self.reasoning_engine.rank_hypotheses(
@@ -437,6 +482,21 @@ class ExploitDiscoveryEngine:
             return 'medium'
         else:
             return 'low'
+    
+    def _get_market_state(self) -> MarketState:
+        """Get current market state"""
+        # This would fetch real market data
+        # Simplified for demonstration
+        return MarketState(
+            block_number=1000000,
+            timestamp=1234567890,
+            prices={
+                'uniswap': {'ETH_USDC': 2000, 'ETH_DAI': 2001},
+                'sushiswap': {'ETH_USDC': 1999, 'ETH_DAI': 2000}
+            },
+            base_fee=30.0,
+            priority_fee=2.0
+        )
     
     async def analyze_protocol(
         self,

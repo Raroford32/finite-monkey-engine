@@ -14,6 +14,7 @@ import pandas as pd
 from openpyxl import Workbook,load_workbook
 from openpyxl.utils.dataframe import dataframe_to_rows
 from res_processor.res_processor import ResProcessor
+from agentic import Orchestrator, InvariantMiner
 
 import dotenv
 dotenv.load_dotenv()
@@ -345,6 +346,20 @@ if __name__ == '__main__':
         
         # Execute project scanning with exploit discovery focus
         lancedb, lance_table_name, project_audit = scan_project(project, engine)
+
+        # Agentic orchestrator pipeline: mine invariants -> plan & validate on fork
+        try:
+            miner = InvariantMiner()
+            invariants = miner.mine(project_audit)
+            orchestrator = Orchestrator(project.id)
+            findings = orchestrator.run_defensive_assessment(
+                contract_targets=list({f.get('contract_name', '') for f in project_audit.functions_to_check}),
+                context={"invariants": invariants}
+            )
+            # Optionally persist orchestrator findings to logs
+            log_data_info(main_logger, "Orchestrator findings", len(findings))
+        except Exception as e:
+            log_warning(main_logger, f"Orchestrator pipeline skipped: {e}")
         
         # Execute vulnerability validation based on scanning mode
         if scan_mode in ["COMMON_PROJECT", "PURE_SCAN", "CHECKLIST", "COMMON_PROJECT_FINE_GRAINED"]:

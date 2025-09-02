@@ -29,18 +29,21 @@ class AnalysisProcessor:
         self.project_id = context_data.get('project_id', '')
         self.project_path = context_data.get('project_path', '')
         
-        # 初始化RAG处理器（如果可用）
+        # 初始化RAG处理器与内存（如果可用）
         self.rag_processor = None
+        self.agent_memory = None
         self._initialize_rag_processor()
     
     def _initialize_rag_processor(self):
-        """初始化RAG处理器"""
+        """初始化RAG处理器与AgentMemory"""
         try:
             from context.rag_processor import RAGProcessor
+            from agentic.memory import AgentMemory
             # 获取project_audit对象
             project_audit = self.context_data.get('project_audit')
             if not project_audit:
                 self.rag_processor = None
+                self.agent_memory = None
                 return
             
             # 使用正确的参数初始化RAG处理器 
@@ -49,9 +52,11 @@ class AnalysisProcessor:
                 "./src/codebaseQA/lancedb", 
                 self.project_id
             )
+            self.agent_memory = AgentMemory(self.rag_processor)
         except Exception as e:
             import traceback
             self.rag_processor = None
+            self.agent_memory = None
 
     def _count_tokens(self, text: str, model: str = "gpt-4") -> int:
         """计算文本的token数量
@@ -498,9 +503,22 @@ class AnalysisProcessor:
         print(f"🔍 [Round {round_num}] 开始执行单轮检测流程")
         logs.append(f"第 {round_num} 轮: 开始初步确认")
         
-        # 第一步：使用prompt factory生成完整的初步分析prompt
+        # 第一步：使用prompt factory生成完整的初步分析prompt，注入记忆上下文
+        memory_snippets = []
+        try:
+            if self.agent_memory:
+                recalled = self.agent_memory.recall("analysis_context", k=3)
+                for r in recalled:
+                    snippet = r.get("chunk_text") or r.get("natural_description") or ""
+                    if snippet:
+                        memory_snippets.append(snippet[:400])
+        except Exception:
+            pass
+
+        memory_context = ("\n\n" + "\n---\n".join(memory_snippets)) if memory_snippets else ""
+
         initial_prompt = VulCheckPrompt.vul_check_prompt_agent_initial_complete(
-            vulnerability_result, business_flow_code
+            vulnerability_result + memory_context, business_flow_code
         )
 
         try:

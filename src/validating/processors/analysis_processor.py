@@ -486,6 +486,13 @@ class AnalysisProcessor:
             scan_data['funds_at_risk'] = far
         except Exception:
             scan_data['funds_at_risk'] = 0
+        # 如果主流程已运行Orchestrator，可从scan_data['orchestrator']覆写更精确的FAR
+        try:
+            orch = scan_data.get('orchestrator', {})
+            if isinstance(orch, dict) and isinstance(orch.get('funds_at_risk'), int):
+                scan_data['funds_at_risk'] = orch['funds_at_risk']
+        except Exception:
+            pass
         task.scan_record = json.dumps(scan_data, ensure_ascii=False)
         
         # 更新数据库

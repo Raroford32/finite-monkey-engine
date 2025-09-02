@@ -1,0 +1,39 @@
+{
+  "reasoning": {
+    "max_depth": 10,
+    "enable_symbolic": true,
+    "enable_fuzzing": true,
+    "enable_invariant_detection": true
+  },
+  "planning": {
+    "max_steps": 50,
+    "enable_multi_path": true,
+    "enable_backtracking": true,
+    "strategy": "adaptive"
+  },
+  "execution": {
+    "mode": "fork",
+    "timeout": 300,
+    "gas_limit": 30000000,
+    "enable_state_diff": true,
+    "fork_url": "https://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY"
+  },
+  "validation": {
+    "min_confidence": 0.7,
+    "require_poc": true,
+    "cross_validate": true,
+    "validation_rounds": 3
+  },
+  "protocol": {
+    "analyze_dependencies": true,
+    "track_state_changes": true,
+    "detect_reentrancy": true,
+    "analyze_access_control": true
+  },
+  "codebase": {
+    "languages": ["solidity", "rust", "move", "vyper"],
+    "analyze_imports": true,
+    "track_external_calls": true,
+    "build_call_graph": true
+  }
+}

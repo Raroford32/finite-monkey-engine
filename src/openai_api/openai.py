@@ -21,13 +21,6 @@ def get_model(model_key: str) -> str:
     
     return _model_config.get(model_key, 'gpt-4o-mini')
 
-def _apply_high_reasoning(payload: dict) -> dict:
-    try:
-        payload["reasoning"] = {"effort": "high"}
-    except Exception:
-        pass
-    return payload
-
 class JSONExtractError(Exception):
     def __init__(self, ErrorInfo):
         super().__init__(self)
@@ -36,16 +29,14 @@ class JSONExtractError(Exception):
         return self.errorinfo
 
 def ask_openai_common(prompt):
-        api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
-        api_key = os.environ.get('OPENROUTER_API_KEY')
+        api_base = os.environ.get('OPENAI_API_BASE', 'api.openai.com')  # Replace with your actual OpenAI API base URL
+        api_key = os.environ.get('OPENAI_API_KEY')  # Replace with your actual OpenAI API key
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-            "HTTP-Referer": os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-            "X-Title": os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+            "Authorization": f"Bearer {api_key}"
         }
         data = {
-            "model": get_model('openai_general'),
+            "model": get_model('openai_general'),  # 使用模型管理器获取OpenAI模型
             "messages": [
                 {
                     "role": "user",
@@ -53,8 +44,7 @@ def ask_openai_common(prompt):
                 }
             ]
         }
-        data = _apply_high_reasoning(data)
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', headers=headers, json=data)
+        response = requests.post(f'https://{api_base}/v1/chat/completions', headers=headers, json=data)
         try:
             response_josn = response.json()
         except Exception as e:
@@ -63,13 +53,11 @@ def ask_openai_common(prompt):
             return ''
         return response_josn['choices'][0]['message']['content']
 def ask_openai_for_json(prompt):
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
-    api_key = os.environ.get('OPENROUTER_API_KEY')
+    api_base = os.environ.get('OPENAI_API_BASE', 'api.openai.com')  # Replace with your actual OpenAI API base URL
+    api_key = os.environ.get('OPENAI_API_KEY')  # Replace with your actual OpenAI API key
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {api_key}",
-        "HTTP-Referer": os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        "X-Title": os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        "Authorization": f"Bearer {api_key}"
     }
     data = {
         "model": get_model('structured_json_extraction'),
@@ -85,7 +73,6 @@ def ask_openai_for_json(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
     # response = requests.post(f'https://{api_base}/v1/chat/completions', headers=headers, json=data)
     # # if response.status_code != 200:
     # #     print(response.text)
@@ -97,7 +84,7 @@ def ask_openai_for_json(prompt):
     # return response_josn['choices'][0]['message']['content']
     while True:
         try:
-            response = requests.post(f'https://{api_base}/api/v1/chat/completions', headers=headers, json=data)
+            response = requests.post(f'https://{api_base}/v1/chat/completions', headers=headers, json=data)
             response_json = response.json()
             if 'choices' not in response_json:
                 return ''
@@ -157,14 +144,12 @@ def extract_structured_json(prompt):
     return ask_openai_for_json(prompt)
 def detect_vulnerabilities(prompt):
     model = get_model('vulnerability_detection')
-    api_key = os.environ.get('OPENROUTER_API_KEY')
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_key = os.environ.get('OPENAI_API_KEY')
+    api_base = os.environ.get('OPENAI_API_BASE')
     
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'HTTP-Referer': os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        'X-Title': os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        'Authorization': f'Bearer {api_key}'
     }
 
     data = {
@@ -176,10 +161,9 @@ def detect_vulnerabilities(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
+        response = requests.post(f'https://{api_base}/v1/chat/completions', 
                                headers=headers, 
                                json=data)
         response.raise_for_status()
@@ -193,14 +177,12 @@ def detect_vulnerabilities(prompt):
         return ""
 def analyze_code_assumptions(prompt):
     model = get_model('code_assumptions_analysis')
-    api_key = os.environ.get('OPENROUTER_API_KEY')
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_key = os.environ.get('OPENAI_API_KEY','sk-0fzQWrcTc0DASaFT7Q0V0e7c24ZyHMKYgIDpXWrry8XHQAcj')
+    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
     
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'HTTP-Referer': os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        'X-Title': os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        'Authorization': f'Bearer {api_key}'
     }
 
     data = {
@@ -212,10 +194,9 @@ def analyze_code_assumptions(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
+        response = requests.post(f'https://{api_base}/v1/chat/completions', 
                                headers=headers, 
                                json=data)
         response.raise_for_status()
@@ -231,15 +212,13 @@ def analyze_code_assumptions(prompt):
 def ask_deepseek(prompt):
     model = 'deepseek-reasoner'
     # print("prompt:",prompt)
-    api_key = os.environ.get('OPENROUTER_API_KEY')
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_key = os.environ.get('OPENAI_API_KEY')
+    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
     # print("api_base:",api_base)
     # print("api_key:",api_key)
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'HTTP-Referer': os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        'X-Title': os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        'Authorization': f'Bearer {api_key}'
     }
 
     data = {
@@ -251,10 +230,9 @@ def ask_deepseek(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
+        response = requests.post(f'https://{api_base}/v1/chat/completions', 
                                headers=headers, 
                                json=data)
         response.raise_for_status()
@@ -316,14 +294,12 @@ def perform_initial_vulnerability_validation(prompt):
     环境变量: AGENT_INITIAL_MODEL (默认: claude-3-haiku-20240307)
     """
     model = get_model('initial_vulnerability_validation')
-    api_key = os.environ.get('OPENROUTER_API_KEY')
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_key = os.environ.get('OPENAI_API_KEY')
+    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
     
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'HTTP-Referer': os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        'X-Title': os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        'Authorization': f'Bearer {api_key}'
     }
 
     data = {
@@ -335,10 +311,9 @@ def perform_initial_vulnerability_validation(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
+        response = requests.post(f'https://{api_base}/v1/chat/completions', 
                                headers=headers, 
                                json=data)
         response.raise_for_status()
@@ -358,14 +333,12 @@ def extract_vulnerability_findings_json(prompt):
     环境变量: AGENT_JSON_MODEL (默认: gpt-4o-mini)
     """
     model = get_model('vulnerability_findings_json_extraction')
-    api_key = os.environ.get('OPENROUTER_API_KEY')
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_key = os.environ.get('OPENAI_API_KEY')
+    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
     
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'HTTP-Referer': os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        'X-Title': os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        'Authorization': f'Bearer {api_key}'
     }
 
     data = {
@@ -377,10 +350,9 @@ def extract_vulnerability_findings_json(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
+        response = requests.post(f'https://{api_base}/v1/chat/completions', 
                                headers=headers, 
                                json=data)
         response.raise_for_status()
@@ -400,14 +372,12 @@ def determine_additional_context_needed(prompt):
     环境变量: AGENT_INFO_QUERY_MODEL (默认: claude-3-sonnet-20240229)
     """
     model = get_model('additional_context_determination')
-    api_key = os.environ.get('OPENROUTER_API_KEY')
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_key = os.environ.get('OPENAI_API_KEY')
+    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
     
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'HTTP-Referer': os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        'X-Title': os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        'Authorization': f'Bearer {api_key}'
     }
 
     data = {
@@ -419,10 +389,9 @@ def determine_additional_context_needed(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
+        response = requests.post(f'https://{api_base}/v1/chat/completions', 
                                headers=headers, 
                                json=data)
         response.raise_for_status()
@@ -444,14 +413,12 @@ def perform_comprehensive_vulnerability_analysis(prompt):
     环境变量: AGENT_FINAL_MODEL (默认: claude-opus-4-20250514)
     """
     model = get_model('comprehensive_vulnerability_analysis')
-    api_key = os.environ.get('OPENROUTER_API_KEY')
-    api_base = os.environ.get('OPENROUTER_API_BASE', 'openrouter.ai')
+    api_key = os.environ.get('OPENAI_API_KEY')
+    api_base = os.environ.get('OPENAI_API_BASE', '4.0.wokaai.com')
     
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {api_key}',
-        'HTTP-Referer': os.environ.get('OPENROUTER_REFERER', 'https://localhost'),
-        'X-Title': os.environ.get('OPENROUTER_TITLE', 'FiniteMonkey')
+        'Authorization': f'Bearer {api_key}'
     }
 
     data = {
@@ -463,10 +430,9 @@ def perform_comprehensive_vulnerability_analysis(prompt):
             }
         ]
     }
-    data = _apply_high_reasoning(data)
 
     try:
-        response = requests.post(f'https://{api_base}/api/v1/chat/completions', 
+        response = requests.post(f'https://{api_base}/v1/chat/completions', 
                                headers=headers, 
                                json=data)
         response.raise_for_status()

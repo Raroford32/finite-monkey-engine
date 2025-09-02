@@ -79,8 +79,7 @@ OpenAI API 组件与以下模块集成：
 
 ```python
 # 必需的环境变量
-OPENROUTER_API_KEY = "your-openrouter-api-key"
-OPENROUTER_API_BASE = "openrouter.ai"
+OPENAI_API_KEY = "your-openai-api-key"
 
 # 可选配置
 OPENAI_MODEL = "gpt-4"  # 默认模型

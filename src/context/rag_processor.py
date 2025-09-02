@@ -23,10 +23,6 @@ class RAGProcessor:
             db_path: 数据库路径
             project_id: 项目ID，用于生成表名
         """
-        import os as _os
-        env_db_path = _os.getenv("LANCEDB_PATH")
-        if env_db_path and len(env_db_path.strip()) > 0:
-            db_path = env_db_path
         os.makedirs(db_path, exist_ok=True)
         
         self.db = lancedb.connect(db_path)

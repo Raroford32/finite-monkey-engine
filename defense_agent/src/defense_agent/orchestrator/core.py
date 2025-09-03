@@ -9,6 +9,8 @@ from defense_agent.utils.models import Finding, AnalysisJob, JobStatus, ForkSpec
 from defense_agent.orchestrator.jobs import InMemoryJobStore
 from defense_agent.harness.fork import ForkEnv
 from defense_agent.harness.executor import ForkExecutor
+from defense_agent.orchestrator.agent import Agent
+from defense_agent.memory.store import MemoryStore
 
 
 class Orchestrator:
@@ -17,6 +19,7 @@ class Orchestrator:
 		self.safety = Safety()
 		self.plugins = PluginManager()
 		self.jobs = InMemoryJobStore()
+        self.memory = MemoryStore()
 
 	def start_job(self, target_name: str, artifact_urls: List[str], budget_seconds: int, max_cost_units: int, forks: List[ForkSpec] | None = None) -> str:
 		job_id = str(uuid.uuid4())
@@ -65,17 +68,11 @@ class Orchestrator:
 						confidence=0.9,
 						artifacts={"rpc_url": fs.rpc_url, "block_number": str(bn)},
 					))
-			# Planner (stub)
-			invariants: List[str] = []
-			miner = self.plugins.create("InvariantMiner")
-			if miner:
-				out = miner.execute({"source_code": "", "bytecode": "", "traces": []})
-				invariants = out.get("invariants", [])
-
-			# Explorer (stub)
-			explorer = self.plugins.create("Explorer")
-			if explorer:
-				_ = explorer.execute({"invariants": invariants, "fork_env": None})
+			# Agent plan/act/reflect loop (single iteration for now)
+			agent = Agent(memory=self.memory)
+			plan = agent.plan(goal=f"Analyze {job.target_name}")
+			obs = agent.act(step_hint=plan)
+			ref = agent.reflect(observations=obs)
 
 			self.jobs.update(job_id, status=JobStatus.succeeded, findings=findings)
 		except Exception as exc:

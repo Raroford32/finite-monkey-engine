@@ -8,6 +8,8 @@ sys.path.append('/workspace/defense_agent/src')
 from defense_agent.plugins.registry import CapabilityRegistry
 from defense_agent.orchestrator.core import Orchestrator
 from defense_agent.utils.models import ForkSpec
+from defense_agent.utils.codebase import read_text_files
+from defense_agent.memory.store import MemoryStore
 
 
 def cmd_registry() -> None:
@@ -36,6 +38,13 @@ def cmd_analyze(args: argparse.Namespace) -> None:
 	print(json.dumps(rec.model_dump(), indent=2, default=str))
 
 
+def cmd_index(args: argparse.Namespace) -> None:
+	memory = MemoryStore()
+	docs = read_text_files(args.path)
+	memory.add_documents(docs)
+	print(json.dumps({"indexed_files": len(docs)}, indent=2))
+
+
 def main() -> None:
 	parser = argparse.ArgumentParser(prog="defense-agent")
 	sub = parser.add_subparsers(dest="cmd", required=True)
@@ -49,6 +58,10 @@ def main() -> None:
 	p_an.add_argument("--budget", type=int, default=600)
 	p_an.add_argument("--cost", type=int, default=100)
 	p_an.set_defaults(func=cmd_analyze)
+
+	p_ix = sub.add_parser("index", help="Index a local codebase for memory")
+	p_ix.add_argument("--path", required=True)
+	p_ix.set_defaults(func=cmd_index)
 
 	args = parser.parse_args()
 	args.func(args)

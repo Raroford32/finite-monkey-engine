@@ -3,7 +3,8 @@
     "max_depth": 10,
     "enable_symbolic": true,
     "enable_fuzzing": true,
-    "enable_invariant_detection": true
+    "enable_invariant_detection": true,
+    "enable_llm": true
   },
   "planning": {
     "max_steps": 50,
@@ -16,6 +17,7 @@
     "timeout": 300,
     "gas_limit": 30000000,
     "enable_state_diff": true,
+    "enable_llm_poc": true,
     "fork_url": "https://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY"
   },
   "validation": {
@@ -35,5 +37,14 @@
     "analyze_imports": true,
     "track_external_calls": true,
     "build_call_graph": true
+  },
+  "llm": {
+    "provider": "openrouter",
+    "model": "openai/gpt-5",
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "enable_reasoning_enhancement": true,
+    "enable_poc_generation": true,
+    "enable_semantic_analysis": true
   }
 }

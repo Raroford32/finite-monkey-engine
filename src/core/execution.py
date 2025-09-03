@@ -6,6 +6,7 @@ This module implements sophisticated execution capabilities:
 - State simulation and tracking
 - Transaction crafting and sequencing
 - Proof of concept generation
+- LLM-enhanced PoC generation
 """
 
 import asyncio
@@ -16,6 +17,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from datetime import datetime
 import hashlib
+from .llm_client import get_llm_client, OpenRouterClient
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +95,7 @@ class ExecutionEngine:
         self.timeout = self.config.get('timeout', 300)
         self.gas_limit = self.config.get('gas_limit', 30000000)
         self.enable_state_diff = self.config.get('enable_state_diff', True)
+        self.enable_llm_poc = self.config.get('enable_llm_poc', True)
         
         # Fork management
         self.fork_url = self.config.get('fork_url')
@@ -104,6 +107,16 @@ class ExecutionEngine:
         
         # Execution history
         self.execution_history = []
+        
+        # LLM client for PoC generation
+        self.llm_client: Optional[OpenRouterClient] = None
+        if self.enable_llm_poc:
+            try:
+                self.llm_client = get_llm_client()
+                logger.info("LLM client initialized for PoC generation")
+            except Exception as e:
+                logger.warning(f"Failed to initialize LLM client: {e}")
+                self.llm_client = None
         
         logger.info(f"Execution Engine initialized in {self.mode} mode")
     
@@ -510,6 +523,33 @@ class ExecutionEngine:
         """Generate proof of concept code for exploit"""
         logger.info(f"Generating PoC for exploit {exploit.id}")
         
+        # Try to use LLM for PoC generation if available
+        if self.llm_client and self.enable_llm_poc:
+            try:
+                exploit_details = {
+                    'vulnerability_type': exploit.vulnerability_type,
+                    'target_contract': exploit.target_contract,
+                    'target_function': exploit.target_function,
+                    'severity': exploit.severity,
+                    'attack_path': exploit.attack_path if hasattr(exploit, 'attack_path') else [],
+                    'preconditions': exploit.preconditions if hasattr(exploit, 'preconditions') else [],
+                    'funds_at_risk': exploit.funds_at_risk,
+                    'evidence': exploit.evidence if hasattr(exploit, 'evidence') else {}
+                }
+                
+                llm_poc = await self.llm_client.generate_poc(
+                    exploit_details=exploit_details,
+                    target_language="solidity"
+                )
+                
+                if llm_poc and not llm_poc.startswith("// Error"):
+                    logger.info("Successfully generated PoC using LLM")
+                    return llm_poc
+                    
+            except Exception as e:
+                logger.warning(f"Failed to generate PoC with LLM: {e}, falling back to template")
+        
+        # Fallback to template-based generation
         poc_template = """
 // Proof of Concept for {vulnerability_type}
 // Target: {target_contract}

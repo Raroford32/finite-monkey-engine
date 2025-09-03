@@ -19,6 +19,9 @@ from .patterns import ExploitPatternMatcher
 from .memory import MemorySystem
 from .protocol_semantics import ProtocolSemanticsEngine
 from .economic_modeling import EconomicModelingEngine, MarketState
+from .agentic_orchestrator import get_agentic_orchestrator
+from .advanced_orchestrator import get_advanced_orchestrator
+from .brilliant_memory import BrilliantMemory
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +58,22 @@ class ExploitDiscoveryEngine:
         """Initialize the exploit discovery engine with configuration"""
         self.config = config or self._default_config()
         
-        # Initialize core components
+        # Check if using agentic mode
+        self.use_agentic = self.config.get('use_agentic', True)
+        self.use_advanced = self.config.get('use_advanced', True)
+        
+        if self.use_advanced:
+            # Use most advanced hierarchical orchestrator
+            self.orchestrator = get_advanced_orchestrator(self.config)
+            self.brilliant_memory = BrilliantMemory(embedding_dim=1024)
+            logger.info("Initialized in ADVANCED MODE - Hierarchical multi-agent system")
+        elif self.use_agentic:
+            # Initialize agentic orchestrator for fully LLM-driven discovery
+            self.orchestrator = get_agentic_orchestrator(self.config)
+            self.brilliant_memory = BrilliantMemory()
+            logger.info("Initialized in AGENTIC MODE - Fully LLM-driven discovery")
+        
+        # Initialize core components (used in both modes)
         self.reasoning_engine = ReasoningEngine(self.config.get('reasoning', {}))
         self.planning_engine = PlanningEngine(self.config.get('planning', {}))
         self.execution_engine = ExecutionEngine(self.config.get('execution', {}))
@@ -129,6 +147,9 @@ class ExploitDiscoveryEngine:
         """
         Main entry point for discovering exploits in a target
         
+        In agentic mode: Uses fully LLM-driven multi-agent system
+        In traditional mode: Uses rule-based analysis with LLM enhancement
+        
         Args:
             target: Path to codebase, contract address, or protocol identifier
             target_type: Type of target to analyze
@@ -138,6 +159,112 @@ class ExploitDiscoveryEngine:
             List of discovered exploit candidates
         """
         logger.info(f"Starting exploit discovery for {target} (type: {target_type})")
+        
+        # Use agentic mode if enabled
+        if self.use_agentic:
+            return await self._discover_exploits_agentic(target, target_type, context)
+        
+        # Traditional discovery process
+        return await self._discover_exploits_traditional(target, target_type, context)
+    
+    async def _discover_exploits_agentic(
+        self,
+        target: str,
+        target_type: str = "auto",
+        context: Optional[Dict[str, Any]] = None
+    ) -> List[ExploitCandidate]:
+        """
+        Fully LLM-driven exploit discovery using multi-agent system
+        
+        All decisions are made by specialized LLM agents collaborating
+        to find novel exploits through creative reasoning.
+        """
+        logger.info("Using AGENTIC discovery mode - LLMs making all decisions")
+        
+        # Prepare context with brilliant memory insights
+        enhanced_context = context or {}
+        
+        # Add memory insights if available
+        if hasattr(self, 'brilliant_memory'):
+            memory_query = {
+                'target': target,
+                'type': target_type,
+                'seeking': 'novel exploits'
+            }
+            
+            # Recall similar past discoveries
+            similar_discoveries = await self.brilliant_memory.recall(memory_query, k=5)
+            
+            enhanced_context['memory_insights'] = [
+                {
+                    'content': node.content,
+                    'importance': node.importance,
+                    'success_metrics': node.success_metrics
+                }
+                for node, score in similar_discoveries
+            ]
+            
+            # Generate novel combination from memory
+            novel_idea = await self.brilliant_memory.generate_novel_combination(enhanced_context)
+            if novel_idea:
+                enhanced_context['novel_seed'] = novel_idea
+        
+        # Run discovery with appropriate orchestrator
+        if self.use_advanced:
+            # Use advanced hierarchical orchestrator for large-scale analysis
+            agentic_exploits = await self.orchestrator.analyze_large_codebase(
+                target,
+                chunk_size=1000
+            )
+        else:
+            # Use standard agentic orchestrator
+            agentic_exploits = await self.orchestrator.discover_novel_exploits(
+                target,
+                enhanced_context
+            )
+        
+        # Convert to ExploitCandidate format
+        candidates = []
+        for exploit in agentic_exploits:
+            candidate = ExploitCandidate(
+                id=exploit.get('id', self._generate_id()),
+                vulnerability_type=exploit.get('vulnerability_type', 'unknown'),
+                severity=exploit.get('severity', 'high'),
+                confidence=exploit.get('confidence', 0.7),
+                target_contract=exploit.get('target_contract'),
+                target_function=exploit.get('target_function'),
+                attack_vector=exploit.get('attack_vector'),
+                preconditions=exploit.get('preconditions', []),
+                steps=exploit.get('steps', []),
+                proof_of_concept=exploit.get('poc'),
+                funds_at_risk=exploit.get('funds_at_risk', 0),
+                metadata=exploit
+            )
+            candidates.append(candidate)
+            
+            # Store in brilliant memory for learning
+            await self.brilliant_memory.store(
+                exploit,
+                context={'discovery_mode': 'agentic', 'target': target},
+                importance=candidate.confidence
+            )
+        
+        # Update discovered exploits
+        self.discovered_exploits.extend(candidates)
+        
+        logger.info(f"Agentic discovery found {len(candidates)} novel exploits")
+        return candidates
+    
+    async def _discover_exploits_traditional(
+        self,
+        target: str,
+        target_type: str = 'auto',
+        context: Optional[Dict[str, Any]] = None
+    ) -> List[ExploitCandidate]:
+        """
+        Traditional exploit discovery with LLM enhancement
+        """
+        logger.info(f"Using traditional discovery mode for {target} (type: {target_type})")
         
         # Phase 1: Analysis and Understanding
         analysis_results = await self._analyze_target(target, target_type, context)

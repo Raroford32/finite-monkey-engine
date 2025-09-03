@@ -68,11 +68,13 @@ class ExploitDiscoverySystem:
     def _default_config(self) -> Dict[str, Any]:
         """Return default configuration"""
         return {
+            'use_agentic': True,  # Enable fully LLM-driven agentic mode
             'reasoning': {
                 'max_depth': 10,
                 'enable_symbolic': True,
                 'enable_fuzzing': True,
-                'enable_invariant_detection': True
+                'enable_invariant_detection': True,
+                'enable_llm': True  # Enable LLM-enhanced reasoning
             },
             'planning': {
                 'max_steps': 50,
@@ -84,14 +86,17 @@ class ExploitDiscoverySystem:
                 'mode': 'fork',
                 'timeout': 300,
                 'gas_limit': 30000000,
-                'enable_state_diff': True
+                'enable_state_diff': True,
+                'enable_llm_poc': True  # Enable LLM-based PoC generation
             },
             'validation': {
                 'min_confidence': 0.7,
                 'require_poc': True,
                 'cross_validate': True,
                 'validation_rounds': 3
-            }
+            },
+            'memory_path': './data/agentic_memory.pkl',
+            'enable_autonomous_loop': False  # Can be enabled for continuous discovery
         }
     
     async def analyze_target(

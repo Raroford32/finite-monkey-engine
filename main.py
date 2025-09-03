@@ -68,6 +68,7 @@ class ExploitDiscoverySystem:
     def _default_config(self) -> Dict[str, Any]:
         """Return default configuration"""
         return {
+            'use_agentic': True,  # Enable fully LLM-driven agentic mode
             'reasoning': {
                 'max_depth': 10,
                 'enable_symbolic': True,
@@ -93,7 +94,9 @@ class ExploitDiscoverySystem:
                 'require_poc': True,
                 'cross_validate': True,
                 'validation_rounds': 3
-            }
+            },
+            'memory_path': './data/agentic_memory.pkl',
+            'enable_autonomous_loop': False  # Can be enabled for continuous discovery
         }
     
     async def analyze_target(

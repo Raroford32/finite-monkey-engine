@@ -4,6 +4,9 @@ aiohttp==3.9.1
 web3==6.11.3
 eth-account==0.10.0
 
+# LLM Integration (OpenRouter.ai)
+openai==1.6.1  # For OpenAI-compatible API format
+
 # Analysis and parsing
 tree-sitter==0.20.4
 tree-sitter-python==0.20.4

@@ -72,7 +72,8 @@ class ExploitDiscoverySystem:
                 'max_depth': 10,
                 'enable_symbolic': True,
                 'enable_fuzzing': True,
-                'enable_invariant_detection': True
+                'enable_invariant_detection': True,
+                'enable_llm': True  # Enable LLM-enhanced reasoning
             },
             'planning': {
                 'max_steps': 50,
@@ -84,7 +85,8 @@ class ExploitDiscoverySystem:
                 'mode': 'fork',
                 'timeout': 300,
                 'gas_limit': 30000000,
-                'enable_state_diff': True
+                'enable_state_diff': True,
+                'enable_llm_poc': True  # Enable LLM-based PoC generation
             },
             'validation': {
                 'min_confidence': 0.7,

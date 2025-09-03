@@ -6,6 +6,7 @@ This module implements sophisticated reasoning capabilities including:
 - Invariant detection and violation
 - Fuzzing-based exploration
 - Pattern recognition and learning
+- LLM-enhanced hypothesis generation
 """
 
 import asyncio
@@ -16,6 +17,7 @@ from enum import Enum
 import z3
 import networkx as nx
 from collections import defaultdict
+from .llm_client import get_llm_client, OpenRouterClient
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +91,7 @@ class ReasoningEngine:
         self.enable_symbolic = self.config.get('enable_symbolic', True)
         self.enable_fuzzing = self.config.get('enable_fuzzing', True)
         self.enable_invariant_detection = self.config.get('enable_invariant_detection', True)
+        self.enable_llm = self.config.get('enable_llm', True)
         
         # Knowledge base of vulnerability patterns
         self.vulnerability_patterns = self._initialize_patterns()
@@ -98,6 +101,16 @@ class ReasoningEngine:
         
         # Symbolic solver
         self.solver = z3.Solver() if self.enable_symbolic else None
+        
+        # LLM client for enhanced reasoning
+        self.llm_client: Optional[OpenRouterClient] = None
+        if self.enable_llm:
+            try:
+                self.llm_client = get_llm_client()
+                logger.info("LLM client initialized for enhanced reasoning")
+            except Exception as e:
+                logger.warning(f"Failed to initialize LLM client: {e}")
+                self.llm_client = None
         
         logger.info("Reasoning Engine initialized with advanced capabilities")
     
@@ -203,6 +216,10 @@ class ReasoningEngine:
         
         # Deduplicate and merge similar hypotheses
         hypotheses = self._deduplicate_hypotheses(hypotheses)
+        
+        # Enhance hypotheses with LLM if available
+        if self.llm_client and len(hypotheses) > 0:
+            hypotheses = await self._enhance_hypotheses_with_llm(hypotheses, analysis_results)
         
         logger.info(f"Generated {len(hypotheses)} vulnerability hypotheses")
         return hypotheses
@@ -835,3 +852,108 @@ class ReasoningEngine:
             result['edge_case'] = True
         
         return result
+    
+    async def _enhance_hypotheses_with_llm(
+        self,
+        hypotheses: List[VulnerabilityHypothesis],
+        analysis_results: Dict[str, Any]
+    ) -> List[VulnerabilityHypothesis]:
+        """Enhance hypotheses using LLM insights"""
+        if not self.llm_client:
+            return hypotheses
+        
+        try:
+            # Convert hypotheses to dict format for LLM
+            hypotheses_dict = [
+                {
+                    'id': h.id,
+                    'vulnerability_class': h.vulnerability_class.value,
+                    'confidence': h.confidence,
+                    'target_function': h.target_function,
+                    'target_contract': h.target_contract,
+                    'evidence': h.evidence
+                }
+                for h in hypotheses[:10]  # Limit to top 10 for API efficiency
+            ]
+            
+            # Get LLM enhancements
+            enhanced_data = await self.llm_client.enhance_reasoning(
+                reasoning_context={
+                    'target': analysis_results.get('target', 'unknown'),
+                    'functions_count': len(analysis_results.get('functions', [])),
+                    'contracts_count': len(analysis_results.get('contracts', [])),
+                    'has_external_calls': bool(analysis_results.get('external_calls', []))
+                },
+                hypotheses=hypotheses_dict
+            )
+            
+            # Merge enhancements back into hypotheses
+            if isinstance(enhanced_data, list):
+                enhancement_map = {e.get('id'): e for e in enhanced_data}
+                
+                for hypothesis in hypotheses:
+                    if hypothesis.id in enhancement_map:
+                        enhancement = enhancement_map[hypothesis.id]
+                        
+                        # Update hypothesis with LLM insights
+                        if 'attack_vectors' in enhancement:
+                            hypothesis.attack_path.extend(enhancement['attack_vectors'])
+                        
+                        if 'confidence_adjustment' in enhancement:
+                            hypothesis.confidence = min(1.0, hypothesis.confidence + enhancement['confidence_adjustment'])
+                        
+                        if 'additional_evidence' in enhancement:
+                            hypothesis.evidence['llm_insights'] = enhancement['additional_evidence']
+            
+            logger.info("Hypotheses enhanced with LLM insights")
+            
+        except Exception as e:
+            logger.warning(f"Failed to enhance hypotheses with LLM: {e}")
+        
+        return hypotheses
+    
+    async def generate_llm_hypothesis(
+        self,
+        target_info: Dict[str, Any],
+        vulnerability_type: Optional[str] = None
+    ) -> Optional[VulnerabilityHypothesis]:
+        """Generate a new hypothesis using LLM reasoning"""
+        if not self.llm_client:
+            return None
+        
+        try:
+            # Generate hypothesis using LLM
+            llm_hypothesis = await self.llm_client.generate_exploit_hypothesis(
+                vulnerability_type=vulnerability_type or "any",
+                target_info=target_info,
+                patterns=list(self.vulnerability_patterns.values())[:5]  # Sample patterns
+            )
+            
+            if 'error' in llm_hypothesis:
+                logger.error(f"LLM hypothesis generation failed: {llm_hypothesis['error']}")
+                return None
+            
+            # Convert to VulnerabilityHypothesis
+            vuln_class = VulnerabilityClass.UNKNOWN
+            for vc in VulnerabilityClass:
+                if vc.value in llm_hypothesis.get('vulnerability_type', '').lower():
+                    vuln_class = vc
+                    break
+            
+            hypothesis = VulnerabilityHypothesis(
+                id=f"llm_{llm_hypothesis.get('vulnerability_type', 'unknown')}_{hash(str(llm_hypothesis))}",
+                vulnerability_class=vuln_class,
+                confidence=float(llm_hypothesis.get('confidence', 0.5)),
+                target_function=llm_hypothesis.get('target_function'),
+                target_contract=llm_hypothesis.get('target_contract'),
+                preconditions=llm_hypothesis.get('preconditions', []),
+                postconditions=llm_hypothesis.get('postconditions', []),
+                attack_path=llm_hypothesis.get('attack_sequence', []),
+                evidence={'llm_generated': True, 'llm_hypothesis': llm_hypothesis}
+            )
+            
+            return hypothesis
+            
+        except Exception as e:
+            logger.error(f"Failed to generate LLM hypothesis: {e}")
+            return None

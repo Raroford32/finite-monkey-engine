@@ -33,6 +33,9 @@ dependencies = [
   "duckdb>=1.0.0"
 ]
 
+[project.scripts]
+defense-agent = "defense_agent.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

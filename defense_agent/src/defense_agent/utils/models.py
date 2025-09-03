@@ -23,12 +23,19 @@ class Finding(BaseModel):
 	artifacts: Dict[str, str] = Field(default_factory=dict)
 
 
+class ForkSpec(BaseModel):
+	chain_id: int
+	rpc_url: str
+	block_number: Optional[int] = None
+
+
 class AnalysisJob(BaseModel):
 	job_id: str
 	target_name: str
 	artifact_urls: List[str]
 	budget_seconds: int
 	max_cost_units: int
+	forks: List[ForkSpec] = Field(default_factory=list)
 
 
 class JobStatus(str, Enum):

@@ -20,6 +20,7 @@ from .memory import MemorySystem
 from .protocol_semantics import ProtocolSemanticsEngine
 from .economic_modeling import EconomicModelingEngine, MarketState
 from .agentic_orchestrator import get_agentic_orchestrator
+from .advanced_orchestrator import get_advanced_orchestrator
 from .brilliant_memory import BrilliantMemory
 
 logger = logging.getLogger(__name__)
@@ -59,10 +60,16 @@ class ExploitDiscoveryEngine:
         
         # Check if using agentic mode
         self.use_agentic = self.config.get('use_agentic', True)
+        self.use_advanced = self.config.get('use_advanced', True)
         
-        if self.use_agentic:
+        if self.use_advanced:
+            # Use most advanced hierarchical orchestrator
+            self.orchestrator = get_advanced_orchestrator(self.config)
+            self.brilliant_memory = BrilliantMemory(embedding_dim=1024)
+            logger.info("Initialized in ADVANCED MODE - Hierarchical multi-agent system")
+        elif self.use_agentic:
             # Initialize agentic orchestrator for fully LLM-driven discovery
-            self.agentic_orchestrator = get_agentic_orchestrator(self.config)
+            self.orchestrator = get_agentic_orchestrator(self.config)
             self.brilliant_memory = BrilliantMemory()
             logger.info("Initialized in AGENTIC MODE - Fully LLM-driven discovery")
         
@@ -202,11 +209,19 @@ class ExploitDiscoveryEngine:
             if novel_idea:
                 enhanced_context['novel_seed'] = novel_idea
         
-        # Run agentic discovery
-        agentic_exploits = await self.agentic_orchestrator.discover_novel_exploits(
-            target,
-            enhanced_context
-        )
+        # Run discovery with appropriate orchestrator
+        if self.use_advanced:
+            # Use advanced hierarchical orchestrator for large-scale analysis
+            agentic_exploits = await self.orchestrator.analyze_large_codebase(
+                target,
+                chunk_size=1000
+            )
+        else:
+            # Use standard agentic orchestrator
+            agentic_exploits = await self.orchestrator.discover_novel_exploits(
+                target,
+                enhanced_context
+            )
         
         # Convert to ExploitCandidate format
         candidates = []

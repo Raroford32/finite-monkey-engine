@@ -5,6 +5,7 @@ from typing import List, Optional
 
 from defense_agent.orchestrator.core import Orchestrator
 from defense_agent.plugins.registry import CapabilityRegistry
+from defense_agent.utils.models import JobRecord
 
 app = FastAPI(title="Defense Agent", default_response_class=ORJSONResponse)
 registry = CapabilityRegistry()
@@ -36,3 +37,10 @@ def start_analysis(req: AnalyzeRequest):
 		max_cost_units=req.max_cost_units,
 	)
 	return AnalyzeResponse(job_id=job_id, message="Job started")
+
+@app.get("/jobs/{job_id}", response_model=JobRecord)
+def get_job_status(job_id: str):
+	record = orchestrator.jobs.get(job_id)
+	if record is None:
+		raise HTTPException(status_code=404, detail="Job not found")
+	return record

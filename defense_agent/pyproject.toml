@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "defense-agent"
+version = "0.1.0"
+description = "Defensive agentic auditing engine (authorization-only, simulation-only)"
+authors = [
+  {name = "Agent", email = "agent@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.111.0",
+  "uvicorn[standard]>=0.30.0",
+  "pydantic>=2.8.0",
+  "pydantic-settings>=2.3.0",
+  "httpx>=0.27.0",
+  "networkx>=3.3",
+  "numpy>=1.26",
+  "scipy>=1.12",
+  "orjson>=3.10.0",
+  "rich>=13.7.1",
+  "tenacity>=8.4.1",
+  "python-json-logger>=2.0.7",
+  "opentelemetry-sdk>=1.26.0",
+  "opentelemetry-instrumentation-fastapi>=0.47b0",
+  "pgvector>=0.2.5",
+  "psycopg[binary]>=3.2.1",
+  "rdflib>=7.0.0",
+  "sentence-transformers>=3.0.1",
+  "duckdb>=1.0.0"
+]
+
+[project.scripts]
+defense-agent = "defense_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+select = ["E","F","I","UP","B"]
+ignore = ["E501"]
+
+[tool.pyright]
+pythonVersion = "3.10"
+venvPath = ".venv"

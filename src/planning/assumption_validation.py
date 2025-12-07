@@ -137,9 +137,18 @@ class AssumptionValidator:
                 actual_iteration_count = 2
                 function_tasks = []
                 
-                # 为每个assumption statement创建单独的任务
-                for assumption_statement in assumption_violation_checklist:
-                    # 为每个assumption statement分配一个group UUID
+                # 将assumption/invariant按3个一组分组
+                group_size = 3
+                assumption_groups = []
+                for i in range(0, len(assumption_violation_checklist), group_size):
+                    group = assumption_violation_checklist[i:i + group_size]
+                    assumption_groups.append(group)
+                
+                print(f"  📦 将 {len(assumption_violation_checklist)} 个假设/不变量分为 {len(assumption_groups)} 组（每组最多{group_size}个）")
+                
+                # 为每组assumption/invariant创建任务
+                for assumption_group in assumption_groups:
+                    # 为每组分配一个group UUID
                     group_uuid = str(uuid.uuid4())
                     
                     for iteration in range(actual_iteration_count):
@@ -154,17 +163,17 @@ class AssumptionValidator:
                             'language': lang,
                             'root_function': public_func,
                             'rule_key': "assumption_violation",
-                            'rule_list': assumption_statement,  # 每个任务只处理一个assumption
+                            'rule_list': assumption_group,  # 每个任务处理一组assumption/invariant（最多3个）
                             'downstream_content': downstream_content,
                             'max_depth': max_depth,
                             'task_type': 'public_function_checklist_scan',
-                            'group': group_uuid  # 为每个assumption statement分配一个group UUID
+                            'group': group_uuid  # 为每组分配一个group UUID
                         }
                         
                         function_tasks.append(task_data)
                 
-                total_tasks_created = len(assumption_violation_checklist) * actual_iteration_count
-                print(f"  ✅ 为函数 {func_name} 创建了 {total_tasks_created} 个任务 ({len(assumption_violation_checklist)} 个假设 × {actual_iteration_count} 次迭代)")
+                total_tasks_created = len(assumption_groups) * actual_iteration_count
+                print(f"  ✅ 为函数 {func_name} 创建了 {total_tasks_created} 个任务 ({len(assumption_groups)} 组 × {actual_iteration_count} 次迭代)")
                 
                 return function_tasks
                 

@@ -241,21 +241,30 @@
         "exclude_in_planning":"false",
         "exclude_directory":[]
     },
-    "fishcake_short111":{
-        "path":"fishcake_short",
+    "moonlith3":{
+        "path":"moonlith",
         "files":[],
         "functions":[],
         "exclude_in_planning":"false",
         "exclude_directory":[]
     },
-    "moat4":{
-        "path":"moat",
+    "aave8":{
+        "path":"aave",
+        "files":[
+        ],
+        "functions":[],
+        "exclude_in_planning":"false",
+        "exclude_directory":[]
+    },
+    "vault2":{
+        "path":"vault",
         "files":[
         ],
         "functions":[],
         "exclude_in_planning":"false",
         "exclude_directory":[]
     }
+
 
 
     

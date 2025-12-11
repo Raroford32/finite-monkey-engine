@@ -1,0 +1,298 @@
+2025-12-08 17:17:11 | INFO     | logging_config       | setup_logging   | ================================================================================
+2025-12-08 17:17:11 | INFO     | logging_config       | setup_logging   | 🚀 Finite Monkey Engine 日志系统启动
+2025-12-08 17:17:11 | INFO     | logging_config       | setup_logging   | 📁 日志文件路径: logs/finite_monkey_engine_20251208_171711.log
+2025-12-08 17:17:11 | INFO     | logging_config       | setup_logging   | 📊 日志级别: INFO
+2025-12-08 17:17:11 | INFO     | logging_config       | setup_logging   | 🕐 启动时间: 2025-12-08 17:17:11
+2025-12-08 17:17:11 | INFO     | logging_config       | setup_logging   | ================================================================================
+2025-12-08 17:17:11 | INFO     | main                 | <module>        | 🎯 程序启动参数:
+2025-12-08 17:17:11 | INFO     | main                 | <module>        |    Python版本: 3.9.6 (default, Nov 11 2024, 03:15:38) 
+[Clang 16.0.0 (clang-1600.0.26.6)]
+2025-12-08 17:17:11 | INFO     | main                 | <module>        |    工作目录: /Users/xueyue/Desktop/projects/finite-monkey-engine
+2025-12-08 17:17:11 | INFO     | main                 | <module>        |    环境变量已加载
+2025-12-08 17:17:11 | INFO     | main                 | <module>        | 运行模式: test
+2025-12-08 17:17:11 | INFO     | main                 | log_section_start | ============================================================
+2025-12-08 17:17:11 | INFO     | main                 | log_section_start | 🔥 开始执行: 测试模式执行
+2025-12-08 17:17:11 | INFO     | main                 | log_section_start | ============================================================
+2025-12-08 17:17:11 | INFO     | main                 | log_step        | 🔹 初始化数据库连接
+2025-12-08 17:17:11 | INFO     | main                 | <module>        | 数据库URL: postgresql://postgres:1234@127.0.0.1:5432/postgres
+2025-12-08 17:17:11 | INFO     | main                 | log_success     | ✅ 成功: 数据库连接创建完成
+2025-12-08 17:17:11 | INFO     | main                 | log_step        | 🔹 加载数据集
+2025-12-08 17:17:11 | INFO     | main                 | <module>        | 数据集路径: ./src/dataset/agent-v1-c4
+2025-12-08 17:17:11 | INFO     | main                 | log_success     | ✅ 成功: 数据集加载完成
+2025-12-08 17:17:11 | INFO     | main                 | log_success     |    详情: 找到 30 个项目
+2025-12-08 17:17:11 | INFO     | main                 | <module>        | 目标项目ID: aave8
+2025-12-08 17:17:11 | INFO     | main                 | log_success     | ✅ 成功: 项目对象创建完成
+2025-12-08 17:17:11 | INFO     | main                 | <module>        | 扫描模式: COMMON_PROJECT_FINE_GRAINED
+2025-12-08 17:17:11 | INFO     | main                 | <module>        | 执行命令: detect_vul
+2025-12-08 17:17:11 | INFO     | scan_project         | log_section_start | ============================================================
+2025-12-08 17:17:11 | INFO     | scan_project         | log_section_start | 🔥 开始执行: 项目扫描
+2025-12-08 17:17:11 | INFO     | scan_project         | log_section_start | 📝 描述: 项目ID: aave8, 路径: ./src/dataset/agent-v1-c4/aave
+2025-12-08 17:17:11 | INFO     | scan_project         | log_section_start | ============================================================
+2025-12-08 17:17:11 | INFO     | scan_project         | log_step        | 🔹 Tree-sitter解析项目
+2025-12-08 17:17:11 | INFO     | scan_project         | log_step        |    详情: 项目路径: ./src/dataset/agent-v1-c4/aave
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | __init__        | 初始化项目审计器: aave8
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | __init__        | 项目路径: ./src/dataset/agent-v1-c4/aave
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | log_step        | 🔹 创建项目过滤器
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | log_step        | 🔹 开始解析项目文件
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | __init__        | Initialized TextSplitter with split_by=word, chunk_size=1000, chunk_overlap=250, batch_size=1000
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 365 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 365 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 255 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 255 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 785 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 785 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1258 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1258 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 937 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 937 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1459 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1459 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 5585 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 5585 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 8 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 8 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 8 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 372 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 372 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 563 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 563 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 689 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 689 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 819 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 819 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 3289 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 3289 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 5 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 5 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 5 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1681 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1681 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 833 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 833 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 168 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 168 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 55 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 55 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 320 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 320 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 791 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 791 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 587 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 587 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1599 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1599 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 344 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 344 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 156 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 156 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 146 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 146 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 4893 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 4893 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 7 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 7 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 7 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 716 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 716 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1690 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1690 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1366 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1366 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 123 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 123 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 273 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 273 parts.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-08 17:17:11 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | log_success     | ✅ 成功: 项目文件解析完成
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | log_data_info   | 📊 总函数数: 378个
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | log_data_info   | 📊 待检查函数数: 378个
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | log_data_info   | 📊 文档分块数: 52个
+2025-12-08 17:17:11 | INFO     | ProjectAudit[aave8]  | log_step        | 🔹 开始构建调用树
+2025-12-08 17:17:12 | INFO     | ProjectAudit[aave8]  | log_success     | ✅ 成功: 调用树构建完成
+2025-12-08 17:17:12 | INFO     | ProjectAudit[aave8]  | log_data_info   | 📊 构建的调用树: 378个
+2025-12-08 17:17:12 | INFO     | ProjectAudit[aave8]  | log_step        | 🔹 开始构建 call graph
+2025-12-08 17:17:12 | INFO     | ProjectAudit[aave8]  | _build_call_graphs | 分析 solidity 项目目录: src/dataset/agent-v1-c4/aave
+2025-12-08 17:17:12 | INFO     | ProjectAudit[aave8]  | _build_call_graphs | 发现 1015 个调用关系
+2025-12-08 17:17:12 | INFO     | ProjectAudit[aave8]  | log_success     | ✅ 成功: Call graph 构建完成
+2025-12-08 17:17:12 | INFO     | ProjectAudit[aave8]  | log_data_info   | 📊 构建的调用关系: 1015个
+2025-12-08 17:17:12 | INFO     | scan_project         | log_success     | ✅ 成功: 项目解析完成
+2025-12-08 17:17:12 | INFO     | scan_project         | log_success     |    详情: 耗时: 0.76秒
+2025-12-08 17:17:12 | INFO     | scan_project         | log_data_info   | 📊 解析的函数: 378个
+2025-12-08 17:17:12 | INFO     | scan_project         | log_data_info   | 📊 调用树: 378个
+2025-12-08 17:17:12 | INFO     | scan_project         | log_data_info   | 📊 调用图: 1015个
+2025-12-08 17:17:12 | INFO     | scan_project         | log_step        | 🔹 初始化RAG处理器
+2025-12-08 17:23:52 | INFO     | scan_project         | log_success     | ✅ 成功: RAG处理器初始化完成
+2025-12-08 17:23:52 | INFO     | scan_project         | log_success     |    详情: 耗时: 399.63秒
+2025-12-08 17:23:52 | INFO     | scan_project         | log_data_info   | 📊 基于tree-sitter解析的函数构建RAG: 378个
+2025-12-08 17:23:52 | INFO     | scan_project         | log_data_info   | 📊 基于文档分块构建RAG: 52个
+2025-12-08 17:23:52 | INFO     | scan_project         | log_data_info   | 📊 使用调用树构建关系型RAG: 378个
+2025-12-08 17:23:52 | INFO     | scan_project         | log_data_info   | 📊 集成调用图(Call Graph): 1015个
+2025-12-08 17:23:52 | INFO     | scan_project         | log_data_info   | 📊 Call Graph统计: {'total_edges': 1015, 'languages': {'solidity': 1015}, 'call_types': {'direct': 1015}, 'unique_functions_count': 536}个
+2025-12-08 17:23:52 | INFO     | scan_project         | log_step        | 🔹 创建任务管理器
+2025-12-08 17:23:52 | INFO     | scan_project         | log_success     | ✅ 成功: 任务管理器创建完成
+2025-12-08 17:23:52 | INFO     | scan_project         | log_step        | 🔹 创建规划处理器
+2025-12-08 17:23:52 | INFO     | scan_project         | log_success     | ✅ 成功: 规划处理器创建完成
+2025-12-08 17:23:52 | INFO     | scan_project         | log_step        | 🔹 初始化规划器的RAG功能
+2025-12-08 17:23:52 | INFO     | scan_project         | log_success     | ✅ 成功: 规划器RAG功能初始化完成
+2025-12-08 17:23:52 | INFO     | scan_project         | log_step        | 🔹 创建AI引擎
+2025-12-08 17:23:52 | INFO     | scan_project         | scan_project    | LanceDB表名: lancedb_function_aave8
+2025-12-08 17:23:52 | INFO     | VulnerabilityScanner[aave8] | _load_design_document | ✅ 成功加载项目设计文档: project_design.md (2626 字符)
+2025-12-08 17:23:52 | INFO     | VulnerabilityScanner[aave8] | _load_fixed_invariants | ✅ 成功加载固定不变量: fixed_invariants.md (5 个不变量)
+2025-12-08 17:23:52 | INFO     | scan_project         | log_success     | ✅ 成功: AI引擎创建完成
+2025-12-08 17:23:52 | INFO     | scan_project         | log_step        | 🔹 执行项目规划
+2025-12-08 17:23:54 | INFO     | scan_project         | log_success     | ✅ 成功: 项目规划完成
+2025-12-08 17:23:54 | INFO     | scan_project         | log_success     |    详情: 耗时: 2.46秒
+2025-12-08 17:23:54 | INFO     | scan_project         | log_step        | 🔹 执行漏洞扫描(Reasoning)
+2025-12-08 18:17:47 | INFO     | scan_project         | log_success     | ✅ 成功: 漏洞扫描(Reasoning)完成
+2025-12-08 18:17:47 | INFO     | scan_project         | log_success     |    详情: 耗时: 3232.40秒
+2025-12-08 18:17:47 | INFO     | scan_project         | log_step        | 🔹 Reasoning后去重处理
+2025-12-08 18:17:47 | INFO     | scan_project         | log_step        | 🔹 开始获取reasoning后的漏洞数据
+2025-12-08 18:17:47 | INFO     | scan_project         | log_data_info   | 📊 总任务实体数量: 1040个
+2025-12-08 18:17:47 | INFO     | scan_project         | log_data_info   | 📊 去重前漏洞数量: 1038个
+2025-12-08 18:17:47 | INFO     | scan_project         | log_data_info   | 📊 去重前漏洞ID: 168407, 168408, 168409, 168410, 168411, 168412, 168413, 168414, 168415, 168416, 168417, 168418, 168419, 168420, 168421, 168422, 168423, 168424, 168425, 168426, 168427, 168428, 168429, 168430, 168431, 168432, 168433, 168434, 168435, 168436, 168437, 168438, 168439, 168440, 168441, 168442, 168443, 168444, 168445, 168446, 168447, 168448, 168449, 168450, 168451, 168452, 168453, 168454, 168455, 168456, 168457, 168458, 168459, 168460, 168461, 168462, 168463, 168464, 168465, 168466, 168467, 168468, 168469, 168470, 168471, 168472, 168473, 168474, 168475, 168476, 168477, 168478, 168479, 168480, 168481, 168482, 168483, 168484, 168485, 168486, 168487, 168488, 168489, 168490, 168491, 168492, 168493, 168494, 168495, 168496, 168497, 168498, 168499, 168500, 168501, 168502, 168503, 168504, 168505, 168506, 168507, 168508, 168509, 168510, 168511, 168512, 168513, 168514, 168515, 168516, 168517, 168518, 168519, 168520, 168521, 168522, 168523, 168524, 168525, 168526, 168527, 168528, 168529, 168530, 168531, 168532, 168533, 168534, 168535, 168536, 168537, 168538, 168539, 168540, 168541, 168542, 168543, 168544, 168545, 168546, 168547, 168548, 168549, 168550, 168551, 168552, 168553, 168554, 168555, 168556, 168557, 168558, 168559, 168560, 168561, 168562, 168563, 168564, 168565, 168566, 168567, 168568, 168569, 168570, 168571, 168572, 168573, 168574, 168575, 168576, 168577, 168578, 168579, 168580, 168581, 168582, 168583, 168584, 168585, 168586, 168587, 168588, 168589, 168590, 168591, 168592, 168593, 168594, 168595, 168596, 168597, 168598, 168599, 168600, 168601, 168602, 168603, 168604, 168605, 168606, 168607, 168608, 168609, 168610, 168611, 168612, 168613, 168614, 168615, 168616, 168617, 168618, 168619, 168620, 168621, 168622, 168623, 168624, 168625, 168626, 168627, 168628, 168629, 168630, 168631, 168632, 168633, 168634, 168635, 168636, 168637, 168638, 168639, 168640, 168641, 168642, 168643, 168644, 168645, 168646, 168647, 168648, 168649, 168650, 168651, 168652, 168653, 168654, 168655, 168656, 168657, 168658, 168659, 168660, 168661, 168662, 168663, 168664, 168665, 168666, 168667, 168668, 168669, 168670, 168671, 168672, 168673, 168674, 168675, 168676, 168677, 168678, 168679, 168680, 168681, 168682, 168683, 168684, 168685, 168686, 168687, 168688, 168689, 168690, 168691, 168692, 168693, 168694, 168695, 168696, 168697, 168698, 168699, 168700, 168701, 168702, 168703, 168704, 168705, 168706, 168707, 168708, 168709, 168710, 168711, 168712, 168713, 168714, 168715, 168716, 168717, 168718, 168719, 168720, 168721, 168722, 168723, 168724, 168725, 168726, 168727, 168728, 168729, 168730, 168731, 168732, 168733, 168734, 168735, 168736, 168737, 168738, 168739, 168740, 168741, 168742, 168743, 168744, 168745, 168746, 168747, 168748, 168749, 168750, 168751, 168752, 168753, 168754, 168755, 168756, 168757, 168758, 168759, 168760, 168761, 168762, 168763, 168764, 168765, 168766, 168767, 168768, 168769, 168770, 168771, 168772, 168773, 168774, 168775, 168776, 168777, 168778, 168779, 168780, 168781, 168782, 168783, 168784, 168785, 168786, 168787, 168788, 168789, 168790, 168791, 168792, 168793, 168794, 168795, 168796, 168797, 168798, 168799, 168800, 168801, 168802, 168803, 168804, 168805, 168806, 168807, 168808, 168809, 168810, 168811, 168812, 168813, 168814, 168815, 168816, 168817, 168818, 168819, 168820, 168821, 168822, 168823, 168824, 168825, 168826, 168827, 168828, 168829, 168830, 168831, 168832, 168833, 168834, 168835, 168836, 168837, 168838, 168839, 168840, 168841, 168842, 168843, 168844, 168845, 168846, 168847, 168848, 168849, 168850, 168851, 168852, 168853, 168854, 168855, 168856, 168857, 168858, 168859, 168860, 168861, 168862, 168863, 168864, 168865, 168866, 168867, 168868, 168869, 168870, 168871, 168872, 168873, 168874, 168875, 168876, 168877, 168878, 168879, 168880, 168881, 168882, 168883, 168884, 168885, 168886, 168887, 168888, 168889, 168890, 168891, 168892, 168893, 168894, 168895, 168896, 168897, 168898, 168899, 168900, 168901, 168902, 168903, 168904, 168905, 168906, 168907, 168908, 168909, 168910, 168911, 168912, 168913, 168914, 168915, 168916, 168917, 168918, 168919, 168920, 168921, 168922, 168923, 168924, 168925, 168926, 168927, 168928, 168929, 168930, 168931, 168932, 168933, 168934, 168935, 168936, 168937, 168938, 168939, 168940, 168941, 168942, 168943, 168944, 168945, 168946, 168947, 168948, 168949, 168950, 168951, 168952, 168953, 168954, 168955, 168956, 168957, 168958, 168959, 168960, 168961, 168962, 168963, 168964, 168965, 168966, 168967, 168968, 168969, 168970, 168971, 168972, 168973, 168974, 168975, 168976, 168977, 168978, 168979, 168980, 168981, 168982, 168983, 168984, 168985, 168986, 168987, 168988, 168989, 168990, 168991, 168992, 168993, 168994, 168995, 168996, 168997, 168998, 168999, 169000, 169001, 169002, 169003, 169004, 169005, 169006, 169007, 169008, 169009, 169010, 169011, 169012, 169013, 169014, 169015, 169016, 169017, 169018, 169019, 169020, 169021, 169022, 169023, 169024, 169025, 169026, 169027, 169028, 169029, 169030, 169031, 169032, 169033, 169034, 169035, 169036, 169037, 169038, 169039, 169040, 169041, 169042, 169043, 169044, 169045, 169046, 169047, 169048, 169049, 169050, 169051, 169052, 169053, 169054, 169055, 169056, 169057, 169058, 169059, 169060, 169061, 169062, 169063, 169064, 169065, 169066, 169067, 169068, 169069, 169070, 169071, 169072, 169073, 169074, 169075, 169076, 169077, 169078, 169079, 169080, 169081, 169082, 169083, 169084, 169085, 169086, 169087, 169088, 169089, 169090, 169091, 169092, 169093, 169094, 169095, 169096, 169097, 169098, 169099, 169100, 169101, 169102, 169103, 169104, 169105, 169106, 169107, 169108, 169109, 169110, 169111, 169112, 169113, 169114, 169115, 169116, 169117, 169118, 169119, 169120, 169121, 169122, 169123, 169124, 169125, 169126, 169127, 169128, 169129, 169130, 169131, 169132, 169133, 169134, 169135, 169136, 169137, 169138, 169139, 169140, 169141, 169142, 169143, 169144, 169145, 169146, 169147, 169148, 169149, 169150, 169151, 169152, 169153, 169154, 169155, 169156, 169157, 169158, 169159, 169160, 169161, 169162, 169163, 169164, 169165, 169166, 169167, 169168, 169169, 169170, 169171, 169172, 169173, 169174, 169175, 169176, 169177, 169178, 169179, 169180, 169181, 169182, 169183, 169184, 169185, 169186, 169187, 169188, 169189, 169190, 169191, 169192, 169193, 169194, 169195, 169196, 169197, 169198, 169199, 169200, 169201, 169202, 169203, 169204, 169205, 169206, 169207, 169208, 169209, 169210, 169211, 169212, 169213, 169215, 169216, 169217, 169218, 169219, 169220, 169221, 169222, 169223, 169224, 169225, 169226, 169227, 169228, 169229, 169230, 169231, 169232, 169233, 169234, 169235, 169236, 169237, 169238, 169239, 169240, 169241, 169242, 169243, 169244, 169245, 169246, 169247, 169248, 169249, 169250, 169251, 169252, 169253, 169254, 169255, 169256, 169257, 169258, 169259, 169260, 169261, 169262, 169263, 169264, 169265, 169266, 169267, 169268, 169269, 169270, 169271, 169272, 169273, 169274, 169275, 169276, 169277, 169278, 169279, 169280, 169281, 169282, 169283, 169284, 169285, 169286, 169287, 169288, 169289, 169290, 169291, 169292, 169293, 169294, 169295, 169296, 169297, 169298, 169299, 169300, 169301, 169302, 169303, 169304, 169305, 169306, 169307, 169308, 169309, 169310, 169311, 169312, 169313, 169314, 169315, 169316, 169317, 169318, 169319, 169320, 169321, 169322, 169323, 169324, 169325, 169326, 169327, 169328, 169329, 169330, 169331, 169332, 169333, 169334, 169335, 169336, 169337, 169338, 169339, 169340, 169341, 169342, 169343, 169344, 169345, 169346, 169347, 169348, 169349, 169350, 169351, 169352, 169353, 169354, 169355, 169356, 169357, 169358, 169359, 169360, 169361, 169362, 169363, 169364, 169365, 169366, 169367, 169368, 169369, 169370, 169371, 169372, 169373, 169374, 169375, 169376, 169377, 169378, 169379, 169380, 169381, 169382, 169383, 169384, 169385, 169386, 169387, 169388, 169389, 169390, 169391, 169392, 169393, 169394, 169395, 169396, 169397, 169398, 169399, 169400, 169401, 169402, 169403, 169404, 169405, 169406, 169407, 169408, 169409, 169410, 169411, 169412, 169413, 169414, 169415, 169416, 169417, 169418, 169419, 169420, 169421, 169422, 169423, 169424, 169425, 169426, 169427, 169428, 169429, 169430, 169431, 169432, 169433, 169434, 169435, 169436, 169437, 169438, 169439, 169440, 169441, 169442, 169443, 169444, 169446个
+2025-12-08 18:17:47 | INFO     | scan_project         | log_step        | 🔹 开始ResProcessor去重处理
+2025-12-08 18:30:51 | INFO     | scan_project         | log_data_info   | 📊 去重后漏洞数量: 226个
+2025-12-08 18:30:51 | INFO     | scan_project         | log_data_info   | 📊 去重后漏洞ID: 168410, 168415, 168417, 168419, 168420, 168423, 168427, 168428, 168433, 168434, 168436, 168437, 168440, 168449, 168450, 168452, 168453, 168454, 168457, 168458, 168466, 168468, 168469, 168471, 168472, 168475, 168477, 168479, 168491, 168494, 168495, 168499, 168503, 168513, 168520, 168521, 168523, 168524, 168528, 168531, 168533, 168552, 168555, 168566, 168569, 168571, 168581, 168582, 168592, 168613, 168621, 168622, 168623, 168625, 168631, 168635, 168641, 168646, 168647, 168649, 168656, 168657, 168665, 168678, 168679, 168684, 168687, 168691, 168694, 168697, 168701, 168702, 168703, 168729, 168733, 168736, 168740, 168759, 168763, 168770, 168776, 168785, 168790, 168792, 168793, 168796, 168799, 168803, 168808, 168809, 168812, 168813, 168814, 168816, 168820, 168821, 168822, 168823, 168825, 168828, 168830, 168836, 168840, 168841, 168842, 168843, 168854, 168858, 168864, 168867, 168874, 168877, 168882, 168883, 168885, 168888, 168891, 168894, 168908, 168914, 168918, 168929, 168931, 168934, 168939, 168948, 168950, 168951, 168958, 168959, 168964, 168967, 168968, 168973, 168976, 168977, 168979, 168980, 168981, 168984, 168989, 168990, 168993, 168994, 168998, 168999, 169000, 169002, 169003, 169004, 169012, 169016, 169017, 169022, 169026, 169030, 169033, 169034, 169035, 169042, 169051, 169052, 169055, 169063, 169065, 169066, 169069, 169072, 169074, 169075, 169077, 169078, 169083, 169084, 169086, 169089, 169092, 169097, 169110, 169112, 169122, 169123, 169128, 169131, 169138, 169139, 169148, 169161, 169164, 169166, 169170, 169186, 169192, 169194, 169198, 169202, 169206, 169228, 169230, 169239, 169248, 169252, 169262, 169263, 169268, 169274, 169283, 169287, 169321, 169324, 169335, 169345, 169348, 169349, 169355, 169378, 169393, 169398, 169403, 169408, 169417, 169428, 169429, 169433, 169437, 169444个
+2025-12-08 18:30:52 | INFO     | scan_project         | log_success     | ✅ 成功: 逻辑删除操作完成
+2025-12-08 18:30:52 | INFO     | scan_project         | log_success     |    详情: 成功标记: 812/812
+2025-12-08 18:30:52 | INFO     | scan_project         | log_success     | ✅ 成功: 去重处理完成
+2025-12-08 18:30:52 | INFO     | scan_project         | log_success     |    详情: 原始: 1038 -> 去重后: 226, 逻辑删除: 812
+2025-12-08 18:30:52 | INFO     | scan_project         | perform_post_reasoning_deduplication | 被去重的漏洞ID: 168407, 168408, 168409, 168411, 168412, 168413, 168414, 168416, 168418, 168421, 168422, 168424, 168425, 168426, 168429, 168430, 168431, 168432, 168435, 168438, 168439, 168441, 168442, 168443, 168444, 168445, 168446, 168447, 168448, 168451, 168455, 168456, 168459, 168460, 168461, 168462, 168463, 168464, 168465, 168467, 168470, 168473, 168474, 168476, 168478, 168480, 168481, 168482, 168483, 168484, 168485, 168486, 168487, 168488, 168489, 168490, 168492, 168493, 168496, 168497, 168498, 168500, 168501, 168502, 168504, 168505, 168506, 168507, 168508, 168509, 168510, 168511, 168512, 168514, 168515, 168516, 168517, 168518, 168519, 168522, 168525, 168526, 168527, 168529, 168530, 168532, 168534, 168535, 168536, 168537, 168538, 168539, 168540, 168541, 168542, 168543, 168544, 168545, 168546, 168547, 168548, 168549, 168550, 168551, 168553, 168554, 168556, 168557, 168558, 168559, 168560, 168561, 168562, 168563, 168564, 168565, 168567, 168568, 168570, 168572, 168573, 168574, 168575, 168576, 168577, 168578, 168579, 168580, 168583, 168584, 168585, 168586, 168587, 168588, 168589, 168590, 168591, 168593, 168594, 168595, 168596, 168597, 168598, 168599, 168600, 168601, 168602, 168603, 168604, 168605, 168606, 168607, 168608, 168609, 168610, 168611, 168612, 168614, 168615, 168616, 168617, 168618, 168619, 168620, 168624, 168626, 168627, 168628, 168629, 168630, 168632, 168633, 168634, 168636, 168637, 168638, 168639, 168640, 168642, 168643, 168644, 168645, 168648, 168650, 168651, 168652, 168653, 168654, 168655, 168658, 168659, 168660, 168661, 168662, 168663, 168664, 168666, 168667, 168668, 168669, 168670, 168671, 168672, 168673, 168674, 168675, 168676, 168677, 168680, 168681, 168682, 168683, 168685, 168686, 168688, 168689, 168690, 168692, 168693, 168695, 168696, 168698, 168699, 168700, 168704, 168705, 168706, 168707, 168708, 168709, 168710, 168711, 168712, 168713, 168714, 168715, 168716, 168717, 168718, 168719, 168720, 168721, 168722, 168723, 168724, 168725, 168726, 168727, 168728, 168730, 168731, 168732, 168734, 168735, 168737, 168738, 168739, 168741, 168742, 168743, 168744, 168745, 168746, 168747, 168748, 168749, 168750, 168751, 168752, 168753, 168754, 168755, 168756, 168757, 168758, 168760, 168761, 168762, 168764, 168765, 168766, 168767, 168768, 168769, 168771, 168772, 168773, 168774, 168775, 168777, 168778, 168779, 168780, 168781, 168782, 168783, 168784, 168786, 168787, 168788, 168789, 168791, 168794, 168795, 168797, 168798, 168800, 168801, 168802, 168804, 168805, 168806, 168807, 168810, 168811, 168815, 168817, 168818, 168819, 168824, 168826, 168827, 168829, 168831, 168832, 168833, 168834, 168835, 168837, 168838, 168839, 168844, 168845, 168846, 168847, 168848, 168849, 168850, 168851, 168852, 168853, 168855, 168856, 168857, 168859, 168860, 168861, 168862, 168863, 168865, 168866, 168868, 168869, 168870, 168871, 168872, 168873, 168875, 168876, 168878, 168879, 168880, 168881, 168884, 168886, 168887, 168889, 168890, 168892, 168893, 168895, 168896, 168897, 168898, 168899, 168900, 168901, 168902, 168903, 168904, 168905, 168906, 168907, 168909, 168910, 168911, 168912, 168913, 168915, 168916, 168917, 168919, 168920, 168921, 168922, 168923, 168924, 168925, 168926, 168927, 168928, 168930, 168932, 168933, 168935, 168936, 168937, 168938, 168940, 168941, 168942, 168943, 168944, 168945, 168946, 168947, 168949, 168952, 168953, 168954, 168955, 168956, 168957, 168960, 168961, 168962, 168963, 168965, 168966, 168969, 168970, 168971, 168972, 168974, 168975, 168978, 168982, 168983, 168985, 168986, 168987, 168988, 168991, 168992, 168995, 168996, 168997, 169001, 169005, 169006, 169007, 169008, 169009, 169010, 169011, 169013, 169014, 169015, 169018, 169019, 169020, 169021, 169023, 169024, 169025, 169027, 169028, 169029, 169031, 169032, 169036, 169037, 169038, 169039, 169040, 169041, 169043, 169044, 169045, 169046, 169047, 169048, 169049, 169050, 169053, 169054, 169056, 169057, 169058, 169059, 169060, 169061, 169062, 169064, 169067, 169068, 169070, 169071, 169073, 169076, 169079, 169080, 169081, 169082, 169085, 169087, 169088, 169090, 169091, 169093, 169094, 169095, 169096, 169098, 169099, 169100, 169101, 169102, 169103, 169104, 169105, 169106, 169107, 169108, 169109, 169111, 169113, 169114, 169115, 169116, 169117, 169118, 169119, 169120, 169121, 169124, 169125, 169126, 169127, 169129, 169130, 169132, 169133, 169134, 169135, 169136, 169137, 169140, 169141, 169142, 169143, 169144, 169145, 169146, 169147, 169149, 169150, 169151, 169152, 169153, 169154, 169155, 169156, 169157, 169158, 169159, 169160, 169162, 169163, 169165, 169167, 169168, 169169, 169171, 169172, 169173, 169174, 169175, 169176, 169177, 169178, 169179, 169180, 169181, 169182, 169183, 169184, 169185, 169187, 169188, 169189, 169190, 169191, 169193, 169195, 169196, 169197, 169199, 169200, 169201, 169203, 169204, 169205, 169207, 169208, 169209, 169210, 169211, 169212, 169213, 169215, 169216, 169217, 169218, 169219, 169220, 169221, 169222, 169223, 169224, 169225, 169226, 169227, 169229, 169231, 169232, 169233, 169234, 169235, 169236, 169237, 169238, 169240, 169241, 169242, 169243, 169244, 169245, 169246, 169247, 169249, 169250, 169251, 169253, 169254, 169255, 169256, 169257, 169258, 169259, 169260, 169261, 169264, 169265, 169266, 169267, 169269, 169270, 169271, 169272, 169273, 169275, 169276, 169277, 169278, 169279, 169280, 169281, 169282, 169284, 169285, 169286, 169288, 169289, 169290, 169291, 169292, 169293, 169294, 169295, 169296, 169297, 169298, 169299, 169300, 169301, 169302, 169303, 169304, 169305, 169306, 169307, 169308, 169309, 169310, 169311, 169312, 169313, 169314, 169315, 169316, 169317, 169318, 169319, 169320, 169322, 169323, 169325, 169326, 169327, 169328, 169329, 169330, 169331, 169332, 169333, 169334, 169336, 169337, 169338, 169339, 169340, 169341, 169342, 169343, 169344, 169346, 169347, 169350, 169351, 169352, 169353, 169354, 169356, 169357, 169358, 169359, 169360, 169361, 169362, 169363, 169364, 169365, 169366, 169367, 169368, 169369, 169370, 169371, 169372, 169373, 169374, 169375, 169376, 169377, 169379, 169380, 169381, 169382, 169383, 169384, 169385, 169386, 169387, 169388, 169389, 169390, 169391, 169392, 169394, 169395, 169396, 169397, 169399, 169400, 169401, 169402, 169404, 169405, 169406, 169407, 169409, 169410, 169411, 169412, 169413, 169414, 169415, 169416, 169418, 169419, 169420, 169421, 169422, 169423, 169424, 169425, 169426, 169427, 169430, 169431, 169432, 169434, 169435, 169436, 169438, 169439, 169440, 169441, 169442, 169443, 169446
+2025-12-08 18:30:52 | INFO     | scan_project         | perform_post_reasoning_deduplication | 逻辑删除了 812 条被去重的记录(设置short_result='delete')
+2025-12-08 18:30:52 | INFO     | scan_project         | log_success     | ✅ 成功: Reasoning后去重处理完成
+2025-12-08 18:30:52 | INFO     | scan_project         | log_success     |    详情: 耗时: 785.16秒
+2025-12-08 18:30:52 | INFO     | scan_project         | log_section_end | ------------------------------------------------------------
+2025-12-08 18:30:52 | INFO     | scan_project         | log_section_end | ✅ 完成执行: 项目扫描
+2025-12-08 18:30:52 | INFO     | scan_project         | log_section_end | ⏱️  执行时间: 4420.70秒
+2025-12-08 18:30:52 | INFO     | scan_project         | log_section_end | ------------------------------------------------------------
+2025-12-08 18:30:52 | INFO     | main                 | <module>        | 扫描模式 'COMMON_PROJECT_FINE_GRAINED' 需要执行漏洞验证
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_section_start | ============================================================
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_section_start | 🔥 开始执行: 漏洞验证
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_section_start | 📝 描述: 项目ID: aave8
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_section_start | ============================================================
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_step        | 🔹 创建项目任务管理器
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_success     | ✅ 成功: 项目任务管理器创建完成
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_step        | 🔹 初始化漏洞检查器
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_success     | ✅ 成功: 漏洞检查器初始化完成
+2025-12-08 18:30:52 | INFO     | check_function_vul   | log_step        | 🔹 执行漏洞验证
+2025-12-08 19:01:27 | INFO     | check_function_vul   | log_success     | ✅ 成功: 漏洞验证完成
+2025-12-08 19:01:27 | INFO     | check_function_vul   | log_success     |    详情: 耗时: 1834.68秒
+2025-12-08 19:01:27 | INFO     | check_function_vul   | log_section_end | ------------------------------------------------------------
+2025-12-08 19:01:27 | INFO     | check_function_vul   | log_section_end | ✅ 完成执行: 漏洞验证
+2025-12-08 19:01:27 | INFO     | check_function_vul   | log_section_end | ⏱️  执行时间: 1834.73秒
+2025-12-08 19:01:27 | INFO     | check_function_vul   | log_section_end | ------------------------------------------------------------
+2025-12-08 19:01:27 | INFO     | main                 | log_success     | ✅ 成功: 所有扫描任务完成
+2025-12-08 19:01:27 | INFO     | main                 | log_success     |    详情: 总耗时: 6255.46秒
+2025-12-08 19:01:27 | INFO     | main                 | log_step        | 🔹 生成Excel报告
+2025-12-08 19:11:47 | INFO     | main                 | log_success     | ✅ 成功: Excel报告生成完成
+2025-12-08 19:11:47 | INFO     | main                 | log_success     |    详情: 耗时: 619.89秒, 文件: ./output.xlsx
+2025-12-08 19:11:47 | INFO     | main                 | log_section_end | ------------------------------------------------------------
+2025-12-08 19:11:47 | INFO     | main                 | log_section_end | ✅ 完成执行: 测试模式执行
+2025-12-08 19:11:47 | INFO     | main                 | log_section_end | ⏱️  执行时间: 6875.36秒
+2025-12-08 19:11:47 | INFO     | main                 | log_section_end | ------------------------------------------------------------

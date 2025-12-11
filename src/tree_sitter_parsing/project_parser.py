@@ -690,21 +690,29 @@ def parse_project(project_path, project_filter=None):
 
     all_results = []
     all_file_paths = []  # 收集所有文件路径用于分块
+    
+    # 🎯 添加文件解析统计
+    files_parsed = []
+    files_skipped = []
+    functions_by_file = {}
 
     # 遍历项目目录
     for dirpath, dirs, files in os.walk(project_path):
         dirs[:] = [d for d in dirs if d not in ignore_folders]
         for file in files:
             file_path = os.path.join(dirpath, file)
+            relative_path = os.path.relpath(file_path, project_path)
             
             # 收集所有文件路径（不分后缀名）用于分块
             all_file_paths.append(file_path)
             
             # 应用文件过滤（仅用于函数解析）
             to_scan = not project_filter.filter_file(dirpath, file)
-            print("parsing file: ", file_path, " " if to_scan else "[skipped]")
-
+            
             if to_scan:
+                print(f"✅ parsing file: {relative_path}")
+                files_parsed.append(relative_path)
+                
                 # 检测语言类型
                 language = _detect_language_from_path(Path(file))
                 if language:
@@ -720,24 +728,49 @@ def parse_project(project_path, project_filter=None):
                         functions = _extract_functions_from_node(tree.root_node, source_code, language, file_path)
                         
                         all_results.extend(functions)
+                        functions_by_file[relative_path] = len(functions)
                         
                         if functions:
                             print(f"  -> 解析到 {len(functions)} 个函数")
+                        else:
+                            print(f"  -> 未找到函数定义")
                                 
                     except Exception as e:
                         print(f"⚠️  解析文件失败 {file_path}: {e}")
                         continue
+                else:
+                    print(f"  -> 不支持的语言类型，跳过")
+            else:
+                files_skipped.append(relative_path)
 
     # 过滤函数
     functions = [result for result in all_results if result['type'] == 'FunctionDefinition']
     
+    # 🎯 打印文件解析统计
+    print("\n" + "="*80)
+    print("📊 文件解析统计:")
+    print(f"  解析的文件数: {len(files_parsed)}")
+    print(f"  跳过的文件数: {len(files_skipped)}")
+    
+    if files_parsed:
+        print(f"\n  📁 已解析的文件（按函数数排序）:")
+        sorted_files = sorted(functions_by_file.items(), key=lambda x: -x[1])
+        for fpath, fcount in sorted_files:
+            if fcount > 0:
+                print(f"    {fpath}: {fcount} 个函数")
+    
+    print("="*80 + "\n")
+    
     # 应用函数过滤
     functions_to_check = []
+    filtered_out_count = 0
     for function in functions:
         if not project_filter.filter_contract(function):
             functions_to_check.append(function)
+        else:
+            filtered_out_count += 1
 
-    print(f"📊 解析完成: 总函数 {len(functions)} 个，待检查 {len(functions_to_check)} 个")
+    print(f"📊 解析完成: 总函数 {len(functions)} 个，过滤掉 {filtered_out_count} 个（constructor/fallback/receive等），待检查 {len(functions_to_check)} 个")
     
     # 对项目中的所有文件进行分块（不分后缀名）
     print("🧩 开始对项目文件进行分块...")

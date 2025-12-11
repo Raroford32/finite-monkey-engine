@@ -1,0 +1,476 @@
+2025-12-07 19:39:32 | INFO     | logging_config       | setup_logging   | ================================================================================
+2025-12-07 19:39:32 | INFO     | logging_config       | setup_logging   | 🚀 Finite Monkey Engine 日志系统启动
+2025-12-07 19:39:32 | INFO     | logging_config       | setup_logging   | 📁 日志文件路径: logs/finite_monkey_engine_20251207_193932.log
+2025-12-07 19:39:32 | INFO     | logging_config       | setup_logging   | 📊 日志级别: INFO
+2025-12-07 19:39:32 | INFO     | logging_config       | setup_logging   | 🕐 启动时间: 2025-12-07 19:39:32
+2025-12-07 19:39:32 | INFO     | logging_config       | setup_logging   | ================================================================================
+2025-12-07 19:39:32 | INFO     | main                 | <module>        | 🎯 程序启动参数:
+2025-12-07 19:39:32 | INFO     | main                 | <module>        |    Python版本: 3.9.6 (default, Nov 11 2024, 03:15:38) 
+[Clang 16.0.0 (clang-1600.0.26.6)]
+2025-12-07 19:39:32 | INFO     | main                 | <module>        |    工作目录: /Users/xueyue/Desktop/projects/finite-monkey-engine
+2025-12-07 19:39:32 | INFO     | main                 | <module>        |    环境变量已加载
+2025-12-07 19:39:32 | INFO     | main                 | <module>        | 运行模式: test
+2025-12-07 19:39:32 | INFO     | main                 | log_section_start | ============================================================
+2025-12-07 19:39:32 | INFO     | main                 | log_section_start | 🔥 开始执行: 测试模式执行
+2025-12-07 19:39:32 | INFO     | main                 | log_section_start | ============================================================
+2025-12-07 19:39:32 | INFO     | main                 | log_step        | 🔹 初始化数据库连接
+2025-12-07 19:39:32 | INFO     | main                 | <module>        | 数据库URL: postgresql://postgres:1234@127.0.0.1:5432/postgres
+2025-12-07 19:39:32 | INFO     | main                 | log_success     | ✅ 成功: 数据库连接创建完成
+2025-12-07 19:39:32 | INFO     | main                 | log_step        | 🔹 加载数据集
+2025-12-07 19:39:32 | INFO     | main                 | <module>        | 数据集路径: ./src/dataset/agent-v1-c4
+2025-12-07 19:39:32 | INFO     | main                 | log_success     | ✅ 成功: 数据集加载完成
+2025-12-07 19:39:32 | INFO     | main                 | log_success     |    详情: 找到 30 个项目
+2025-12-07 19:39:32 | INFO     | main                 | <module>        | 目标项目ID: aave
+2025-12-07 19:39:32 | INFO     | main                 | log_success     | ✅ 成功: 项目对象创建完成
+2025-12-07 19:39:32 | INFO     | main                 | <module>        | 扫描模式: COMMON_PROJECT_FINE_GRAINED
+2025-12-07 19:39:32 | INFO     | main                 | <module>        | 执行命令: detect_vul
+2025-12-07 19:39:32 | INFO     | scan_project         | log_section_start | ============================================================
+2025-12-07 19:39:32 | INFO     | scan_project         | log_section_start | 🔥 开始执行: 项目扫描
+2025-12-07 19:39:32 | INFO     | scan_project         | log_section_start | 📝 描述: 项目ID: aave, 路径: ./src/dataset/agent-v1-c4/aave
+2025-12-07 19:39:32 | INFO     | scan_project         | log_section_start | ============================================================
+2025-12-07 19:39:32 | INFO     | scan_project         | log_step        | 🔹 Tree-sitter解析项目
+2025-12-07 19:39:32 | INFO     | scan_project         | log_step        |    详情: 项目路径: ./src/dataset/agent-v1-c4/aave
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | __init__        | 初始化项目审计器: aave
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | __init__        | 项目路径: ./src/dataset/agent-v1-c4/aave
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | log_step        | 🔹 创建项目过滤器
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | log_step        | 🔹 开始解析项目文件
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | __init__        | Initialized TextSplitter with split_by=word, chunk_size=1000, chunk_overlap=250, batch_size=1000
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 365 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 365 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 255 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 255 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 785 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 785 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1258 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1258 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 937 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 937 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1459 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1459 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 5585 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 5585 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 8 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 8 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 8 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 372 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 372 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 563 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 563 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 689 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 689 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 819 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 819 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 3289 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 3289 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 5 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 5 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 5 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1681 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1681 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 833 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 833 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 168 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 168 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 55 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 55 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 320 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 320 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 791 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 791 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 587 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 587 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1599 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1599 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 344 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 344 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 156 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 156 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 146 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 146 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 4893 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 4893 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 7 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 7 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 7 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 716 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 716 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1690 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1690 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 1366 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 1366 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 2 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 2 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 123 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 123 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Splitting text with split_by: word, chunk_size: 1000, chunk_overlap: 250
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _split_text_into_units | Text split by ' ' into 273 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text split into 273 parts.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | _merge_units_to_chunks | Merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | split_text      | Text merged into 1 chunks.
+2025-12-07 19:39:32 | INFO     | adalflow.components.data_process.text_splitter | call            | Processed 1 documents into 1 split documents.
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | log_success     | ✅ 成功: 项目文件解析完成
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | log_data_info   | 📊 总函数数: 378个
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | log_data_info   | 📊 待检查函数数: 378个
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | log_data_info   | 📊 文档分块数: 52个
+2025-12-07 19:39:32 | INFO     | ProjectAudit[aave]   | log_step        | 🔹 开始构建调用树
+2025-12-07 19:39:33 | INFO     | ProjectAudit[aave]   | log_success     | ✅ 成功: 调用树构建完成
+2025-12-07 19:39:33 | INFO     | ProjectAudit[aave]   | log_data_info   | 📊 构建的调用树: 378个
+2025-12-07 19:39:33 | INFO     | ProjectAudit[aave]   | log_step        | 🔹 开始构建 call graph
+2025-12-07 19:39:33 | INFO     | ProjectAudit[aave]   | _build_call_graphs | 分析 solidity 项目目录: src/dataset/agent-v1-c4/aave
+2025-12-07 19:39:33 | INFO     | ProjectAudit[aave]   | _build_call_graphs | 发现 1015 个调用关系
+2025-12-07 19:39:33 | INFO     | ProjectAudit[aave]   | log_success     | ✅ 成功: Call graph 构建完成
+2025-12-07 19:39:33 | INFO     | ProjectAudit[aave]   | log_data_info   | 📊 构建的调用关系: 1015个
+2025-12-07 19:39:33 | INFO     | scan_project         | log_success     | ✅ 成功: 项目解析完成
+2025-12-07 19:39:33 | INFO     | scan_project         | log_success     |    详情: 耗时: 1.28秒
+2025-12-07 19:39:33 | INFO     | scan_project         | log_data_info   | 📊 解析的函数: 378个
+2025-12-07 19:39:33 | INFO     | scan_project         | log_data_info   | 📊 调用树: 378个
+2025-12-07 19:39:33 | INFO     | scan_project         | log_data_info   | 📊 调用图: 1015个
+2025-12-07 19:39:33 | INFO     | scan_project         | log_step        | 🔹 初始化RAG处理器
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     | ✅ 成功: RAG处理器初始化完成
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     |    详情: 耗时: 0.01秒
+2025-12-07 19:39:34 | INFO     | scan_project         | log_data_info   | 📊 基于tree-sitter解析的函数构建RAG: 378个
+2025-12-07 19:39:34 | INFO     | scan_project         | log_data_info   | 📊 基于文档分块构建RAG: 52个
+2025-12-07 19:39:34 | INFO     | scan_project         | log_data_info   | 📊 使用调用树构建关系型RAG: 378个
+2025-12-07 19:39:34 | INFO     | scan_project         | log_data_info   | 📊 集成调用图(Call Graph): 1015个
+2025-12-07 19:39:34 | INFO     | scan_project         | log_data_info   | 📊 Call Graph统计: {'total_edges': 1015, 'languages': {'solidity': 1015}, 'call_types': {'direct': 1015}, 'unique_functions_count': 536}个
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 创建任务管理器
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     | ✅ 成功: 任务管理器创建完成
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 创建规划处理器
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     | ✅ 成功: 规划处理器创建完成
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 初始化规划器的RAG功能
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     | ✅ 成功: 规划器RAG功能初始化完成
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 创建AI引擎
+2025-12-07 19:39:34 | INFO     | scan_project         | scan_project    | LanceDB表名: lancedb_function_aave
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _load_design_document | ✅ 成功加载项目设计文档: project_design.md (2626 字符)
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _load_fixed_invariants | ✅ 成功加载固定不变量: fixed_invariants.md (5 个不变量)
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     | ✅ 成功: AI引擎创建完成
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 执行项目规划
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     | ✅ 成功: 项目规划完成
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     |    详情: 耗时: 0.03秒
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 执行漏洞扫描(Reasoning)
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.addAsset 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 Hub.updateAssetConfig 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.deactivateSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.pauseSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | VulnerabilityScanner[aave] | _process_single_task_standard | 任务 HubConfigurator.freezeSpoke 已经扫描过，跳过
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     | ✅ 成功: 漏洞扫描(Reasoning)完成
+2025-12-07 19:39:34 | INFO     | scan_project         | log_success     |    详情: 耗时: 0.05秒
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 Reasoning后去重处理
+2025-12-07 19:39:34 | INFO     | scan_project         | log_step        | 🔹 开始获取reasoning后的漏洞数据
+2025-12-07 19:39:34 | INFO     | scan_project         | log_data_info   | 📊 总任务实体数量: 200个
+2025-12-07 19:39:43 | INFO     | scan_project         | log_data_info   | 📊 去重前漏洞数量: 200个
+2025-12-07 19:39:43 | INFO     | scan_project         | log_data_info   | 📊 去重前漏洞ID: 146607, 146608, 146609, 146610, 146611, 146612, 146613, 146614, 146615, 146616, 146617, 146618, 146619, 146620, 146621, 146622, 146623, 146624, 146625, 146626, 146627, 146628, 146629, 146630, 146631, 146632, 146633, 146634, 146635, 146636, 146637, 146638, 146639, 146640, 146641, 146642, 146643, 146644, 146645, 146646, 146647, 146648, 146649, 146650, 146651, 146652, 146653, 146654, 146655, 146656, 146657, 146658, 146659, 146660, 146661, 146662, 146663, 146664, 146665, 146666, 146667, 146668, 146669, 146670, 146671, 146672, 146673, 146674, 146675, 146676, 146677, 146678, 146679, 146680, 146681, 146682, 146683, 146684, 146685, 146686, 146687, 146688, 146689, 146690, 146691, 146692, 146693, 146694, 146695, 146696, 146697, 146698, 146699, 146700, 146701, 146702, 146703, 146704, 146705, 146706, 146707, 146708, 146709, 146710, 146711, 146712, 146713, 146714, 146715, 146716, 146717, 146718, 146719, 146720, 146721, 146722, 146723, 146724, 146725, 146726, 146727, 146728, 146729, 146730, 146731, 146732, 146733, 146734, 146735, 146736, 146737, 146738, 146739, 146740, 146741, 146742, 146743, 146744, 146745, 146746, 146747, 146748, 146749, 146750, 146751, 146752, 146753, 146754, 146755, 146756, 146757, 146758, 146759, 146760, 146761, 146762, 146763, 146764, 146765, 146766, 146767, 146768, 146769, 146770, 146771, 146772, 146773, 146774, 146775, 146776, 146777, 146778, 146779, 146780, 146781, 146782, 146783, 146784, 146785, 146786, 146787, 146788, 146789, 146790, 146791, 146792, 146793, 146794, 146795, 146796, 146797, 146798, 146799, 146800, 146801, 146802, 146803, 146804, 146805, 146806个
+2025-12-07 19:39:43 | WARNING  | scan_project         | log_warning     | ⚠️  警告: 跳过ResProcessor去重处理 - 检测到157个已逻辑删除的记录
+2025-12-07 19:39:43 | WARNING  | scan_project         | log_warning     | ⚠️  警告: 已删除的ID: 146607, 146611, 146762, 146693, 146636, 146678, 146608, 146613, 146615, 146616, 146620, 146621, 146624, 146629, 146630, 146641, 146644, 146645, 146648, 146649, 146650, 146654, 146656, 146658, 146663, 146664, 146668, 146669, 146670, 146671, 146674, 146680, 146681, 146682, 146691, 146684, 146696, 146698, 146699, 146700, 146701, 146703, 146706, 146707, 146709, 146710, 146711, 146714, 146715, 146716, 146721, 146723, 146725, 146726, 146728, 146729, 146730, 146731, 146734, 146735, 146736, 146738, 146741, 146743, 146750, 146751, 146753, 146756, 146758, 146760, 146764, 146765, 146768, 146769, 146770, 146771, 146773, 146774, 146775, 146776, 146778, 146779, 146780, 146781, 146788, 146784, 146785, 146786, 146789, 146790, 146791, 146794, 146796, 146798, 146740, 146799, 146800, 146801, 146805, 146806, 146677, 146687, 146617, 146618, 146732, 146667, 146643, 146673, 146702, 146704, 146717, 146722, 146747, 146685, 146727, 146777, 146787, 146783, 146657, 146744, 146802, 146803, 146737, 146609, 146742, 146792, 146772, 146653, 146689, 146761, 146627, 146712, 146631, 146647, 146672, 146705, 146746, 146640, 146686, 146708, 146759, 146679, 146619, 146720, 146757, 146692, 146655, 146642, 146623, 146662, 146622, 146782, 146713, 146797, 146724, 146767, 146683
+2025-12-07 19:39:43 | INFO     | scan_project         | log_success     | ✅ 成功: Reasoning后去重处理完成
+2025-12-07 19:39:43 | INFO     | scan_project         | log_success     |    详情: 耗时: 9.32秒
+2025-12-07 19:39:43 | INFO     | scan_project         | log_section_end | ------------------------------------------------------------
+2025-12-07 19:39:43 | INFO     | scan_project         | log_section_end | ✅ 完成执行: 项目扫描
+2025-12-07 19:39:43 | INFO     | scan_project         | log_section_end | ⏱️  执行时间: 10.95秒
+2025-12-07 19:39:43 | INFO     | scan_project         | log_section_end | ------------------------------------------------------------
+2025-12-07 19:39:43 | INFO     | main                 | <module>        | 扫描模式 'COMMON_PROJECT_FINE_GRAINED' 需要执行漏洞验证
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_section_start | ============================================================
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_section_start | 🔥 开始执行: 漏洞验证
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_section_start | 📝 描述: 项目ID: aave
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_section_start | ============================================================
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_step        | 🔹 创建项目任务管理器
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_success     | ✅ 成功: 项目任务管理器创建完成
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_step        | 🔹 初始化漏洞检查器
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_success     | ✅ 成功: 漏洞检查器初始化完成
+2025-12-07 19:39:43 | INFO     | check_function_vul   | log_step        | 🔹 执行漏洞验证

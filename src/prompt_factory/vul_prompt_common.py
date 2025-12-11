@@ -348,6 +348,7 @@ class VulPromptCommon:
         permission_reentrancy_list = permission_control_list + reentrancy_list
         # module_call_fund_list = module_call_list + fund_management_list
         external_dependency_trade_list = external_dependency_list + trade_execution_list
+        erc4626_security_list = erc4626_security_list_1 + erc4626_security_list_2 + erc4626_security_list_3
 
         # 将所有检查列表组织成一个有序字典
         all_checklists = {
@@ -366,10 +367,9 @@ class VulPromptCommon:
             # "solana_fee_economic": solana_fee_economic_list,
             # "solana_access_control": solana_access_control_list,
             "external_dependency_trade": external_dependency_trade_list,
-            # "erc4626_security_1": erc4626_security_list_1,
-            # "erc4626_security_2": erc4626_security_list_2,
-            # "erc4626_security_3": erc4626_security_list_3,
-            
+            "erc4626_security_list_1": erc4626_security_list_1,      
+            "erc4626_security_list_2": erc4626_security_list_2,
+            "erc4626_security_list_3": erc4626_security_list_3,
         }
 
         # 如果提供了 prompt_index，返回特定的检查列表

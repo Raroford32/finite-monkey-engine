@@ -322,13 +322,23 @@ class ComplexityCalculator:
         Returns:
             Dict: 过滤后的函数字典
         """
-        # 检查环境变量是否禁用复杂度过滤
-        enable_filter = os.getenv('ENABLE_COMPLEXITY_FILTER', 'true').lower() in ['true', '1', 'yes']
+        # 检查环境变量
+        enable_complexity_filter = os.getenv('ENABLE_COMPLEXITY_FILTER', 'true').lower() in ['true', '1', 'yes']
+        min_function_length = int(os.getenv("MIN_FUNCTION_LENGTH", "50"))
         
-        if not enable_filter:
-            print("⚠️ 复杂度过滤功能已通过环境变量 ENABLE_COMPLEXITY_FILTER=false 禁用")
-            print("📋 将扫描所有函数，不进行复杂度过滤")
+        # 如果两种过滤都禁用，直接返回
+        if not enable_complexity_filter and min_function_length == 0:
+            print("⚠️ 所有过滤功能已禁用（ENABLE_COMPLEXITY_FILTER=false, MIN_FUNCTION_LENGTH=0）")
+            print("📋 将扫描所有函数")
             return public_functions_by_lang
+        
+        # 🎯 显示启用的过滤类型
+        filter_types = []
+        if enable_complexity_filter:
+            filter_types.append("复杂度过滤")
+        if min_function_length > 0:
+            filter_types.append(f"长度过滤(>{min_function_length}字符)")
+        print(f"🎯 启用的过滤: {', '.join(filter_types)}")
         
         filtered_functions = {
             'solidity': [],
@@ -342,8 +352,16 @@ class ComplexityCalculator:
         skipped_functions = []
         reduced_iteration_functions = []
         
-        print("\n🎯 开始基于复杂度过滤函数...")
-        print("📋 过滤策略: 认知复杂度=0且圈复杂度≤2，或者圈复杂度=2且认知复杂度=1，或者圈复杂度=3且认知复杂度=2，或者函数内容长度<200的函数将被跳过")
+        print("\n🎯 开始过滤函数...")
+        filter_strategy_parts = []
+        if enable_complexity_filter:
+            filter_strategy_parts.append("认知复杂度=0且圈复杂度≤2，或圈复杂度=2且认知复杂度=1，或圈复杂度=3且认知复杂度=2")
+        if min_function_length > 0:
+            filter_strategy_parts.append(f"函数内容长度<{min_function_length}")
+        print(f"📋 过滤策略: {' 或 '.join(filter_strategy_parts)}的函数将被跳过")
+        
+        # 🎯 添加按文件统计
+        functions_by_file = {}
         
         for lang, funcs in public_functions_by_lang.items():
             if not funcs:
@@ -355,32 +373,52 @@ class ComplexityCalculator:
                 total_original += 1
                 func_name = func.get('name', 'unknown')
                 func_content = func.get('content', '')
+                relative_path = func.get('relative_file_path', 'unknown')
+                
+                # 🎯 按文件分组统计
+                if relative_path not in functions_by_file:
+                    functions_by_file[relative_path] = {'total': 0, 'skipped': 0, 'kept': 0, 'functions': []}
+                functions_by_file[relative_path]['total'] += 1
                 
                 # 计算复杂度
                 complexity = self.calculate_simple_complexity(func_content, lang)
                 
-                # 判断是否跳过 - 添加内容长度过滤
+                # 判断是否跳过
                 content_length = len(func_content)
-                should_skip_by_length = content_length < 50
+                should_skip_by_complexity = complexity['should_skip'] and enable_complexity_filter
+                should_skip_by_length = content_length < min_function_length if min_function_length > 0 else False
                 
-                if complexity['should_skip'] or should_skip_by_length:
+                if should_skip_by_complexity or should_skip_by_length:
                     skip_reason = []
-                    if complexity['should_skip']:
+                    if should_skip_by_complexity:
                         skip_reason.append(f"圈:{complexity['cyclomatic']}, 认知:{complexity['cognitive']}")
                     if should_skip_by_length:
-                        skip_reason.append(f"长度:{content_length}<50")
+                        skip_reason.append(f"长度:{content_length}<{min_function_length}")
                     
                     skipped_functions.append({
                         'name': func_name,
                         'language': lang,
                         'cyclomatic': complexity['cyclomatic'],
                         'cognitive': complexity['cognitive'],
-                        'content_length': content_length
+                        'content_length': content_length,
+                        'file': relative_path
+                    })
+                    functions_by_file[relative_path]['skipped'] += 1
+                    functions_by_file[relative_path]['functions'].append({
+                        'name': func_name,
+                        'status': 'skipped',
+                        'reason': ', '.join(skip_reason)
                     })
                     print(f"  ⏭️  跳过函数: {func_name} ({', '.join(skip_reason)})")
                 else:
-                    # 检查是否需要降低迭代次数
-                    if complexity.get('should_reduce_iterations', False):
+                    functions_by_file[relative_path]['kept'] += 1
+                    functions_by_file[relative_path]['functions'].append({
+                        'name': func_name,
+                        'status': 'kept',
+                        'complexity': f"圈:{complexity['cyclomatic']}, 认知:{complexity['cognitive']}, 长度:{content_length}"
+                    })
+                    # 检查是否需要降低迭代次数（仅在启用复杂度过滤时）
+                    if enable_complexity_filter and complexity.get('should_reduce_iterations', False):
                         func['reduced_iterations'] = True  # 标记需要降低迭代次数
                         reduced_iteration_functions.append({
                             'name': func_name,
@@ -390,7 +428,7 @@ class ComplexityCalculator:
                         })
                         print(f"  🔄 中等复杂函数(降低迭代): {func_name} (圈:{complexity['cyclomatic']}, 认知:{complexity['cognitive']})")
                     else:
-                        print(f"  ✅ 保留复杂函数: {func_name} (圈:{complexity['cyclomatic']}, 认知:{complexity['cognitive']}),函数长度：{len(func_content)}")
+                        print(f"  ✅ 保留函数: {func_name} (圈:{complexity['cyclomatic']}, 认知:{complexity['cognitive']}), 长度:{len(func_content)}")
                     
                     filtered_functions[lang].append(func)
                     total_filtered += 1
@@ -417,13 +455,33 @@ class ComplexityCalculator:
             for func in skipped_functions:
                 print(f"  • {func['language']}.{func['name']} (圈:{func['cyclomatic']}, 认知:{func['cognitive']}, 长度:{func['content_length']})")
         elif skipped_functions:
-            print(f"\n⏭️  跳过了 {len(skipped_functions)} 个简单函数 (认知复杂度=0且圈复杂度≤2，或圈复杂度=2且认知复杂度=1，或圈复杂度=3且认知复杂度=2，或函数内容长度<200)")
+            filter_reasons = []
+            if enable_complexity_filter:
+                filter_reasons.append("认知复杂度=0且圈复杂度≤2，或圈复杂度=2且认知复杂度=1，或圈复杂度=3且认知复杂度=2")
+            if min_function_length > 0:
+                filter_reasons.append(f"函数内容长度<{min_function_length}")
+            print(f"\n⏭️  跳过了 {len(skipped_functions)} 个简单函数 ({' 或 '.join(filter_reasons)})")
         
         # 显示降低迭代次数的函数列表
         if reduced_iteration_functions:
             print(f"\n🔄 降低迭代次数的中等复杂函数列表:")
             for func in reduced_iteration_functions:
                 print(f"  • {func['language']}.{func['name']} (圈:{func['cyclomatic']}, 认知:{func['cognitive']}) → 迭代次数降低到4次")
+        
+        # 🎯 打印按文件的统计信息
+        print(f"\n📁 按文件统计过滤结果:")
+        for fpath, stats in sorted(functions_by_file.items()):
+            kept_pct = (stats['kept'] / stats['total'] * 100) if stats['total'] > 0 else 0
+            print(f"\n  {fpath}")
+            print(f"    总函数: {stats['total']}, 保留: {stats['kept']}, 跳过: {stats['skipped']} ({100-kept_pct:.0f}%)")
+            # 显示保留的函数
+            kept_funcs = [f for f in stats['functions'] if f['status'] == 'kept']
+            if kept_funcs:
+                print(f"    保留的函数:")
+                for f in kept_funcs[:3]:
+                    print(f"      ✅ {f['name']} ({f['complexity']})")
+                if len(kept_funcs) > 3:
+                    print(f"      ... 还有 {len(kept_funcs) - 3} 个")
         
         return filtered_functions
 

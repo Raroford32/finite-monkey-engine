@@ -82,31 +82,79 @@ class PlanningProcessor:
             'move': []
         }
         
+        # 🎯 添加统计信息
+        total_functions_checked = 0
+        functions_by_directory = {}  # 按目录统计
+        visibility_stats = {}  # 按可见性统计
+        
+        print("\n" + "="*80)
+        print("📊 开始收集public函数统计信息")
+        print("="*80)
+        
         for func in self.functions_to_check:
+            total_functions_checked += 1
+            
             # 检查可见性
             visibility = func.get('visibility', '').lower()
             func_name = func.get('name', '')
             relative_path = func.get('relative_file_path', '').lower()
+            
+            # 🎯 统计每个目录的函数数量
+            directory = '/'.join(relative_path.split('/')[:-1])  # 获取目录路径
+            if directory not in functions_by_directory:
+                functions_by_directory[directory] = {'total': 0, 'public': 0, 'functions': []}
+            functions_by_directory[directory]['total'] += 1
+            functions_by_directory[directory]['functions'].append({
+                'name': func_name,
+                'visibility': visibility,
+                'file': relative_path.split('/')[-1]
+            })
+            
+            # 🎯 统计可见性
+            if visibility not in visibility_stats:
+                visibility_stats[visibility] = 0
+            visibility_stats[visibility] += 1
             
             # 判断语言类型和public可见性
             # 注意：使用文件扩展名而不是路径中是否包含语言名称，避免误判（如 vbsol 项目被误判为 solidity）
             if relative_path.endswith('.sol'):
                 if visibility in ['public', 'external']:
                     public_functions_by_lang['solidity'].append(func)
+                    functions_by_directory[directory]['public'] += 1
             elif relative_path.endswith('.rs'):
                 if visibility == 'pub' or visibility == 'public':
                     public_functions_by_lang['rust'].append(func)
+                    functions_by_directory[directory]['public'] += 1
             elif relative_path.endswith('.cpp') or relative_path.endswith('.c') or relative_path.endswith('.cc') or relative_path.endswith('.h'):
                 if visibility == 'public' or not visibility:  # C++默认public
                     if "exec" in func_name:
                         public_functions_by_lang['cpp'].append(func)
+                        functions_by_directory[directory]['public'] += 1
             elif relative_path.endswith('.move'):
                 if visibility == 'public' or visibility == 'public(friend)':
                     public_functions_by_lang['move'].append(func)
+                    functions_by_directory[directory]['public'] += 1
+        
+        # 🎯 打印详细统计信息
+        print(f"\n📈 函数统计总览:")
+        print(f"  总函数数（待检查）: {total_functions_checked}")
+        print(f"  可见性分布:")
+        for vis, count in sorted(visibility_stats.items(), key=lambda x: -x[1]):
+            print(f"    {vis or '(empty)'}: {count}")
+        
+        print(f"\n📁 按目录统计:")
+        for directory, stats in sorted(functions_by_directory.items()):
+            print(f"\n  {directory}/")
+            print(f"    总函数: {stats['total']}, public/external: {stats['public']}")
+            # 显示前5个函数作为示例
+            for i, func_info in enumerate(stats['functions'][:5]):
+                print(f"      - {func_info['name']} [{func_info['visibility'] or 'no-vis'}] ({func_info['file']})")
+            if len(stats['functions']) > 5:
+                print(f"      ... 还有 {len(stats['functions']) - 5} 个函数")
         
         # 打印统计信息
         total_public = sum(len(funcs) for funcs in public_functions_by_lang.values())
-        print(f"🔍 发现 {total_public} 个public函数:")
+        print(f"\n🔍 最终收集到 {total_public} 个public/external函数:")
         for lang, funcs in public_functions_by_lang.items():
             if funcs:
                 print(f"  📋 {lang}: {len(funcs)} 个public函数")
@@ -504,6 +552,31 @@ class PlanningProcessor:
         print(f"  文件数: {len(file_set)}")
         print(f"  扫描模式: {scan_mode}")
         print(f"  基础迭代次数: {base_iteration_count}")
+        
+        # 🎯 检查是否启用AVA模式（在single file mode下也支持）
+        if os.getenv("SCAN_MODE_AVA", "False").lower() == "true":
+            print("\n" + "="*60)
+            print("🎯 AVA模式: 在单文件模式下进行代码假设评估")
+            print("⚠️ 注意: 单文件模式下AVA分析基于整个文件内容，不使用call tree")
+            print("="*60)
+            
+            # 获取所有public函数（AVA需要基于函数级别分析）
+            public_functions_by_lang = self.find_public_functions_by_language()
+            
+            # 在单文件模式下，AVA不使用call tree（max_depth设为0）
+            # 直接使用函数本身的content
+            max_depth = 0
+            
+            # 使用多线程处理函数分析
+            self.assumption_validator.process_ava_mode_with_threading(
+                public_functions_by_lang, 
+                max_depth, 
+                tasks, 
+                task_id
+            )
+            
+            print(f"✅ AVA模式任务已添加到单文件模式任务列表中")
+            print(f"📊 单文件模式+AVA模式总任务数: {len(tasks)}")
         
         return tasks
     

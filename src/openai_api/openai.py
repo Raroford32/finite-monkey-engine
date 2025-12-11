@@ -475,8 +475,6 @@ def summarize_group_vulnerability_results(group_results_prompt: str) -> str:
                     "content": group_results_prompt
                 }
             ],
-            "temperature": 0.3,  # 较低的温度确保总结的一致性
-            "max_tokens": 1000   # 限制总结长度
         }
         
         print(f"🤖 使用模型 {get_model(model_key)} 总结同组漏洞结果...")

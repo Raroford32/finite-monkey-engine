@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-语言配置模块
-定义了各种编程语言的解析配置和特定规则
+Language configuration module.
+Defines parser configuration and language-specific rules.
 """
 
 from dataclasses import dataclass, field
@@ -13,12 +13,12 @@ from .data_structures import LanguageType
 
 @dataclass
 class LanguageConfig:
-    """语言配置类"""
+    """Language configuration."""
     language: LanguageType
     file_extensions: List[str]
-    separator: str  # 命名空间分隔符
+    separator: str  # Namespace separator
     
-    # AST节点类型配置
+    # AST node type configuration
     module_types: List[str]
     function_types: List[str]
     struct_types: List[str]
@@ -26,22 +26,22 @@ class LanguageConfig:
     interface_types: List[str] = field(default_factory=list)
     enum_types: List[str] = field(default_factory=list)
     
-    # 可见性关键字
+    # Visibility keywords
     visibility_keywords: Set[str] = field(default_factory=set)
     
-    # 语言特定关键字
+    # Language-specific keywords
     special_keywords: Set[str] = field(default_factory=set)
     
-    # 调用表达式类型
+    # Call-expression node types
     call_expression_types: List[str] = field(default_factory=list)
     
-    # 注释符号
+    # Comment tokens
     line_comment: str = "//"
     block_comment_start: str = "/*"
     block_comment_end: str = "*/"
 
 
-# Solidity配置
+# Solidity configuration
 SOLIDITY_CONFIG = LanguageConfig(
     language=LanguageType.SOLIDITY,
     file_extensions=['.sol'],
@@ -61,7 +61,7 @@ SOLIDITY_CONFIG = LanguageConfig(
 )
 
 
-# Rust配置
+# Rust configuration
 RUST_CONFIG = LanguageConfig(
     language=LanguageType.RUST,
     file_extensions=['.rs'],
@@ -69,7 +69,7 @@ RUST_CONFIG = LanguageConfig(
     module_types=['mod_item'],
     function_types=['function_item'],
     struct_types=['struct_item'],
-    class_types=[],  # Rust没有类
+    class_types=[],  # Rust has no classes
     interface_types=['trait_item'],
     enum_types=['enum_item'],
     visibility_keywords={'pub', 'crate'},
@@ -81,7 +81,7 @@ RUST_CONFIG = LanguageConfig(
 )
 
 
-# C++配置
+# C++ configuration
 CPP_CONFIG = LanguageConfig(
     language=LanguageType.CPP,
     file_extensions=['.cpp', '.cc', '.cxx', '.h', '.hpp', '.hxx'],
@@ -90,7 +90,7 @@ CPP_CONFIG = LanguageConfig(
     function_types=['function_definition', 'function_declarator'],
     struct_types=['struct_specifier', 'class_specifier'],
     class_types=['class_specifier'],
-    interface_types=[],  # C++没有专门的接口
+    interface_types=[],  # C++ has no dedicated interfaces
     enum_types=['enum_specifier'],
     visibility_keywords={'public', 'private', 'protected'},
     special_keywords={'virtual', 'override', 'const', 'static', 'extern', 'inline', 'explicit'},
@@ -101,7 +101,7 @@ CPP_CONFIG = LanguageConfig(
 )
 
 
-# Move配置
+# Move configuration
 MOVE_CONFIG = LanguageConfig(
     language=LanguageType.MOVE,
     file_extensions=['.move'],
@@ -109,9 +109,9 @@ MOVE_CONFIG = LanguageConfig(
     module_types=['module'],
     function_types=['function_decl'],
     struct_types=['struct_decl'],
-    class_types=[],  # Move没有类
-    interface_types=[],  # Move没有接口
-    enum_types=[],  # Move没有enum
+    class_types=[],  # Move has no classes
+    interface_types=[],  # Move has no interfaces
+    enum_types=[],  # Move has no enums
     visibility_keywords={'public', 'entry'},
     special_keywords={'native', 'acquires', 'has', 'key', 'store', 'copy', 'drop'},
     call_expression_types=['call_expression', 'pack_expression'],
@@ -121,7 +121,7 @@ MOVE_CONFIG = LanguageConfig(
 )
 
 
-# Go配置
+# Go configuration
 GO_CONFIG = LanguageConfig(
     language=LanguageType.GO,
     file_extensions=['.go'],
@@ -129,10 +129,10 @@ GO_CONFIG = LanguageConfig(
     module_types=['package_clause'],
     function_types=['function_declaration', 'method_declaration'],
     struct_types=['type_declaration'],
-    class_types=[],  # Go没有类
+    class_types=[],  # Go has no classes
     interface_types=['interface_type'],
-    enum_types=[],  # Go没有专门的enum
-    visibility_keywords={'public'},  # Go中大写开头表示public
+    enum_types=[],  # Go has no dedicated enums
+    visibility_keywords={'public'},  # In Go, uppercase names are public
     special_keywords={'go', 'defer', 'select', 'chan', 'var', 'const', 'type', 'func', 'import', 'package'},
     call_expression_types=['call_expression'],
     line_comment='//',
@@ -141,7 +141,7 @@ GO_CONFIG = LanguageConfig(
 )
 
 
-# 配置映射
+# Configuration mapping
 LANGUAGE_CONFIGS: Dict[LanguageType, LanguageConfig] = {
     LanguageType.SOLIDITY: SOLIDITY_CONFIG,
     LanguageType.RUST: RUST_CONFIG,
@@ -152,12 +152,12 @@ LANGUAGE_CONFIGS: Dict[LanguageType, LanguageConfig] = {
 
 
 def get_language_config(language: LanguageType) -> LanguageConfig:
-    """获取指定语言的配置"""
+    """Get the configuration for a language."""
     return LANGUAGE_CONFIGS[language]
 
 
 def get_language_by_extension(file_extension: str) -> LanguageType:
-    """根据文件扩展名确定语言类型"""
+    """Determine language by file extension."""
     for language, config in LANGUAGE_CONFIGS.items():
         if file_extension.lower() in config.file_extensions:
             return language
@@ -165,12 +165,12 @@ def get_language_by_extension(file_extension: str) -> LanguageType:
 
 
 def is_visibility_keyword(language: LanguageType, keyword: str) -> bool:
-    """检查是否为可见性关键字"""
+    """Check whether the keyword represents visibility."""
     config = get_language_config(language)
     return keyword in config.visibility_keywords
 
 
 def is_special_keyword(language: LanguageType, keyword: str) -> bool:
-    """检查是否为语言特定关键字"""
+    """Check whether the keyword is language-specific."""
     config = get_language_config(language)
-    return keyword in config.special_keywords 
+    return keyword in config.special_keywords

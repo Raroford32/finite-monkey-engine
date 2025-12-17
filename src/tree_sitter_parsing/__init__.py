@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Tree-sitter Based Project Parser
-基于tree-sitter的项目解析器，完全替代src/project和src/library的解析功能
+Tree-sitter Based Project Parser.
+Replaces the legacy src/project and src/library parsing implementations.
 """
 
 # 导出tree-sitter的原生实现

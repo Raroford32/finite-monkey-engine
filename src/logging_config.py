@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-日志配置模块
-提供统一的日志配置和管理功能
+Logging configuration module.
+Provides unified logging configuration and management helpers.
 """
 
 import logging
@@ -14,113 +14,105 @@ from pathlib import Path
 
 def setup_logging(log_file_path=None, level=logging.INFO):
     """
-    设置全局日志配置
-    
+    Configure global logging.
+
     Args:
-        log_file_path: 日志文件路径，如果为None则使用默认路径
-        level: 日志级别
+        log_file_path: Optional log file path. Uses a timestamped default when None.
+        level: Logging level.
     """
     
-    # 如果没有指定日志文件路径，使用默认路径
     if log_file_path is None:
         log_dir = Path("logs")
         log_dir.mkdir(exist_ok=True)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         log_file_path = log_dir / f"finite_monkey_engine_{timestamp}.log"
     
-    # 确保日志目录存在
     log_dir = Path(log_file_path).parent
     log_dir.mkdir(parents=True, exist_ok=True)
     
-    # 清除现有的handlers
     root_logger = logging.getLogger()
     for handler in root_logger.handlers[:]:
         root_logger.removeHandler(handler)
     
-    # 创建formatter
     formatter = logging.Formatter(
         '%(asctime)s | %(levelname)-8s | %(name)-20s | %(funcName)-15s | %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     
-    # 文件handler
     file_handler = logging.FileHandler(log_file_path, encoding='utf-8')
     file_handler.setLevel(level)
     file_handler.setFormatter(formatter)
     
-    # 控制台handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(level)
     console_handler.setFormatter(formatter)
     
-    # 配置root logger
     root_logger.setLevel(level)
     root_logger.addHandler(file_handler)
     root_logger.addHandler(console_handler)
     
-    # 记录日志配置信息
     logger = logging.getLogger(__name__)
     logger.info("="*80)
-    logger.info("🚀 Finite Monkey Engine 日志系统启动")
-    logger.info(f"📁 日志文件路径: {log_file_path}")
-    logger.info(f"📊 日志级别: {logging.getLevelName(level)}")
-    logger.info(f"🕐 启动时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.info("🚀 Finite Monkey Engine logging initialized")
+    logger.info(f"📁 Log file: {log_file_path}")
+    logger.info(f"📊 Log level: {logging.getLevelName(level)}")
+    logger.info(f"🕐 Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     logger.info("="*80)
     
     return str(log_file_path)
 
 def get_logger(name):
     """
-    获取指定名称的logger
-    
+    Get a configured logger by name.
+
     Args:
-        name: logger名称
-        
+        name: Logger name.
+
     Returns:
-        logging.Logger: 配置好的logger实例
+        logging.Logger: Configured logger instance.
     """
     return logging.getLogger(name)
 
 def log_section_start(logger, section_name, description=""):
-    """记录章节开始"""
+    """Record the start of a logical section."""
     logger.info("="*60)
-    logger.info(f"🔥 开始执行: {section_name}")
+    logger.info(f"🔥 Starting: {section_name}")
     if description:
-        logger.info(f"📝 描述: {description}")
+        logger.info(f"📝 Details: {description}")
     logger.info("="*60)
 
 def log_section_end(logger, section_name, duration=None):
-    """记录章节结束"""
+    """Record the end of a logical section."""
     logger.info("-"*60)
-    logger.info(f"✅ 完成执行: {section_name}")
+    logger.info(f"✅ Completed: {section_name}")
     if duration:
-        logger.info(f"⏱️  执行时间: {duration:.2f}秒")
+        logger.info(f"⏱️  Duration: {duration:.2f}s")
     logger.info("-"*60)
 
 def log_step(logger, step_name, details=""):
-    """记录执行步骤"""
+    """Record an execution step."""
     logger.info(f"🔹 {step_name}")
     if details:
-        logger.info(f"   详情: {details}")
+        logger.info(f"   Details: {details}")
 
 def log_error(logger, error_msg, exception=None):
-    """记录错误信息"""
-    logger.error(f"❌ 错误: {error_msg}")
+    """Record error information."""
+    logger.error(f"❌ Error: {error_msg}")
     if exception:
-        logger.error(f"   异常详情: {str(exception)}", exc_info=True)
+        logger.error(f"   Exception: {str(exception)}", exc_info=True)
 
 def log_warning(logger, warning_msg):
-    """记录警告信息"""
-    logger.warning(f"⚠️  警告: {warning_msg}")
+    """Record warning information."""
+    logger.warning(f"⚠️  Warning: {warning_msg}")
 
 def log_success(logger, success_msg, details=""):
-    """记录成功信息"""
-    logger.info(f"✅ 成功: {success_msg}")
+    """Record success information."""
+    logger.info(f"✅ Success: {success_msg}")
     if details:
-        logger.info(f"   详情: {details}")
+        logger.info(f"   Details: {details}")
 
 def log_data_info(logger, data_name, count, details=""):
-    """记录数据信息"""
-    logger.info(f"📊 {data_name}: {count}个")
+    """Record data-related information."""
+    logger.info(f"📊 {data_name}: {count}")
     if details:
-        logger.info(f"   详情: {details}") 
+        logger.info(f"   Details: {details}")

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-语言特定解析器包
-包含各种编程语言的专用解析器实现
+Language-specific parser package.
+Contains dedicated parser implementations for each supported language.
 """
 
 from .solidity_parser import SolidityParser

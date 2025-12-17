@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-数据结构模块
-定义了多语言分析器使用的所有数据结构和枚举类型
+Data structure definitions used by the multi-language analyzer.
 """
 
 from dataclasses import dataclass, field
@@ -12,7 +11,7 @@ from enum import Enum
 
 
 class LanguageType(Enum):
-    """支持的编程语言类型"""
+    """Supported programming languages."""
     SOLIDITY = "solidity"
     RUST = "rust"
     CPP = "cpp"
@@ -21,33 +20,33 @@ class LanguageType(Enum):
 
 
 class CallType(Enum):
-    """调用类型"""
-    DIRECT = "direct"              # 直接函数调用
-    VIRTUAL = "virtual"            # 虚函数调用 (C++)
-    ASYNC = "async"                # 异步调用 (Rust)
-    EXTERNAL = "external"          # 外部合约调用 (Solidity)
-    ENTRY = "entry"                # 入口函数调用 (Move)
-    TRAIT = "trait"                # Trait方法调用 (Rust)
-    MACRO = "macro"                # 宏调用 (Rust)
-    CONSTRUCTOR = "constructor"    # 构造函数调用
-    MODIFIER = "modifier"          # 修饰符调用 (Solidity)
+    """Types of call relationships."""
+    DIRECT = "direct"              # Direct function call
+    VIRTUAL = "virtual"            # Virtual function call (C++)
+    ASYNC = "async"                # Asynchronous call (Rust)
+    EXTERNAL = "external"          # External contract call (Solidity)
+    ENTRY = "entry"                # Entry function call (Move)
+    TRAIT = "trait"                # Trait method call (Rust)
+    MACRO = "macro"                # Macro invocation (Rust)
+    CONSTRUCTOR = "constructor"    # Constructor invocation
+    MODIFIER = "modifier"          # Modifier invocation (Solidity)
 
 
 @dataclass
 class FunctionInfo:
-    """增强的函数信息"""
+    """Enhanced function information."""
     name: str
     full_name: str
     language: LanguageType
     
-    # 通用属性
+    # Common attributes
     visibility: str = "private"
     parameters: List[str] = field(default_factory=list)
     return_type: Optional[str] = None
     calls: List[str] = field(default_factory=list)
     line_number: int = 0
     
-    # 语言特定属性
+    # Language-specific attributes
     is_async: bool = False          # Rust
     is_unsafe: bool = False         # Rust
     is_virtual: bool = False        # C++
@@ -59,32 +58,32 @@ class FunctionInfo:
     is_view: bool = False           # Solidity
     is_pure: bool = False           # Solidity
     
-    # 高级属性
-    modifiers: List[str] = field(default_factory=list)      # Solidity修饰符
+    # Advanced attributes
+    modifiers: List[str] = field(default_factory=list)      # Solidity modifiers
     acquires: List[str] = field(default_factory=list)       # Move acquires
-    generic_params: List[str] = field(default_factory=list) # 泛型参数
+    generic_params: List[str] = field(default_factory=list) # Generic parameters
     
     properties: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class StructInfo:
-    """增强的结构体/类信息"""
+    """Enhanced structure/class information."""
     name: str
     full_name: str
     language: LanguageType
     
-    # 通用属性
+    # Common attributes
     fields: List[str] = field(default_factory=list)
     methods: List[str] = field(default_factory=list)
     line_number: int = 0
     
-    # 语言特定属性
-    base_classes: List[str] = field(default_factory=list)   # C++基类
+    # Language-specific attributes
+    base_classes: List[str] = field(default_factory=list)   # C++ base classes
     abilities: List[str] = field(default_factory=list)      # Move abilities
-    is_interface: bool = False                               # Solidity接口
-    is_abstract: bool = False                                # C++抽象类
-    is_template: bool = False                                # C++模板
+    is_interface: bool = False                              # Solidity interface
+    is_abstract: bool = False                               # C++ abstract class
+    is_template: bool = False                               # C++ template
     derives: List[str] = field(default_factory=list)        # Rust derives
     
     properties: Dict[str, Any] = field(default_factory=dict)
@@ -92,29 +91,29 @@ class StructInfo:
 
 @dataclass
 class ModuleInfo:
-    """增强的模块信息"""
+    """Enhanced module information."""
     name: str
     full_name: str
     language: LanguageType
     
-    # 内容
+    # Contents
     functions: List[FunctionInfo] = field(default_factory=list)
     structs: List[StructInfo] = field(default_factory=list)
     imports: List[str] = field(default_factory=list)
     line_number: int = 0
     
-    # 语言特定属性
+    # Language-specific attributes
     inheritance: List[str] = field(default_factory=list)    # Solidity contracts
-    address: Optional[str] = None                            # Move modules
-    is_library: bool = False                                 # Solidity
-    namespace_type: Optional[str] = None                     # C++ namespaces
+    address: Optional[str] = None                           # Move modules
+    is_library: bool = False                                # Solidity
+    namespace_type: Optional[str] = None                    # C++ namespaces
     
     properties: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class CallGraphEdge:
-    """调用图边信息"""
+    """Call-graph edge information."""
     caller: str
     callee: str
     call_type: CallType = CallType.DIRECT

@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-Tree-sitter多语言代码分析器包
-支持 Solidity、Rust、C++、Move 四种语言的 AST 解析和 Call Graph 分析
+Tree-sitter multi-language code analyzer package.
+Supports AST parsing and call-graph analysis for Solidity, Rust, C++, and Move.
 """
 
 from .ts_parser import *
 
-print("✅ Tree-sitter解析器已加载，支持四种语言")
+print("✅ Tree-sitter parsers loaded, supporting four languages")
 
 __all__ = [
     'LanguageType', 'CallType',

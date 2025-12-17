@@ -12,16 +12,16 @@ from openai_api.openai import common_get_embedding, ask_openai_for_json
 
 
 class RAGProcessor:
-    """RAG处理器，负责创建和管理基于LanceDB的检索增强生成系统"""
+    """RAG processor for creating and managing the LanceDB-backed retrieval system."""
     
     def __init__(self, project_audit, db_path: str = "./lancedb", project_id: str = None):
         """
-        初始化RAG处理器
-        
+        Initialize the RAG processor.
+
         Args:
-            project_audit: 项目审计对象，包含functions, functions_to_check, chunks
-            db_path: 数据库路径
-            project_id: 项目ID，用于生成表名
+            project_audit: Project audit object containing functions, functions_to_check, and chunks.
+            db_path: Database path.
+            project_id: Project ID for table naming.
         """
         os.makedirs(db_path, exist_ok=True)
         
@@ -29,24 +29,19 @@ class RAGProcessor:
         self.project_id = project_id
         self.project_audit = project_audit
         
-        # 定义三个表名
         self.table_name_function = f"lancedb_function_{project_id}" if project_id else "lancedb_function"
         self.table_name_file = f"lancedb_file_{project_id}" if project_id else "lancedb_file"
         self.table_name_chunk = f"lancedb_chunk_{project_id}" if project_id else "lancedb_chunk"
         
-        # 为了向后兼容，提供一个默认的table_name属性，指向函数表
         self.table_name = self.table_name_function
         
-        # 创建schemas
         self._create_schemas()
         
-        # 检查表是否存在
         function_table_exists = self._table_exists(self.table_name_function)
         file_table_exists = self._table_exists(self.table_name_file)
         chunk_table_exists = self._table_exists(self.table_name_chunk)
         tables_exist = function_table_exists and file_table_exists and chunk_table_exists
         
-        # 只有在表存在的情况下才检查数据量
         functions_count_match = False
         files_count_match = False
         chunks_count_match = False
@@ -54,40 +49,36 @@ class RAGProcessor:
         if function_table_exists:
             functions_count_match = self._check_data_count(self.table_name_function, len(project_audit.functions_to_check))
         else:
-            print(f"表 {self.table_name_function} 不存在，需要创建")
+            print(f"Table {self.table_name_function} is missing, creating it")
             
         if file_table_exists:
             unique_files = list(set(func['relative_file_path'] for func in project_audit.functions_to_check))
             files_count_match = self._check_data_count(self.table_name_file, len(unique_files))
         else:
-            print(f"表 {self.table_name_file} 不存在，需要创建")
+            print(f"Table {self.table_name_file} is missing, creating it")
             
         if chunk_table_exists:
             chunks_count_match = self._check_data_count(self.table_name_chunk, len(project_audit.chunks))
         else:
-            print(f"表 {self.table_name_chunk} 不存在，需要创建")
+            print(f"Table {self.table_name_chunk} is missing, creating it")
         
         if tables_exist and functions_count_match and files_count_match and chunks_count_match:
-            print(f"所有表已存在且数据量正确，跳过处理")
+            print("All tables exist with expected row counts; skipping rebuild")
             return
 
         self._create_all_databases()
     
     def _create_schemas(self):
-        """创建三个表的schemas"""
+        """Create schemas for the three LanceDB tables."""
         
-        # 函数级别表schema（包含3种embedding）
         self.schema_function = pa.schema([
-            # 基本标识字段
             pa.field("id", pa.string()),
             pa.field("name", pa.string()),
             
-            # 3种embedding字段
-            pa.field("content_embedding", pa.list_(pa.float32(), 3072)),        # 原始代码embedding
-            pa.field("name_embedding", pa.list_(pa.float32(), 3072)),           # 函数名embedding  
-            pa.field("natural_embedding", pa.list_(pa.float32(), 3072)),        # 自然语言embedding
+            pa.field("content_embedding", pa.list_(pa.float32(), 3072)),        # Code embedding
+            pa.field("name_embedding", pa.list_(pa.float32(), 3072)),           # Function-name embedding  
+            pa.field("natural_embedding", pa.list_(pa.float32(), 3072)),        # Natural-language embedding
             
-            # 函数完整metadata（基于functions_to_check的字段）
             pa.field("content", pa.string()),
             pa.field("natural_description", pa.string()),
             pa.field("start_line", pa.int32()),
@@ -99,21 +90,17 @@ class RAGProcessor:
             pa.field("modifiers", pa.list_(pa.string())),
             pa.field("visibility", pa.string()),
             pa.field("state_mutability", pa.string()),
-            pa.field("function_name_only", pa.string()),  # 纯函数名（不含合约前缀）
-            pa.field("full_name", pa.string())            # 合约名.函数名
+            pa.field("function_name_only", pa.string()),  # Bare function name (no contract prefix)
+            pa.field("full_name", pa.string())            # ContractName.functionName
         ])
         
-        # 文件级别表schema（包含2种embedding）
         self.schema_file = pa.schema([
-            # 基本标识字段
             pa.field("id", pa.string()),
             pa.field("file_path", pa.string()),
             
-            # 2种embedding字段
-            pa.field("content_embedding", pa.list_(pa.float32(), 3072)),        # 文件内容embedding
-            pa.field("natural_embedding", pa.list_(pa.float32(), 3072)),        # 文件自然语言embedding
+            pa.field("content_embedding", pa.list_(pa.float32(), 3072)),        # File-content embedding
+            pa.field("natural_embedding", pa.list_(pa.float32(), 3072)),        # File natural-language embedding
             
-            # 文件完整metadata
             pa.field("file_content", pa.string()),
             pa.field("natural_description", pa.string()),
             pa.field("relative_file_path", pa.string()),
@@ -124,17 +111,13 @@ class RAGProcessor:
             pa.field("file_extension", pa.string())
         ])
         
-        # 文档块级别表schema（包含2种embedding）
         self.schema_chunk = pa.schema([
-            # 基本标识字段
             pa.field("id", pa.string()),
             pa.field("chunk_id", pa.string()),
             
-            # 2种embedding字段
-            pa.field("content_embedding", pa.list_(pa.float32(), 3072)),        # 文档块内容embedding
-            pa.field("natural_embedding", pa.list_(pa.float32(), 3072)),        # 文档块自然语言embedding
+            pa.field("content_embedding", pa.list_(pa.float32(), 3072)),        # Chunk-content embedding
+            pa.field("natural_embedding", pa.list_(pa.float32(), 3072)),        # Chunk natural-language embedding
             
-            # 文档块完整metadata
             pa.field("chunk_text", pa.string()),
             pa.field("natural_description", pa.string()),
             pa.field("original_file", pa.string()),
@@ -148,7 +131,7 @@ class RAGProcessor:
         ])
         
     def _table_exists(self, table_name: str) -> bool:
-        """检查指定表是否存在"""
+        """Check whether a table exists."""
         try:
             self.db.open_table(table_name)
             return True
@@ -156,20 +139,19 @@ class RAGProcessor:
             return False
 
     def _check_data_count(self, table_name: str, expected_count: int) -> bool:
-        """检查表中的数据数量是否匹配"""
+        """Check whether the table row count matches expectations."""
         try:
             table = self.db.open_table(table_name)
             actual_count = table.count_rows()
-            print(f"表 {table_name} 存在 {actual_count} 行数据，期望 {expected_count} 行")
+            print(f"Table {table_name} has {actual_count} rows; expected {expected_count}")
             if actual_count == expected_count:
-                print(f"✅ 表 {table_name} 数据量匹配")
+                print(f"✅ Table {table_name} row count matches expectations")
                 return True
             else:
-                print(f"⚠️ 表 {table_name} 数据量不匹配，需要重建")
+                print(f"⚠️ Table {table_name} row count mismatch, rebuilding")
                 return False
         except Exception as e:
-            # 这里不应该执行到，因为调用者已经检查了表存在性
-            print(f"⚠️ 检查表 {table_name} 数据量时发生错误: {str(e)}")
+            print(f"⚠️ Error while checking {table_name} row count: {str(e)}")
             return False
 
     def _translate_to_natural_language(self, content: str, function_name: str) -> str:

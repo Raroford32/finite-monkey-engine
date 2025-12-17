@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-多语言代码分析器包
-支持 Solidity、Rust、C++、Move 四种语言的 AST 解析和 Call Graph 分析
+Multi-language code analyzer package.
+Provides AST parsing and call-graph analysis for Solidity, Rust, C++, and Move.
 """
 
 from .data_structures import *

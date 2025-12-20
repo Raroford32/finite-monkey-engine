@@ -15,7 +15,7 @@ class VulPromptCommon:
             "Missing necessary ERC20/ERC721 token approvals",
             "Errors in specifying target addresses, debit accounts, or token transfer parameters",
             "When updating critical contract addresses, failure to revoke old unlimited approvals",
-            "Ignoring non-standard ERC20 transfer return values"
+            "Ignoring non-standard ERC20 transfer return values",
             "Missing length consistency check when input consists of two arrays"
         ]
 

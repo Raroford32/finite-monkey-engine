@@ -470,7 +470,7 @@ Before analyzing code, think like a $10M bounty hunter:
 
 1. AUTOMATED TOOLS ALREADY RAN - Don't look for:
    - Basic reentrancy (ReentrancyGuard exists)
-   - Integer overflow (Solidity 0.8+)
+   - Simple integer overflow (but unchecked blocks and inline assembly still vulnerable)
    - Access control on admin functions
    - Unchecked return values
    - tx.origin authentication

@@ -74,7 +74,8 @@ For each assumption/invariant, perform the following analysis:
 
 IMPORTANT: 
 - DO NOT flag theoretical issues without economic impact
-- DO NOT flag issues that require unrealistic preconditions (e.g., >51% of token supply)
+- DO NOT flag issues requiring impractical capital (e.g., controlling majority of liquidity without flash loans, multi-year attack timelines)
+- DO consider that flash loans enable temporary large positions - factor this into feasibility analysis
 - DO focus on attacks that could realistically occur and extract significant value
 - Provide concrete attack scenarios, not abstract vulnerability descriptions
 

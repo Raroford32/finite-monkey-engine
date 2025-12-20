@@ -15,7 +15,7 @@ class VulPromptCommon:
             "Missing necessary ERC20/ERC721 token approvals",
             "Errors in specifying target addresses, debit accounts, or token transfer parameters",
             "When updating critical contract addresses, failure to revoke old unlimited approvals",
-            "Ignoring non-standard ERC20 transfer return values"
+            "Ignoring non-standard ERC20 transfer return values",
             "Missing length consistency check when input consists of two arrays"
         ]
 
@@ -344,6 +344,90 @@ class VulPromptCommon:
             "Hard-coded 165 bytes used instead of dynamic calculation based on mint's extension requirements"
         ]
 
+        # ==================== ECONOMIC ATTACK METHODOLOGY ====================
+        # Based on First-Principles Vulnerability Discovery Methodology
+        # Focus on system-level economic attacks rather than simple code bugs
+
+        # Economic Extraction Paths - Value extraction through economic manipulation
+        economic_extraction_list = [
+            "Claim inflation: depositing X but system recording X+Y through share/asset ratio manipulation",
+            "Cost reduction: borrowing X but system recording debt as X-Y through manipulated repayment",
+            "First depositor attack: manipulating share price when totalShares is very low or zero",
+            "Donation attack: directly sending tokens to inflate share price affecting other depositors",
+            "Share price manipulation: controlling share:asset ratio before large deposits/withdrawals",
+            "Free value creation: minting shares/tokens without corresponding real deposits",
+            "Value redirection: another user's withdrawal incorrectly crediting attacker's account",
+            "Protocol fee bypass: redirecting fees away from treasury through parameter manipulation",
+            "Self-liquidation arbitrage: manipulating conditions to liquidate own position profitably",
+            "Rounding exploitation: using dust amounts to accumulate significant value through rounding errors",
+            "Virtual balance manipulation: exploiting differences between tracked and actual balances",
+            "Yield extraction: claiming rewards without proper contribution or stake duration"
+        ]
+
+        # Cross-Protocol Composition Attacks - Multi-protocol interaction vulnerabilities
+        composition_attack_list = [
+            "Flash loan leverage: using unlimited temporary capital to manipulate state within single transaction",
+            "Oracle manipulation via DEX: moving DEX price with large trade to affect protocol using that price",
+            "Sandwich attacks: front-running and back-running user transactions for profit",
+            "Cross-protocol state desync: exploiting timing differences between protocol state updates",
+            "Callback exploitation: re-entering protocol logic through external contract callbacks",
+            "Multi-contract state assumption violations: Contract A assuming Contract B state that can be manipulated",
+            "Governance flash attacks: using flash-borrowed tokens for governance manipulation",
+            "Bridge message replay: replaying cross-chain messages for unauthorized actions",
+            "Liquidation cascade: triggering chain reaction of liquidations through price manipulation",
+            "Composable reentrancy: reentering through different contract paths in same protocol",
+            "Interest rate manipulation: exploiting rate models through strategic borrowing/lending",
+            "Reserve manipulation: affecting protocol reserves to impact other users' positions"
+        ]
+
+        # State Machine and Temporal Attacks - State transition and timing vulnerabilities
+        temporal_state_list = [
+            "State transition bypass: skipping required intermediate states in protocol flow",
+            "Premature state access: accessing resources before required waiting period expires",
+            "State rollback exploitation: reverting to previous states to bypass restrictions",
+            "Timelock circumvention: bypassing time-based restrictions through parameter manipulation",
+            "Block timestamp manipulation: exploiting timestamp-dependent logic with miner control",
+            "Epoch boundary attacks: exploiting state transitions at epoch/period boundaries",
+            "Governance timelock racing: setting up exploits before governance changes take effect",
+            "Cooldown bypass: circumventing required cooldown periods between sensitive operations",
+            "Stage confusion: exploiting ambiguous states during multi-stage operations",
+            "Finality assumptions: exploiting assumptions about transaction finality in state updates",
+            "Emergency shutdown race: exploiting emergency mechanisms before full protection activates",
+            "Voting period manipulation: exploiting voting windows through timing attacks"
+        ]
+
+        # Boundary and Edge Case Economic Attacks
+        boundary_economic_list = [
+            "Zero amount edge cases: exploiting behavior when amounts are exactly zero",
+            "Maximum value overflow: triggering overflow at uint256.max boundaries",
+            "Minimum viable attack: finding profitable attacks with minimal required capital",
+            "Empty pool states: exploiting protocols when pools have zero or near-zero liquidity",
+            "Single user scenarios: attacking when attacker is only/first user in protocol",
+            "Dust amount accumulation: collecting small amounts that round favorably over many operations",
+            "Price boundary exploitation: attacks at extreme price ratios (near 0 or very high)",
+            "Capacity limit attacks: exploiting behavior at protocol capacity limits",
+            "Gas limit boundaries: DoS through operations requiring more gas than block limit",
+            "Array length edge cases: empty arrays or arrays with single/maximum elements",
+            "Interest rate extremes: exploiting rates at 0%, 100%, or overflow conditions",
+            "Collateral ratio boundaries: attacks at exact liquidation threshold boundaries"
+        ]
+
+        # Multi-Transaction Economic Attacks - Attacks spanning multiple blocks/transactions
+        multi_transaction_list = [
+            "Setup-extraction pattern: establishing position in TX1, extracting value in TX2 after state change",
+            "MEV extraction: profit extraction through transaction ordering control",
+            "Price oracle TWAP gaming: manipulating time-weighted average prices over multiple blocks",
+            "Governance proposal setup: creating exploitable state before governance execution",
+            "Interest accrual exploitation: profiting from interest calculation timing across blocks",
+            "Position building attacks: gradually building position to avoid detection before extraction",
+            "Keeper front-running: front-running automated keeper transactions for profit",
+            "Auction sniping: last-block bidding in time-based auctions",
+            "Sequential withdrawal attacks: draining pools through rapid sequential withdrawals",
+            "Block stuffing: filling blocks to delay time-sensitive protocol operations",
+            "Multi-block price manipulation: sustained price manipulation over multiple blocks",
+            "Delayed execution exploitation: exploiting queued transactions after state changes"
+        ]
+
         # 组合后的检查列表 (3+3+3+2)
         permission_reentrancy_list = permission_control_list + reentrancy_list
         # module_call_fund_list = module_call_list + fund_management_list
@@ -370,6 +454,12 @@ class VulPromptCommon:
             "erc4626_security_list_1": erc4626_security_list_1,      
             "erc4626_security_list_2": erc4626_security_list_2,
             "erc4626_security_list_3": erc4626_security_list_3,
+            # Economic Attack Methodology - First-Principles Vulnerability Discovery
+            "economic_extraction": economic_extraction_list,
+            "composition_attack": composition_attack_list,
+            "temporal_state": temporal_state_list,
+            "boundary_economic": boundary_economic_list,
+            "multi_transaction": multi_transaction_list,
         }
 
         # 如果提供了 prompt_index，返回特定的检查列表
